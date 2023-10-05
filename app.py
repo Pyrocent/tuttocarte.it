@@ -4,6 +4,8 @@ from flask import (
     render_template
 )
 
+rooms = {}
+
 app = Flask(__name__)
 app.template_folder = "templates/min"
 
