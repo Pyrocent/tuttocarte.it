@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    ".vscode": true,
+    "**/min": true,
+    "**/min.*": true,
+    "README.md": true,
+    "requirements.txt": true,
+    "robots.txt": true,
+    "sitemap.xml": true,
+    "vercel.json": true
+  }
+}
