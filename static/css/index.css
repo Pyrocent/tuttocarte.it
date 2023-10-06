@@ -1,2 +1,25 @@
-body {
+form {
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#separator {
+    padding: 10px;
+    display: flex;
+    white-space: nowrap;
+}
+
+#separator p {
+    margin: 0 10px;
+    font-size: 15px;
+    text-align: center;
+}
+
+hr {
+    width: 100%;
+}
+
+#participate {
+    width: 100%;
 }

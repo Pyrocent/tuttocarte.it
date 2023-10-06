@@ -11,7 +11,7 @@ from flask_socketio import (
 )
 
 rooms = {}
-codes = set()
+IDs = set()
 
 app = Flask(__name__)
 app.template_folder = "templates/min"

@@ -18,6 +18,18 @@
     </head>
     <body>
 
+        <form action = "/" method = "POST">
+            <input type = "number" name = "players number" placeholder = "NUMERO DI GIOCATORI INIZIALI" min = "1" max = "40" required>
+            <input type = "number" name = "cards in hand" placeholder = "NUMERO DI CARTE IN MANO CIASCUNO" min = "0" max = "40" required>
+            <input type = "number" name = "cards on ground" placeholder = "NUMERO DI CARTE A TERRA INIZIALMENTE" min = "0" max = "40" required>
+
+            <input type = "submit" id = "submit" value = "CREA UNA STANZA VIRTUALE">
+        </form>
+
+        <div id = "separator"><hr><p>OPPURE</p><hr></div>
+
+        <button id = "participate">PARTECIPA AD UNA PARTITA</button>
+
         <script src = "static/js/min/index.min.js"></script>
     </body>
 </html>
