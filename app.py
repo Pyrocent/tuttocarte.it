@@ -21,8 +21,8 @@ socketio = SocketIO(app)
 def index():
     return render_template("index.min.html")
 
-@app.get("/<id>")
-def room(id):
+@app.post("/")
+def get_id():
     socketio.emit("join", id)
     return render_template("room.min.html")
 
