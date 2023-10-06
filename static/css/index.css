@@ -72,12 +72,12 @@ legend {
     align-items: center;
 }
 
-input:not(input[type = submit]) {
+input:not(input[type=submit]) {
     height: 25px;
     font-size: 15px;
 }
 
-input[type = submit] {
+input[type=submit] {
     width: 75%;
     height: 75px;
     border: none;
