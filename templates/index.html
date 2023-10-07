@@ -6,9 +6,17 @@
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "canonical" href = "https://www.senzamazzo.it">
         <link rel = "icon" href = "static/assets/icons/favicon.png">
-        <link rel = "stylesheet" href = "static/css/min/index.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <meta name = "description" content = "Gioca a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
+
+        <link rel = "stylesheet" href = "static/css/index/min/mobile-small.min.css" media = "screen and (max-width: 320px)">
+        <link rel = "stylesheet" href = "static/css/index/min/mobile-medium.min.css" media = "screen and (min-width: 321px) and (max-width: 375px)">
+        <link rel = "stylesheet" href = "static/css/index/min/mobile-large.min.css" media = "screen and (min-width: 376px) and (max-width: 425px)">
+        <link rel = "stylesheet" href = "static/css/index/min/tablet.min.css" media = "screen and (min-width: 426px) and (max-width: 768px)">
+        <link rel = "stylesheet" href = "static/css/index/min/pc-small.min.css" media = "screen and (min-width: 769px) and (max-width: 1024px)">
+        <link rel = "stylesheet" href = "static/css/index/min/pc-medium.min.css" media = "screen and (min-width: 1025px) and (max-width: 1440px)">
+        <link rel = "stylesheet" href = "static/css/index/min/pc-large.min.css" media = "screen and (min-width: 1441px) and (max-width: 1680px)">
+        <link rel = "stylesheet" href = "static/css/index/min/pc-huge.min.css" media = "screen and (min-width: 1681px)">
 
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
@@ -67,20 +75,28 @@
             <p id = "title">Gioca a qualsiasi gioco di carte SenzaMazzo.it</p>
         </header>
 
-        <form action = "/" method = "POST">
-            <fieldset>
-                <legend>CREA UNA STANZA VIRTUALE</legend>
-                <input type = "number" name = "players number" placeholder = "NUMERO DI GIOCATORI INIZIALI" min = "1" max = "40" required>
-                <input type = "number" name = "cards in hand" placeholder = "NUMERO DI CARTE IN MANO OGNUNO" min = "0" max = "40" required>
-                <input type = "number" name = "cards on ground" placeholder = "NUMERO DI CARTE A TERRA INIZIALMENTE" min = "0" max = "40" required>
-            </fieldset>
+        <section>
 
-            <input type = "submit" id = "submit" value = "OTTIENI UN ID">
-        </form>
+            <form action = "/" method = "POST" autocomplete = "off">
+                <fieldset>
+                    <legend>CREA UNA STANZA VIRTUALE</legend>
+                    <input type = "number" name = "players number" placeholder = "NUMERO DI GIOCATORI INIZIALI" min = "1" max = "40" required>
+                    <input type = "number" name = "cards in hand" placeholder = "NUMERO DI CARTE IN MANO OGNUNO" min = "0" max = "40" required>
+                    <input type = "number" name = "cards on ground" placeholder = "NUMERO DI CARTE A TERRA INIZIALMENTE" min = "0" max = "40" required>
+                </fieldset>
 
-        <div id = "separator"><hr><p>OPPURE</p><hr></div>
+                <input type = "submit" id = "create" value = "OTTIENI UN ID">
 
-        <button id = "participate">PARTECIPA AD UNA PARTITA</button>
+                <div id = "separator"><hr><p>OPPURE</p><hr></div>
+
+                <input type = "button" id = "participate" value = "PARTECIPA AD UNA PARTITA">
+            </form>
+
+            <div id = "qrcode">
+                <img src = "" onerror = "this.alt = 'SI GIOCA!'">
+            </div>
+
+        </section>
 
         <script src = "static/js/min/index.min.js"></script>
     </body>
