@@ -4,10 +4,10 @@
         <meta charset = "UTF-8">
         <title>SenzaMazzo.it</title>
         <meta name = "theme-color" content = "#1f2324">
-        <link rel = "canonical" href = "https://www.senzamazzo.it">
+        <link rel = "canonical" href = "https://www.senzamazzo.it/">
         <link rel = "icon" href = "static/assets/icons/favicon.png">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-        <meta name = "description" content = "Gioca a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
+        <meta name = "description" content = "Gioca con i tuo amici a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
 
         <link rel = "stylesheet" href = "static/css/index/min/mobile-small.min.css" media = "screen and (max-width: 320px)">
         <link rel = "stylesheet" href = "static/css/index/min/mobile-medium.min.css" media = "screen and (min-width: 321px) and (max-width: 375px)">
@@ -73,29 +73,13 @@
                 <img class = "slide" src = "static/assets/deck/10S.jpg" alt = "10S">
             </div>
             <p id = "title">Gioca a qualsiasi gioco di carte SenzaMazzo.it</p>
+
         </header>
 
         <section>
+            <img src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=localhost/{{id}}" alt = "qr code">
 
-            <form action = "/" method = "POST" autocomplete = "off">
-                <fieldset>
-                    <legend>CREA UNA STANZA VIRTUALE</legend>
-                    <input type = "number" name = "players number" placeholder = "NUMERO DI GIOCATORI INIZIALI" min = "1" max = "40" required>
-                    <input type = "number" name = "cards in hand" placeholder = "NUMERO DI CARTE IN MANO OGNUNO" min = "0" max = "40" required>
-                    <input type = "number" name = "cards on ground" placeholder = "NUMERO DI CARTE A TERRA INIZIALMENTE" min = "0" max = "40" required>
-                </fieldset>
-
-                <input type = "submit" id = "create" value = "OTTIENI UN ID">
-
-                <div id = "separator"><hr><p>OPPURE</p><hr></div>
-
-                <input type = "button" id = "participate" value = "PARTECIPA AD UNA PARTITA">
-            </form>
-
-            <div id = "qrcode">
-                <img src = "" onerror = "this.alt = 'SI GIOCA!'">
-            </div>
-
+            <button>SIAMO PRONTI!</button>
         </section>
 
         <script src = "static/js/min/index.min.js"></script>

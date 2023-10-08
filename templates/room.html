@@ -3,21 +3,53 @@
     <head>
         <meta charset = "UTF-8">
         <title>SenzaMazzo.it</title>
-        <meta name = "theme-color" content = "#ffffff">
-        <link rel = "canonical" href = "https://www.senzamazzo.it">
+        <meta name = "theme-color" content = "#1f2324">
         <link rel = "icon" href = "static/assets/icons/favicon.png">
-        <link rel = "stylesheet" href = "static/css/min/room.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-        <meta name = "description" content = "Gioca a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
+        <meta name = "description" content = "Gioca con i tuo amici a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
 
+        <link rel = "stylesheet" href = "static/css/room/min/mobile-small.min.css" media = "screen and (max-width: 320px)">
+        <link rel = "stylesheet" href = "static/css/room/min/mobile-medium.min.css" media = "screen and (min-width: 321px) and (max-width: 375px)">
+        <link rel = "stylesheet" href = "static/css/room/min/mobile-large.min.css" media = "screen and (min-width: 376px) and (max-width: 425px)">
+        <link rel = "stylesheet" href = "static/css/room/min/tablet.min.css" media = "screen and (min-width: 426px) and (max-width: 768px)">
+        <link rel = "stylesheet" href = "static/css/room/min/pc-small.min.css" media = "screen and (min-width: 769px) and (max-width: 1024px)">
+        <link rel = "stylesheet" href = "static/css/room/min/pc-medium.min.css" media = "screen and (min-width: 1025px) and (max-width: 1440px)">
+        <link rel = "stylesheet" href = "static/css/room/min/pc-large.min.css" media = "screen and (min-width: 1441px) and (max-width: 1680px)">
+        <link rel = "stylesheet" href = "static/css/room/min/pc-huge.min.css" media = "screen and (min-width: 1681px)">
+        
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap" rel = "stylesheet">
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
 
-        <script src = "static/js/min/room.min.js"></script>
+        <button>PESCA DAL MAZZO</button>
+
+        <script type = "text/javascript">
+
+            $(document).ready(function() {
+
+                $("button").click(function () {
+
+                    var socket = io.connect("http://127.0.0.1:5000/");
+
+                    socket.on("connection", function() {
+                        user = socket.id;
+                        socket.emit("join_room", {room: "{{room}}", user: user});
+                    });
+
+                    socket.on("join_room", function(deck) {
+                        socket.emit("draw", {room: "{{room}}", user: user, deck: deck, hand: [], draw: 3});
+                    });
+
+                });
+            });
+
+        </script>
+
     </body>
 </html>
