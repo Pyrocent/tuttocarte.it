@@ -46,7 +46,7 @@
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
-                    socket.emit("join", { room: room });
+                    socket.emit("join", { room: room, user: socket.id });
                 });
 
                 socket.on("pick", function (data) {
@@ -54,11 +54,10 @@
                 });
 
                 socket.on("drop", function (data) {
-                    $("#drop").append(`<img class = "clickable" src = "static/assets/deck/${data.card}.jpg" alt = "${data.card}">`);
-                });
-
-                socket.on("pull", function (data) {
-                    $(`#drop img[src = "static/assets/deck/${data.card}.jpg"]`).remove();
+                    $("#drop").find("img").remove();
+                    data.cards.forEach(function (card) {
+                        $("#drop").append(`<img class = "clickable" src = "static/assets/deck/${card}.jpg" alt = "${data.card}">`);
+                    })
                 });
 
                 socket.on("void", function () {
@@ -76,14 +75,19 @@
                     socket.emit("drop_from_deck", { room: room });
                 });
 
-                $("#hand").on("dblclick", ".clickable", function () {
+                $("#hand").on("click", ".clickable", function () {
                     socket.emit("drop_from_hand", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
                     $(this).remove();
                 });
 
-                $("#drop").on("dblclick", ".clickable", function () {
+                $("#drop").on("click", ".clickable", function () {
                     socket.emit("pick_from_drop", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
-                    $(this).remove();
+                });
+
+                $("#hand").on("dblclick", ".clickable", function () {
+                });
+
+                $("#drop").on("dblclick", ".clickable", function () {
                 });
 
             });
