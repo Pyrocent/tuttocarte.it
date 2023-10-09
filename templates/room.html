@@ -16,7 +16,7 @@
         <link rel = "stylesheet" href = "static/css/room/min/pc-medium.min.css" media = "screen and (min-width: 1025px) and (max-width: 1440px)">
         <link rel = "stylesheet" href = "static/css/room/min/pc-large.min.css" media = "screen and (min-width: 1441px) and (max-width: 1680px)">
         <link rel = "stylesheet" href = "static/css/room/min/pc-huge.min.css" media = "screen and (min-width: 1681px)">
-        
+
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap" rel = "stylesheet">
@@ -27,26 +27,33 @@
     </head>
     <body>
 
-        <button>PESCA DAL MAZZO</button>
+        <div id = "hand"></div>
+        <button id = "draw">PESCA DAL MAZZO</button>
+        <button id = "drop">CALA A TERRA</button>
 
         <script type = "text/javascript">
 
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                $("button").click(function () {
+                var socket = io("http://127.0.0.1:5000/");
+                const room = "{{room}}";
 
-                    var socket = io.connect("http://127.0.0.1:5000/");
-
-                    socket.on("connection", function() {
-                        user = socket.id;
-                        socket.emit("join_room", {room: "{{room}}", user: user});
-                    });
-
-                    socket.on("join_room", function(deck) {
-                        socket.emit("draw", {room: "{{room}}", user: user, deck: deck, hand: [], draw: 3});
-                    });
-
+                socket.on("connect", function () {
+                    socket.emit("join", { room: room });
                 });
+
+                socket.on("draw", function (data) {
+                    $("#hand").append($("<img>").attr("src", `static/assets/deck/${data.card}.jpg`));
+                });
+
+                socket.on("stop", function () {
+                    $("#draw").prop("disabled", true);
+                });
+
+                $("#draw").click(function () {
+                    socket.emit("draw", { room: room, user: socket.id });
+                });
+
             });
 
         </script>

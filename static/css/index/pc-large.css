@@ -1,0 +1,25 @@
+body {
+    margin: 10px;
+    color: rgb(255, 255, 255);
+    font-family: "Alata", sans-serif;
+    background-color: rgb(31, 35, 36);
+}
+
+.slide {
+    padding: 2.5px;
+}
+
+#title {
+    margin: 0;
+    padding: 10px;
+    font-size: 25px;
+    text-align: center;
+    background-color: rgb(116, 195, 25);
+}
+
+section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}

@@ -1,4 +1,4 @@
-from random import sample
+from random import choice
 from uuid import uuid4
 from flask import (
     Flask,
@@ -9,63 +9,43 @@ from flask import (
 from flask_socketio import (
     emit,
     SocketIO,
-    join_room,
-    leave_room,
-    room_exists
+    join_room
 )
 
+rooms = {}
 app = Flask(__name__)
 app.template_folder = "templates/min"
 socketio = SocketIO(app)
 
 @app.get("/")
-@app.get("/<id>")
-def index(id = None):
-    if id == None:
-        id = uuid4()
-        return render_template("index.min.html", room = id)
-    elif room_exists(id):
-        return render_template("room.min.html", room = id)
+@app.get("/<room>")
+def index(room = None):
+    if room == None:
+        room = str(uuid4())
+        rooms[room] = ["1B", "1C", "1D", "1S"]
+        return render_template("index.min.html", room = room)
+    elif room in list(rooms.keys()):
+        return render_template("room.min.html", room = room)
     else:
         return redirect("/")
 
-@socketio.on("join_room")
-def join_room(data):
+@socketio.on("join")
+def join(data):
+    join_room(data["room"])
+
+@socketio.on("draw")
+def draw(data):
     room = data["room"]
-    user = data["user"]
+    deck = rooms[room]
 
-    join_room(room)
-    emit("join_room", ["1B", "1C", "1D", "1S"], room = user)
+    card = choice(deck)
+    deck.remove(card)
+    rooms[room] = deck
 
-@socketio.on("leave_room")
-def leave_room(data):
-    room = data["room"]
-    
-    leave_room(room)
+    if len(deck) == 0:
+        emit("stop", room = room)
 
-@socketio.on("draw_from_deck")
-def draw_from_deck(data):
-    room = data["room"]
-    user = data["user"]
-    deck = data["deck"]
-    hand = data["hand"]
-    draw = data["draw"]
-
-    hand += sample(deck, draw)
-    deck = [card for card in deck if card not in hand]
-
-    emit("draw", hand, room = user)
-    emit("deck", deck, room = room)
-
-@socketio.on("drop_on_table")
-def drop_on_table(data):
-    room = data["room"]
-    table = data["table"]
-    cards = data["cards"]
-
-    table += cards
-
-    emit("table", table, room = room)
+    emit("draw", {"card": card}, room = data["user"])
 
 @app.route("/robots")
 def robots():
