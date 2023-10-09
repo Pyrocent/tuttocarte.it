@@ -33,8 +33,8 @@ def index(room = None):
 def join(data):
     join_room(data["room"])
 
-@socketio.on("draw")
-def draw(data):
+@socketio.on("draw_from_deck")
+def draw_from_deck(data):
     room = data["room"]
     deck = rooms[room]
 
@@ -43,9 +43,23 @@ def draw(data):
     rooms[room] = deck
 
     if len(deck) == 0:
-        emit("stop", room = room)
+        emit("stop_deck", room = room)
 
     emit("draw", {"card": card}, room = data["user"])
+    
+@socketio.on("drop_from_deck")
+def drop_from_deck(data):
+    room = data["room"]
+    deck = rooms[room]
+    
+    card = choice(deck)
+    deck.remove(card)
+    rooms[room] = deck
+
+    if len(deck) == 0:
+        emit("stop_deck", room = room)
+        
+    emit("drop", {"card": card}, room = room)
 
 @app.route("/robots")
 def robots():

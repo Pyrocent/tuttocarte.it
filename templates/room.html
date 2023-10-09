@@ -2,7 +2,7 @@
 <html lang = "it">
     <head>
         <meta charset = "UTF-8">
-        <title>SenzaMazzo.it</title>
+        <title>Gioca SenzaMazzo.it</title>
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "icon" href = "static/assets/icons/favicon.png">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
@@ -27,9 +27,18 @@
     </head>
     <body>
 
-        <div id = "hand"></div>
-        <button id = "draw">PESCA DAL MAZZO</button>
-        <button id = "drop">CALA A TERRA</button>
+        <fieldset  class = "view" id = "drop">
+            <legend>CARTE SUL TAVOLO</legend>
+        </fieldset>
+        <fieldset  class = "view">
+            <legend>MANO</legend>
+            <div id = "hand"></div>
+        </fieldset>
+
+        <button class = "draw" id = "draw_from_deck">PESCA DAL MAZZO</button>
+        <button class = "draw" id = "draw_from_hand">PESCA DA UN'ALTRA MANO</button>
+        <button class = "drop" id = "drop_from_deck">CALA A TERRA DAL MAZZO</button>
+        <button class = "drop" id = "drop_from_hand">CALA A TERRA DALLA MANO</button>
 
         <script type = "text/javascript">
 
@@ -46,12 +55,23 @@
                     $("#hand").append($("<img>").attr("src", `static/assets/deck/${data.card}.jpg`));
                 });
 
-                socket.on("stop", function () {
-                    $("#draw").prop("disabled", true);
+                socket.on("drop", function (data) {
+                    $("#drop").append($("<img>").attr("src", `static/assets/deck/${data.card}.jpg`));
                 });
 
-                $("#draw").click(function () {
-                    socket.emit("draw", { room: room, user: socket.id });
+                socket.on("stop_deck", function () {
+                    $("#draw_from_deck").prop("disabled", true);
+                    $("#drop_from_deck").prop("disabled", true);
+                });
+
+
+
+                $("#draw_from_deck").click(function () {
+                    socket.emit("draw_from_deck", { room: room, user: socket.id });
+                });
+
+                $("#drop_from_deck").click(function () {
+                    socket.emit("drop_from_deck", { room: room });
                 });
 
             });
