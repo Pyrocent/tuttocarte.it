@@ -30,15 +30,13 @@
         <fieldset  class = "view" id = "drop">
             <legend>CARTE SUL TAVOLO</legend>
         </fieldset>
-        <fieldset  class = "view">
+        <fieldset  class = "view" id = "hand">
             <legend>MANO</legend>
-            <div id = "hand"></div>
         </fieldset>
 
-        <button class = "draw" id = "draw_from_deck">PESCA DAL MAZZO</button>
-        <button class = "draw" id = "draw_from_hand">PESCA DA UN'ALTRA MANO</button>
+        <button class = "pick" id = "pick_from_deck">PESCA DAL MAZZO</button>
+        <button class = "pick" id = "pick_from_hand">PESCA DA UN'ALTRA MANO</button>
         <button class = "drop" id = "drop_from_deck">CALA A TERRA DAL MAZZO</button>
-        <button class = "drop" id = "drop_from_hand">CALA A TERRA DALLA MANO</button>
 
         <script type = "text/javascript">
 
@@ -51,27 +49,41 @@
                     socket.emit("join", { room: room });
                 });
 
-                socket.on("draw", function (data) {
-                    $("#hand").append($("<img>").attr("src", `static/assets/deck/${data.card}.jpg`));
+                socket.on("pick", function (data) {
+                    $("#hand").append(`<img class = "clickable" src = "static/assets/deck/${data.card}.jpg" alt = "${data.card}">`);
                 });
 
                 socket.on("drop", function (data) {
-                    $("#drop").append($("<img>").attr("src", `static/assets/deck/${data.card}.jpg`));
+                    $("#drop").append(`<img class = "clickable" src = "static/assets/deck/${data.card}.jpg" alt = "${data.card}">`);
                 });
 
-                socket.on("stop_deck", function () {
-                    $("#draw_from_deck").prop("disabled", true);
+                socket.on("pull", function (data) {
+                    $(`#drop img[src = "static/assets/deck/${data.card}.jpg"]`).remove();
+                });
+
+                socket.on("void", function () {
+                    $("#pick_from_deck").prop("disabled", true);
                     $("#drop_from_deck").prop("disabled", true);
                 });
 
 
 
-                $("#draw_from_deck").click(function () {
-                    socket.emit("draw_from_deck", { room: room, user: socket.id });
+                $("#pick_from_deck").click(function () {
+                    socket.emit("pick_from_deck", { room: room, user: socket.id });
                 });
 
                 $("#drop_from_deck").click(function () {
                     socket.emit("drop_from_deck", { room: room });
+                });
+
+                $("#hand").on("dblclick", ".clickable", function () {
+                    socket.emit("drop_from_hand", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
+                    $(this).remove();
+                });
+
+                $("#drop").on("dblclick", ".clickable", function () {
+                    socket.emit("pick_from_drop", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
+                    $(this).remove();
                 });
 
             });
