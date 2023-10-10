@@ -21,137 +21,15 @@
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap" rel = "stylesheet">
-
-        <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-
-        <script src = "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-        <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css">
     </head>
     <body>
         <header>
-
-            <div id = "slider">
-                <img class = "slide" src = "static/assets/deck/1B.jpg" alt = "1B">
-                <img class = "slide" src = "static/assets/deck/1C.jpg" alt = "1C">
-                <img class = "slide" src = "static/assets/deck/1D.jpg" alt = "1D">
-                <img class = "slide" src = "static/assets/deck/1S.jpg" alt = "1S">
-                <img class = "slide" src = "static/assets/deck/2B.jpg" alt = "2B">
-                <img class = "slide" src = "static/assets/deck/2C.jpg" alt = "2C">
-                <img class = "slide" src = "static/assets/deck/2D.jpg" alt = "2D">
-                <img class = "slide" src = "static/assets/deck/2S.jpg" alt = "2S">
-                <img class = "slide" src = "static/assets/deck/3B.jpg" alt = "3B">
-                <img class = "slide" src = "static/assets/deck/3C.jpg" alt = "3C">
-                <img class = "slide" src = "static/assets/deck/3D.jpg" alt = "3D">
-                <img class = "slide" src = "static/assets/deck/3S.jpg" alt = "3S">
-                <img class = "slide" src = "static/assets/deck/4B.jpg" alt = "4B">
-                <img class = "slide" src = "static/assets/deck/4C.jpg" alt = "4C">
-                <img class = "slide" src = "static/assets/deck/4D.jpg" alt = "4D">
-                <img class = "slide" src = "static/assets/deck/4S.jpg" alt = "4S">
-                <img class = "slide" src = "static/assets/deck/5B.jpg" alt = "5B">
-                <img class = "slide" src = "static/assets/deck/5C.jpg" alt = "5C">
-                <img class = "slide" src = "static/assets/deck/5D.jpg" alt = "5D">
-                <img class = "slide" src = "static/assets/deck/5S.jpg" alt = "5S">
-                <img class = "slide" src = "static/assets/deck/6B.jpg" alt = "6B">
-                <img class = "slide" src = "static/assets/deck/6C.jpg" alt = "6C">
-                <img class = "slide" src = "static/assets/deck/6D.jpg" alt = "6D">
-                <img class = "slide" src = "static/assets/deck/6S.jpg" alt = "6S">
-                <img class = "slide" src = "static/assets/deck/7B.jpg" alt = "7B">
-                <img class = "slide" src = "static/assets/deck/7C.jpg" alt = "7C">
-                <img class = "slide" src = "static/assets/deck/7D.jpg" alt = "7D">
-                <img class = "slide" src = "static/assets/deck/7S.jpg" alt = "7S">
-                <img class = "slide" src = "static/assets/deck/8B.jpg" alt = "8B">
-                <img class = "slide" src = "static/assets/deck/8C.jpg" alt = "8C">
-                <img class = "slide" src = "static/assets/deck/8D.jpg" alt = "8D">
-                <img class = "slide" src = "static/assets/deck/8S.jpg" alt = "8S">
-                <img class = "slide" src = "static/assets/deck/9B.jpg" alt = "9B">
-                <img class = "slide" src = "static/assets/deck/9C.jpg" alt = "9C">
-                <img class = "slide" src = "static/assets/deck/9D.jpg" alt = "9D">
-                <img class = "slide" src = "static/assets/deck/9S.jpg" alt = "9S">
-                <img class = "slide" src = "static/assets/deck/10B.jpg" alt = "10B">
-                <img class = "slide" src = "static/assets/deck/10C.jpg" alt = "10C">
-                <img class = "slide" src = "static/assets/deck/10D.jpg" alt = "10D">
-                <img class = "slide" src = "static/assets/deck/10S.jpg" alt = "10S">
-            </div>
             <p id = "title">Gioca coi tuoi amici a qualsiasi gioco di carte SenzaMazzo.it</p>
-
         </header>
 
         <section>
             <img src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://127.0.0.1:5000/{{room}}" alt = "qr code">
         </section>
 
-        <script type = "text/javascript">
-
-            $(document).ready(function () {
-
-                const slider = $("#slider")
-
-                var items = slider.children().toArray();
-                for (var i = items.length - 1; i > 0; i--) {
-                    var j = Math.floor(Math.random() * (i + 1));
-                    var temp = items[i];
-                    items[i] = items[j];
-                    items[j] = temp;
-                }
-                slider.empty().append(items);
-
-                slider.slick({
-                    arrows: false,
-                    autoplay: true,
-                    touchMove: false,
-                    slidesToScroll: 1,
-                    focusOnSelect: true,
-                    pauseOnHover: false,
-                    pauseOnFocus: false,
-                    autoplaySpeed: 1000,
-                    responsive: [
-                        {
-                            breakpoint: 2560,
-                            settings: {
-                                slidesToShow: 20,
-                            }
-                        },
-                        {
-                            breakpoint: 1440,
-                            settings: {
-                                slidesToShow: 16,
-                            }
-                        },
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 14,
-                            }
-                        },
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 12,
-                            }
-                        },
-                        {
-                            breakpoint: 425,
-                            settings: {
-                                slidesToShow: 10,
-                            }
-                        },
-                        {
-                            breakpoint: 375,
-                            settings: {
-                                slidesToShow: 12,
-                            }
-                        },
-                        {
-                            breakpoint: 320,
-                            settings: {
-                                slidesToShow: 10,
-                            }
-                        }
-                    ]
-                });
-
-            });
-
-        </script>
     </body>
 </html>

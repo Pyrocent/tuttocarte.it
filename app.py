@@ -40,8 +40,8 @@ def join(data):
 
     emit("drop", {"cards": rooms[room]["drop"]}, room = data["user"])
 
-@socketio.on("pick_from_deck")
-def pick_from_deck(data):
+@socketio.on("deck_to_hand")
+def deck_to_hand(data):
     room = data["room"]
     deck = rooms[room]["deck"]
 
@@ -54,8 +54,8 @@ def pick_from_deck(data):
 
     emit("pick", {"card": card}, room = data["user"])
 
-@socketio.on("drop_from_deck")
-def drop_from_deck(data):
+@socketio.on("deck_to_drop")
+def deck_to_drop(data):
     room = data["room"]
     deck = rooms[room]["deck"]
     drop = rooms[room]["drop"]
@@ -72,8 +72,8 @@ def drop_from_deck(data):
 
     emit("drop", {"cards": rooms[room]["drop"]}, room = room)
 
-@socketio.on("drop_from_hand")
-def drop_from_hand(data):
+@socketio.on("hand_to_drop")
+def hand_to_drop(data):
     room = data["room"]
     drop = rooms[room]["drop"]
 
@@ -82,8 +82,8 @@ def drop_from_hand(data):
 
     emit("drop", {"cards": rooms[room]["drop"]}, room = room)
 
-@socketio.on("pick_from_drop")
-def pick_from_drop(data):
+@socketio.on("drop_to_hand")
+def drop_to_hand(data):
     room = data["room"]
     card = data["card"]
     drop = rooms[room]["drop"] 

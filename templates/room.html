@@ -27,28 +27,34 @@
     </head>
     <body>
 
-        <div class = "view" id = "drop">
-        </div>
-        <div class = "view" id = "hand">
-        </div>
-        <div id = "show"></div>
+        <section>
+            <div class = "view" id = "drop">
+            </div>
+            <textarea id = "textarea" rows = "4" cols = "40" placeholder = "Note pubbliche"></textarea>
+        </section>
 
-        <button id = "pick_from_deck">
-            <img src = "static/assets/icons/deck.png" alt = "deck">
-            <img src = "static/assets/icons/to.png" alt = "to">
-            <img src = "static/assets/icons/hand.png" alt = "hand">
-        </button>
-        <button id = "pick_from_deck">
+        <section>
+            <div class = "view" id = "hand">
+            </div>
+            <textarea rows = "4" cols = "40" placeholder = "Note private"></textarea>
+        </section>
+
+        <button id = "deck_to_drop">
             <img src = "static/assets/icons/deck.png" alt = "deck">
             <img src = "static/assets/icons/to.png" alt = "to">
             <img src = "static/assets/icons/drop.png" alt = "drop">
         </button>
-        <button id = "pick_from_deck">
+        <button id = "deck_to_hand">
+            <img src = "static/assets/icons/deck.png" alt = "deck">
+            <img src = "static/assets/icons/to.png" alt = "to">
+            <img src = "static/assets/icons/hand.png" alt = "hand">
+        </button>
+        <button id = "hand_to_drop">
             <img src = "static/assets/icons/hand.png" alt = "hand">
             <img src = "static/assets/icons/to.png" alt = "to">
             <img src = "static/assets/icons/drop.png" alt = "drop">
         </button>
-        <button id = "pick_from_deck">
+        <button id = "drop_to_hand">
             <img src = "static/assets/icons/drop.png" alt = "drop">
             <img src = "static/assets/icons/to.png" alt = "to">
             <img src = "static/assets/icons/hand.png" alt = "hand">
@@ -78,18 +84,18 @@
                 });
 
                 socket.on("void", function () {
-                    $("#pick_from_deck").prop("disabled", true);
-                    $("#drop_from_deck").prop("disabled", true);
+                    $("#deck_to_hand").prop("disabled", true);
+                    $("#deck_to_drop").prop("disabled", true);
                 });
 
 
 
-                $("#pick_from_deck").click(function () {
-                    socket.emit("pick_from_deck", { room: room, user: socket.id });
+                $("#deck_to_drop").click(function () {
+                    socket.emit("deck_to_drop", { room: room });
                 });
 
-                $("#drop_from_deck").click(function () {
-                    socket.emit("drop_from_deck", { room: room });
+                $("#deck_to_hand").click(function () {
+                    socket.emit("deck_to_hand", { room: room, user: socket.id });
                 });
 
                 $("#hand").on("click", ".clickable", function () {
@@ -110,20 +116,20 @@
                     }
                 });
 
-                $("#drop_from_hand").click(function () {
+                $("#hand_to_drop").click(function () {
                     $("#hand img").filter(function () {
                         return $(this).css("opacity") === "0.5";
                     }).each(function () {
-                        socket.emit("drop_from_hand", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
+                        socket.emit("hand_to_drop", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
                         $(this).remove();
                     });
                 });
 
-                $("#pick_from_drop").click(function () {
-                    $("#hand img").filter(function () {
+                $("#drop_to_hand").click(function () {
+                    $("#drop img").filter(function () {
                         return $(this).css("opacity") === "0.5";
                     }).each(function () {
-                        socket.emit("pick_from_drop", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
+                        socket.emit("drop_to_hand", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
                         $(this).remove();
                     });
                 });
