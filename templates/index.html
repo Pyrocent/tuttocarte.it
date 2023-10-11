@@ -31,7 +31,7 @@
             <h3>TAVOLO</h3>
             <div class = "view" id = "drop">
                 {% if show == True %}
-                    <img id = "qr" src = "https://api.qrserver.com/v1/create-qr-code/?size=145x145&data=http://127.0.0.1:5000/{{room}}" alt = "qr">
+                    <img id = "qr" src = "https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:5000/{{room}}" alt = "qr">
                     <h1>
                         <a href = "https://www.senzamazzo.it/">SenzaMazzo.it</a>
                         <br>
@@ -52,164 +52,172 @@
             <textarea rows = "4" cols = "40" placeholder = "Note personali"></textarea>
         </section>
 
-        <table border = "2">
-            <tr>
-                <th>A TAVOLO</th>
-                <th>A MANO</th>
-                <th>A MAZZO</th>
-                <th>A MAZZETTO</th>
-                <th>A GIOCATORE</th>
-                <th>SISTEMA</th>
-                <th>VEDI CARTE</th>
-                <th>FAI VEDERE</th>
-                <th>ESCLUDI CARTE</th>
-                <th>MISCHIA</th>
-            </tr>
-            <tr>
-                <td>
-                    <button id = "deck_to_drop">
-                        <img src = "static/assets/icons/deck.png" alt = "deck">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "deck_to_hand">
-                        <img src = "static/assets/icons/deck.png" alt = "deck">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/hand.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_deck">
-                        <img src = "static/assets/icons/hand.png" alt = "deck">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/deck.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "deck_to_loot">
-                        <img src = "static/assets/icons/deck.png" alt = "deck">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/loot.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/hand.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/hand.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/deck.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/hand.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/deck.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/deck.png" alt = "drop">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id = "hand_to_drop">
-                        <img src = "static/assets/icons/hand.png" alt = "hand">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "drop_to_hand">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/hand.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "drop_to_deck">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/deck.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/loot.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/loot.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/hand.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/hand.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/loot.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/loot.png" alt = "drop">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id = "loot_to_drop">
-                        <img src = "static/assets/icons/loot.png" alt = "hand">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/drop.png" alt = "drop">
-                    </button>
-                </td>
-                <td>
-                    <button id = "loot_to_hand">
-                        <img src = "static/assets/icons/loot.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/hand.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "loot_to_deck">
-                        <img src = "static/assets/icons/loot.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/deck.png" alt = "hand">
-                    </button>
-                </td>
-                <td>
-                    <button id = "hand_to_loot">
-                        <img src = "static/assets/icons/hand.png" alt = "drop">
-                        <img src = "static/assets/icons/to.png" alt = "to">
-                        <img src = "static/assets/icons/loot.png" alt = "hand">
-                    </button>
-                </td>
-            </tr>
-        </table>
+        <section>
+            <h3>AZIONI</h3>
+            <table border = "2">
+                <tr>
+                    <th>CALA A TERRA</th>
+                    <th>PRENDI IN MANO</th>
+                    <th>RIPONI NEL MAZZO</th>
+                    <th>AGGIUNGI AI PUNTI</th>
+                    <th>DAI A GIOCATORE</th>
+                    <th>SISTEMA CARTE</th>
+                    <th>VEDI CARTE</th>
+                    <th>FAI VEDERE</th>
+                    <th>MISCHIA</th>
+                    <th>ESCLUDI CARTE</th>
+                </tr>
+                <tr>
+                    <td>
+                        <button id = "deck_to_drop">
+                            <img src = "static/assets/icons/deck.png" alt = "deck">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "deck_to_hand">
+                            <img src = "static/assets/icons/deck.png" alt = "deck">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/hand.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_deck">
+                            <img src = "static/assets/icons/hand.png" alt = "deck">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/deck.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "deck_to_loot">
+                            <img src = "static/assets/icons/deck.png" alt = "deck">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <h2>PT</h2>
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/hand.png" alt = "drop">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/hand.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/deck.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/hand.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/deck.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/deck.png" alt = "drop">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id = "hand_to_drop">
+                            <img src = "static/assets/icons/hand.png" alt = "hand">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "drop_to_hand">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/hand.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "drop_to_deck">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/deck.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <h2>PT</h2>
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <h2>PT</h2>
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/hand.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/hand.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <h2>PT</h2>
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <h2>PT</h2>
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/hand.png" alt = "drop">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id = "loot_to_drop">
+                            <h2>PT</h2>
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/drop.png" alt = "drop">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "loot_to_hand">
+                            <h2>PT</h2>
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/hand.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "loot_to_deck">
+                            <h2>PT</h2>
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <img src = "static/assets/icons/deck.png" alt = "hand">
+                        </button>
+                    </td>
+                    <td>
+                        <button id = "hand_to_loot">
+                            <img src = "static/assets/icons/hand.png" alt = "drop">
+                            <img src = "static/assets/icons/to.png" alt = "to">
+                            <h2>PT</h2>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </section>
 
         <script type = "text/javascript">
 
