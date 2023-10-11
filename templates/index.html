@@ -12,10 +12,7 @@
         <link rel = "stylesheet" href = "static/css/min/mobile-medium.min.css" media = "screen and (min-width: 321px) and (max-width: 375px)">
         <link rel = "stylesheet" href = "static/css/min/mobile-large.min.css" media = "screen and (min-width: 376px) and (max-width: 425px)">
         <link rel = "stylesheet" href = "static/css/min/tablet.min.css" media = "screen and (min-width: 426px) and (max-width: 768px)">
-        <link rel = "stylesheet" href = "static/css/min/pc-small.min.css" media = "screen and (min-width: 769px) and (max-width: 1024px)">
-        <link rel = "stylesheet" href = "static/css/min/pc-medium.min.css" media = "screen and (min-width: 1025px) and (max-width: 1440px)">
-        <link rel = "stylesheet" href = "static/css/min/pc-large.min.css" media = "screen and (min-width: 1441px) and (max-width: 1680px)">
-        <link rel = "stylesheet" href = "static/css/min/pc-huge.min.css" media = "screen and (min-width: 1681px)">
+        <link rel = "stylesheet" href = "static/css/min/pc.min.css" media = "screen and (min-width: 769px)">
 
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
@@ -26,41 +23,41 @@
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
-
-        <section>
-            <h3>TAVOLO</h3>
-            <div class = "view" id = "drop">
-                {% if show == True %}
-                    <img id = "qr" src = "https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:5000/{{room}}" alt = "qr">
-                    <h1>
-                        <a href = "https://www.senzamazzo.it/">SenzaMazzo.it</a>
-                        <br>
-                        Condividi il tavolo!
-                        <br>
-                        Fai inquadrare il QR code
-                        <br>
-                        Oppure cliccalo per copiare il codice
-                    </h1>
-                {% endif %}
+        <div id = "a">
+            <div id = "b">
+                <section>
+                    <h3>TAVOLO</h3>
+                    <div class = "view" id = "drop"></div>
+                </section>
+    
+                <section>
+                    <h3>MANO</h3>
+                    <div class = "view" id = "hand"></div>
+                </section>
             </div>
+            <section>
+                <h3>AZIONI</h3>
+            </section>
+        </div>
+        <div id = "c">
             <textarea id = "public_notes" rows = "4" cols = "40" placeholder = "Note condivise"></textarea>
-        </section>
-
-        <section>
-            <h3>MANO</h3>
-            <div class = "view" id = "hand"></div>
             <textarea rows = "4" cols = "40" placeholder = "Note personali"></textarea>
-        </section>
 
-        <section>
-            <h3>AZIONI</h3>
+        </div>
+
+
+
+
+
+        <!-- <section>
+            
             <table border = "2">
                 <tr>
-                    <th>CALA A TERRA</th>
-                    <th>PRENDI IN MANO</th>
-                    <th>RIPONI NEL MAZZO</th>
-                    <th>AGGIUNGI AI PUNTI</th>
-                    <th>DAI A GIOCATORE</th>
+                    <th>CALA A TERRA DA</th>
+                    <th>PRENDI IN MANO DA</th>
+                    <th>RIPONI NEL MAZZO DA</th>
+                    <th>AGGIUNGI AI PUNTI DA</th>
+                    <th>DAI AD UN'ALTRA MANO DA</th>
                     <th>SISTEMA CARTE</th>
                     <th>VEDI CARTE</th>
                     <th>FAI VEDERE</th>
@@ -71,35 +68,23 @@
                     <td>
                         <button id = "deck_to_drop">
                             <img src = "static/assets/icons/deck.png" alt = "deck">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/drop.png" alt = "drop">
                         </button>
                     </td>
                     <td>
                         <button id = "deck_to_hand">
                             <img src = "static/assets/icons/deck.png" alt = "deck">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/hand.png" alt = "hand">
                         </button>
                     </td>
                     <td>
                         <button id = "hand_to_deck">
                             <img src = "static/assets/icons/hand.png" alt = "deck">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/deck.png" alt = "hand">
                         </button>
                     </td>
                     <td>
-                        <button id = "deck_to_loot">
-                            <img src = "static/assets/icons/deck.png" alt = "deck">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <h2>PT</h2>
-                        </button>
+                        <button id = "deck_to_loot">PT</button>
                     </td>
                     <td>
                         <button id = "hand_to_loot">
-                            <img src = "static/assets/icons/hand.png" alt = "drop">
-                            <img src = "static/assets/icons/to.png" alt = "to">
                             <img src = "static/assets/icons/hand.png" alt = "hand">
                         </button>
                     </td>
@@ -133,37 +118,26 @@
                     <td>
                         <button id = "hand_to_drop">
                             <img src = "static/assets/icons/hand.png" alt = "hand">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/drop.png" alt = "drop">
+
                         </button>
                     </td>
                     <td>
                         <button id = "drop_to_hand">
                             <img src = "static/assets/icons/drop.png" alt = "drop">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/hand.png" alt = "hand">
                         </button>
                     </td>
                     <td>
                         <button id = "drop_to_deck">
                             <img src = "static/assets/icons/drop.png" alt = "drop">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/deck.png" alt = "hand">
                         </button>
                     </td>
                     <td>
                         <button id = "hand_to_loot">
                             <img src = "static/assets/icons/drop.png" alt = "drop">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <h2>PT</h2>
                         </button>
                     </td>
                     <td>
-                        <button id = "hand_to_loot">
-                            <h2>PT</h2>
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/hand.png" alt = "hand">
-                        </button>
+                        <button id = "hand_to_loot">PT</button>
                     </td>
                     <td>
                         <button id = "hand_to_loot">
@@ -171,14 +145,10 @@
                         </button>
                     </td>
                     <td>
-                        <button id = "hand_to_loot">
-                            <h2>PT</h2>
-                        </button>
+                        <button id = "hand_to_loot">PT</button>
                     </td>
                     <td>
-                        <button id = "hand_to_loot">
-                            <h2>PT</h2>
-                        </button>
+                        <button id = "hand_to_loot">PT</button>
                     </td>
                     <td>
                         <button id = "hand_to_loot">
@@ -188,36 +158,22 @@
                 </tr>
                 <tr>
                     <td>
-                        <button id = "loot_to_drop">
-                            <h2>PT</h2>
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/drop.png" alt = "drop">
-                        </button>
+                        <button id = "loot_to_drop">PT</button>
                     </td>
                     <td>
-                        <button id = "loot_to_hand">
-                            <h2>PT</h2>
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/hand.png" alt = "hand">
-                        </button>
+                        <button id = "loot_to_hand">PT</button>
                     </td>
                     <td>
-                        <button id = "loot_to_deck">
-                            <h2>PT</h2>
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <img src = "static/assets/icons/deck.png" alt = "hand">
-                        </button>
+                        <button id = "loot_to_deck">PT</button>
                     </td>
                     <td>
                         <button id = "hand_to_loot">
                             <img src = "static/assets/icons/hand.png" alt = "drop">
-                            <img src = "static/assets/icons/to.png" alt = "to">
-                            <h2>PT</h2>
                         </button>
                     </td>
                 </tr>
             </table>
-        </section>
+        </section> -->
 
         <script type = "text/javascript">
 

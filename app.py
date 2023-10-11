@@ -98,7 +98,6 @@ from flask_socketio import (
 #     emit("pick", {"card": card}, room = data["user"])
 #     emit("drop", {"cards": rooms[room]["drop"]}, room = room)
 
-rooms = {}
 app = Flask(__name__)
 app.template_folder = "templates/min"
 socketio = SocketIO(app)
