@@ -71,6 +71,10 @@ table td {
     background-color: rgb(235, 235, 235);
 }
 
+table td img:focus {
+    outline: none;
+}
+
 #b h3,
 #c h3:not(table h3) {
     margin: 0;
