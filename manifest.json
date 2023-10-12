@@ -11,24 +11,16 @@
     "orientation": "landscape",
     "icons": [
         {
-            "src": "https://www.senzamazzo.it/static/assets/icons/favicon.png",
-            "sizes": "64x64",
+            "src": "https://www.senzamazzo.it/static/assets/icons/icon-512x512.png",
+            "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "https://www.senzamazzo.it/static/assets/icons/favicon.png",
-            "sizes": "64x64",
+            "src": "https://www.senzamazzo.it/static/assets/icons/icon-128x128.png",
+            "sizes": "128x128",
             "type": "image/png",
             "purpose": "any"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "",
-            "sizes": "2880x1800",
-            "type": "image/png",
-            "description": ""
         }
     ],
     "prefer_related_applications": false
