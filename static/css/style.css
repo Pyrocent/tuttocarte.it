@@ -72,7 +72,7 @@ table td {
 }
 
 table td img:focus {
-    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #b h3,
