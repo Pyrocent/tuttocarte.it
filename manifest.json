@@ -11,14 +11,14 @@
     "orientation": "landscape",
     "icons": [
         {
-            "src": "",
-            "sizes": "512x512",
+            "src": "https://www.senzamazzo.it/static/assets/icons/favicon.png",
+            "sizes": "64x64",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "",
-            "sizes": "192x192",
+            "src": "https://www.senzamazzo.it/static/assets/icons/favicon.png",
+            "sizes": "64x64",
             "type": "image/png",
             "purpose": "any"
         }
