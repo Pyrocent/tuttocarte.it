@@ -8,7 +8,7 @@
     "dir": "auto",
     "theme_color": "#1f2324",
     "background_color": "#1f2324",
-    "orientation": "landscape",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "https://www.senzamazzo.it/static/assets/icons/icon-512x512.png",
@@ -23,6 +23,5 @@
             "purpose": "any"
         }
     ],
-    "prefer_related_applications": false,
-    "display_override": ["window-controls-overlay"]
+    "prefer_related_applications": false
 }
