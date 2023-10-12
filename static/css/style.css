@@ -84,11 +84,8 @@ table td:hover {
 }
 
 table td img {
-    filter: drop-shadow(0 0 0.05rem rgb(0, 0, 0));
-}
-
-table td img:focus {
     -webkit-tap-highlight-color: transparent;
+    filter: drop-shadow(0 0 0.05rem rgb(0, 0, 0));
 }
 
 #b h3,
