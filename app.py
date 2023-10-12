@@ -114,9 +114,9 @@ def index(room = None):
 def robots():
     return send_file("robots.txt")
 
-@app.route("/sitemap.txt")
+@app.route("/sitemap.xml")
 def sitemap():
-    return send_file("sitemap.txt")
+    return send_file("sitemap.xml")
 
 @app.route("/min/service-worker.js")
 def service_worker():
