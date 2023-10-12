@@ -7,22 +7,15 @@ body {
     margin: 0;
     display: flex;
     cursor: default;
-    flex-direction: column;
     font-family: "Alata", sans-serif;
     background-color: rgb(31, 35, 36);
 }
 
-#a {
-    flex: 0.5;
-    display:flex;
-}
-
 #b {
-    gap: 5px;
-    flex: 0.5;
-    margin: 5px;
+    gap: 10px;
     display: flex;
     flex-direction: column;
+    padding: 10px 5px 10px 10px;
 }
 
 #b div {
@@ -31,35 +24,13 @@ body {
     display: flex;
 }
 
-#c {
-    gap: 10px;
-    flex: 0.5;
-    display: flex;
-    margin: 5px;
-}
-
-#f {
-    gap: 10px;
-    display: flex;
-}
-
-#b div h3, #c h3 {
-    margin: 0;
-    padding: 5px;
-    text-align: center;
-    text-orientation: mixed;
-    writing-mode: vertical-rl;
-    background-color: rgb(255, 255, 255);
-}
-
 .view {
     flex: 1;
     gap: 10px;
     display: flex;
-    flex-wrap: wrap;
+    overflow-x: auto;
     border-radius: 5px;
     align-items: center;
-    overflow: hidden auto;
     border: 2px solid rgb(255, 255, 255);
 }
 
@@ -67,29 +38,8 @@ body {
     background-color: rgb(0, 118, 73);
 }
 
-table {
-    padding: 5px;
-    border-radius: 5px;
-    border-color: rgb(255, 255, 255);
-}
-
-table th {
-    flex: 0.5;
-    font-size: 12.5px;
-    text-align: left;
-    background-color: rgb(255, 255, 255);
-    font-family: "Alata", sans-serif;
-}
-
-#d {
-    gap: 5px;
-    flex: 0.5;
-    display: flex;
-    margin: 5px;
-}
-
 textarea {
-    flex: 1;
+    flex: 0.5;
     resize: none;
     padding: 10px;
     font-size: 20px;
@@ -97,9 +47,53 @@ textarea {
     font-family: "Alata", sans-serif;
 }
 
-.view img:hover,
-table img:hover {
+#c {
+    gap: 10px;
+    padding: 10px 10px 10px 5px;
+    display: flex;
+}
+
+table {
+    border-radius: 5px;
+    border-color: rgb(255, 255, 255);
+}
+
+table th {
+    padding: 10px;
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    font-family: "Alata", sans-serif;
+}
+
+table td {
+    padding: 10px;
+    background-color: rgb(235, 235, 235);
+}
+
+#b h3, #c h3:not(table h3) {
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+}
+
+#b h3 {
+    background-color: rgb(255, 255, 255);
+}
+
+#c h3:not(table h3) {
+    color: rgb(255, 255, 255);
+    background-color: rgb(203, 178, 146);
+}
+
+.view img:hover {
     cursor: pointer;
     transform: scale(1.1);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.85);
+}
+
+table td:hover {
+    cursor: pointer;
+    background-color: rgb(0, 118, 73);
 }
