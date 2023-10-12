@@ -1,6 +1,6 @@
 html,
 body {
-    height: 100vh;
+    height: 100%;
 }
 
 body {
@@ -35,6 +35,12 @@ body {
     border: 2px solid rgb(255, 255, 255);
 }
 
+.view img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.85);
+}
+
 #drop {
     background-color: rgb(0, 118, 73);
 }
@@ -50,8 +56,8 @@ textarea {
 
 #c {
     gap: 10px;
-    padding: 10px 10px 10px 5px;
     display: flex;
+    padding: 10px 10px 10px 5px;
 }
 
 table {
@@ -62,13 +68,23 @@ table {
 table th {
     padding: 10px;
     text-align: left;
-    background-color: rgb(255, 255, 255);
     font-family: "Alata", sans-serif;
+    background-color: rgb(255, 255, 255);
 }
 
 table td {
-    padding: 10px;
+    padding: 8px;
+    border: 2px solid rgb(255, 255, 255);
     background-color: rgb(235, 235, 235);
+}
+
+table td:hover {
+    cursor: pointer;
+    background-color: rgb(0, 118, 73);
+}
+
+table td img {
+    filter: drop-shadow(0 0 0.05rem rgb(0, 0, 0));
 }
 
 table td img:focus {
@@ -91,15 +107,5 @@ table td img:focus {
 #c h3:not(table h3) {
     color: rgb(255, 255, 255);
     background-color: rgb(203, 178, 146);
-}
-
-.view img:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.85);
-}
-
-table td:hover {
-    cursor: pointer;
-    background-color: rgb(0, 118, 73);
+    text-shadow: 1px 1px 1px rgb(0, 0, 0);
 }
