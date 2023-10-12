@@ -12,25 +12,7 @@ from flask_socketio import (
     join_room
 )
 
-# rooms = {}
-# app = Flask(__name__)
-# app.template_folder = "templates/min"
-# socketio = SocketIO(app)
-
-# @app.get("/")
-# @app.get("/<room>")
-# def index(room = None):
-#     if room == None:
-#         room = str(uuid4())
-#         rooms[room] = {
-#             "drop": [],
-#             "deck": ["1B", "1C", "1D", "1S", "2B", "2C", "2D", "2S", "3B", "3C", "3D", "3S", "4B", "4C", "4D", "4S", "5B", "5C", "5D", "5S"]
-#         }
-#         return render_template("index.min.html", room = room)
-#     elif room in list(rooms.keys()):
-#         return render_template("room.min.html", room = room)
-#     else:
-#         return redirect("/")
+# "deck": ["1B", "1C", "1D", "1S", "2B", "2C", "2D", "2S", "3B", "3C", "3D", "3S", "4B", "4C", "4D", "4S", "5B", "5C", "5D", "5S"]
 
 # @socketio.on("join")
 # def join(data):
