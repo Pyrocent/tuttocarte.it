@@ -70,7 +70,8 @@ table td {
     background-color: rgb(235, 235, 235);
 }
 
-#b h3, #c h3:not(table h3) {
+#b h3,
+#c h3:not(table h3) {
     margin: 0;
     padding: 5px;
     text-align: center;
