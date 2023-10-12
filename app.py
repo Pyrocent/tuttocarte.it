@@ -110,13 +110,17 @@ def index(room = None):
         return render_template("index.min.html", room = room, show = True)
     return render_template("index.min.html", room = room)
 
-@app.route("/robots")
+@app.route("/robots.txt")
 def robots():
     return send_file("robots.txt")
 
-@app.route("/sitemap")
+@app.route("/sitemap.txt")
 def sitemap():
     return send_file("sitemap.txt")
+
+@app.route("/min/service-worker.js")
+def service_worker():
+    return send_file("/min/service-worker.js")
 
 @app.errorhandler(404)
 @app.errorhandler(405)
