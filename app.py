@@ -120,7 +120,7 @@ def sitemap():
 
 @app.route("/min/service-worker.min.js")
 def service_worker():
-    return send_file("/min/service-worker.min.js")
+    return send_file("min/service-worker.min.js")
 
 @app.errorhandler(404)
 @app.errorhandler(405)
