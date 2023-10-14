@@ -45,7 +45,7 @@ def service_worker():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socketio.run(app)
+if __name__ == "__main__": socketio.run(app, debug = True, allow_unsafe_werkzeug = True)
 
 # "deck": ["1B", "1C", "1D", "1S", "2B", "2C", "2D", "2S", "3B", "3C", "3D", "3S", "4B", "4C", "4D", "4S", "5B", "5C", "5D", "5S"]
 
