@@ -1,73 +1,75 @@
-@media only screen and (orientation: portrait) {
-    main {
-        display: none;
-    }
-}
-
-@media only screen and (orientation: landscape) {
-    #rotate {
-        display: none;
-    }
-
-    main {
-        display: block;
-    }
-}
-
 html,
 body {
     height: 100%;
 }
 
 body {
+    gap: 10px;
     margin: 0;
+    display: flex;
     cursor: default;
+    flex-direction: column;
     background-color: rgb(31, 35, 36);
 }
 
-#rotate {
-    top: 50%;
-    left: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-}
-
-main {
-    height: 100%;
-    display: flex;
-}
-
-#game {
-    flex: 1;
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 5px 10px 10px;
-}
-
-#game>div {
+body>section {
     flex: 1;
     gap: 10px;
     display: flex;
 }
 
-.view {
+h3 {
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+    font-family: "Alata", sans-serif;
+    background-color: rgb(255, 255, 255);
+}
+
+#table,
+#hand {
     flex: 1;
+    gap: 10px;
     display: flex;
-    overflow-x: auto;
+    padding: 10px;
+    overflow: auto;
     border-radius: 5px;
     align-items: center;
     border: 2px solid rgb(255, 255, 255);
 }
 
-.view img:hover {
-    cursor: pointer;
-    transform: scale(1.1);
+#table {
+    transition: transform 0.3s;
+    background-color: rgb(0, 118, 73);
+}
+
+.card {
+    height: 100px;
+    border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.85);
 }
 
-#drop {
-    background-color: rgb(0, 118, 73);
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#zoom {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#zoom button {
+    flex: 0.5;
+    font-size: 20px;
+    font-family: "Alata", sans-serif;
+}
+
+#zoom button:hover {
+    cursor: pointer;
 }
 
 textarea {
@@ -77,62 +79,4 @@ textarea {
     font-size: 20px;
     border-radius: 5px;
     font-family: "Alata", sans-serif;
-}
-
-#actions {
-    gap: 10px;
-    display: flex;
-    padding: 10px 10px 10px 5px;
-}
-
-#actions>div {
-    overflow-y: auto;
-}
-
-table {
-    border-radius: 5px;
-    border-color: rgb(255, 255, 255);
-}
-
-table th {
-    padding: 10px;
-    text-align: left;
-    font-family: "Alata", sans-serif;
-    background-color: rgb(255, 255, 255);
-}
-
-table td {
-    padding: 8px 10px;
-    border: 2px solid rgb(255, 255, 255);
-    background-color: rgb(235, 235, 235);
-}
-
-table td:hover {
-    cursor: pointer;
-    background-color: rgb(0, 118, 73);
-}
-
-table td img {
-    -webkit-tap-highlight-color: transparent;
-    filter: drop-shadow(0 0 0.05rem rgb(0, 0, 0));
-}
-
-#game h3,
-#actions h3:not(table h3) {
-    margin: 0;
-    padding: 5px;
-    text-align: center;
-    text-orientation: mixed;
-    writing-mode: vertical-rl;
-    font-family: "Alata", sans-serif;
-}
-
-#game h3 {
-    background-color: rgb(255, 255, 255);
-}
-
-#actions h3:not(table h3) {
-    color: rgb(255, 255, 255);
-    background-color: rgb(203, 178, 146);
-    text-shadow: 1px 1px 1px rgb(0, 0, 0);
 }

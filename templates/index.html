@@ -17,175 +17,164 @@
         <script type = "text/javascript">navigator.serviceWorker.register("service-worker.js")</script>
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
 
-        <img id = "rotate" src = "static/assets/rotate.gif" alt = "rotate">
-
-        <main>
-            <section id = "game">
-                <div>
-                    <h3>TAVOLO</h3>
-                    <div class = "view" id = "drop"></div>
-                </div>
-                <div>
-                    <h3>MANO</h3>
-                    <div class = "view" id = "hand"></div>
-                </div>
-                <div>
-                    <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
-                    <textarea id = "private_notes" placeholder = "Note personali"></textarea>
-                </div>
-            </section>
-            <section id = "actions">
-                <h3>AZIONI</h3>
-                <div>
-                    <table>
-                        <tr>
-                            <th>CALA CARTE A TERRA DA</th>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                        </tr>
-                        <tr>
-                            <th>PRENDI CARTE IN MANO DA</th>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                            <td><img src = "static/assets/icons/drop.png" alt = ""></td>
-                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                        </tr>
-                        <tr>
-                            <th>RIPONI NEL MAZZO DA</th>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                            <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
-                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                        </tr>
-                        <tr>
-                            <th>AGGIUNGI AI PUNTI DA</th>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                            <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                        </tr>
-                        <tr>
-                            <th>DAI AD ALTRA MANO DA</th>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                        </tr>
-                        <tr>
-                            <th>DISPONI LE CARTE</th>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                            <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
-                        </tr>
-                        <tr>
-                            <th>VEDI LE CARTE DA</th>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                        </tr>
-                        <tr>
-                            <th>FAI VEDERE LE CARTE DA</th>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                        </tr>
-                        <tr>
-                            <th>MISCHIA LE CARTE</th>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                        </tr>
-                        <tr>
-                            <th>ESCLUDI DELLE CARTE DA</th>
-                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                        </tr>
-                    </table>
-                </div>
-            </section>
-        </main>
+        <section>
+            <h3>TAVOLO</h3>
+            <div id = "table" class = "droppable">
+                <img src = "static/assets/deck/italian/1D.jpg" class = "card clickable draggable">
+                <img src = "static/assets/deck/italian/1S.jpg" class = "card clickable draggable">
+            </div>
+            <div id = "zoom">
+                <button id = "more">+</button>
+                <button id = "less">-</button>
+            </div>
+            <h3>AGGIUNGI DAL MAZZO</h3>
+        </section>
+        <section>
+            <h3>MANO</h3>
+            <div id = "hand"></div>
+            <h3>AGGIUNGI DAL MAZZO</h3>
+        </section>
+        <section>
+            <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
+            <textarea id = "private_notes" placeholder = "Note personali"></textarea>
+        </section>
 
         <script type = "text/javascript">
 
             $(document).ready(function () {
 
-                $("#qr").click(function () {
-                    navigator.clipboard.writeText("http://127.0.0.1:5000/{{room}}");
+                zoom = 1;
+
+                $(".draggable").draggable({
+                    start: function(event, ui) {
+                        ui.helper.css("z-index", 1);
+                    },
+                    stop: function(event, ui) {
+                        ui.helper.css("z-index", 0);
+                    }
+                });
+                $(".droppable").droppable({
+                    accept: ".draggable",
+                    drop: function (event, ui) {
+                    }
                 });
 
-                var socket = io(window.location.host);
-                const room = "{{room}}";
-
-                socket.on("connect", function () {
-                    socket.emit("join", { room: room, user: socket.id });
+                $("#more").click(function () {
+                    if (zoom < 1) {
+                        zoom += 0.2;
+                        $("#table").animate({"zoom": zoom});
+                    }
+                });
+                $("#less").click(function () {
+                    if (zoom >= 0.3) {
+                        zoom -= 0.2;
+                        $("#table").animate({"zoom": zoom});
+                    }
                 });
 
-                socket.on("public_notes", function (data) {
-                    $("#public_notes").val(data.text);
+                $("#table").on("click", ".clickable", function () {
+                    var card = $(this);
+                    if (card.css("opacity") == 1) {
+                        card.css("opacity", 0.65);
+                    } else {
+                        card.css("opacity", 1);
+                    }
                 });
-
-                socket.on("pick", function (data) {
-                    $("#hand").append(`<img class = "clickable" src = "static/assets/deck/${data.card}.jpg" alt = "${data.card}">`);
-                });
-
-                socket.on("drop", function (data) {
-                    $("#drop").html(
-                        data.cards.map(function (card) {
-                            return `<img class = "clickable" src = "static/assets/deck/${card}.jpg" alt = "${card}">`;
-                        }).join('')
-                    );
-                });
-
-                socket.on("void", function () {
-                    $("#deck_to_hand").prop("disabled", true);
-                    $("#deck_to_drop").prop("disabled", true);
-                });
-
-
-
-                $("#public_notes").on("blur", function() {
-                    socket.emit("public_notes", { room: room, text: $(this).val()});
-                });
-
-                $("#deck_to_drop").click(function () {
-                    socket.emit("deck_to_drop", { room: room });
-                });
-
-                $("#deck_to_hand").click(function () {
-                    socket.emit("deck_to_hand", { room: room, user: socket.id });
-                });
-
                 $("#hand").on("click", ".clickable", function () {
                     var card = $(this);
                     if (card.css("opacity") == 1) {
-                        card.css("opacity", 0.5);
+                        card.css("opacity", 0.65);
                     } else {
                         card.css("opacity", 1);
                     }
                 });
 
-                $("#drop").on("click", ".clickable", function () {
-                    var card = $(this);
-                    if (card.css("opacity") == 1) {
-                        card.css("opacity", 0.5);
-                    } else {
-                        card.css("opacity", 1);
-                    }
-                });
+                // $("#qr").click(function () {
+                //     navigator.clipboard.writeText("http://127.0.0.1:5000/{{room}}");
+                // });
 
-                $("#hand_to_drop").click(function () {
-                    $("#hand img").filter(function () {
-                        return $(this).css("opacity") === "0.5";
-                    }).each(function () {
-                        socket.emit("hand_to_drop", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
-                        $(this).remove();
-                    });
-                });
+                // var socket = io(window.location.host);
+                // const room = "{{room}}";
 
-                $("#drop_to_hand").click(function () {
-                    $("#drop img").filter(function () {
-                        return $(this).css("opacity") === "0.5";
-                    }).each(function () {
-                        socket.emit("drop_to_hand", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
-                        $(this).remove();
-                    });
-                });
+                // socket.on("connect", function () {
+                //     socket.emit("join", { room: room, user: socket.id });
+                // });
+
+                // socket.on("public_notes", function (data) {
+                //     $("#public_notes").val(data.text);
+                // });
+
+                // socket.on("pick", function (data) {
+                //     $("#hand").append(`<img class = "clickable" src = "static/assets/deck/${data.card}.jpg" alt = "${data.card}">`);
+                // });
+
+                // socket.on("drop", function (data) {
+                //     $("#drop").html(
+                //         data.cards.map(function (card) {
+                //             return `<img class = "clickable" src = "static/assets/deck/${card}.jpg" alt = "${card}">`;
+                //         }).join('')
+                //     );
+                // });
+
+                // socket.on("void", function () {
+                //     $("#deck_to_hand").prop("disabled", true);
+                //     $("#deck_to_drop").prop("disabled", true);
+                // });
+
+
+
+                // $("#public_notes").on("blur", function() {
+                //     socket.emit("public_notes", { room: room, text: $(this).val()});
+                // });
+
+                // $("#deck_to_drop").click(function () {
+                //     socket.emit("deck_to_drop", { room: room });
+                // });
+
+                // $("#deck_to_hand").click(function () {
+                //     socket.emit("deck_to_hand", { room: room, user: socket.id });
+                // });
+
+                // $("#hand").on("click", ".clickable", function () {
+                //     var card = $(this);
+                //     if (card.css("opacity") == 1) {
+                //         card.css("opacity", 0.5);
+                //     } else {
+                //         card.css("opacity", 1);
+                //     }
+                // });
+
+                // $("#drop").on("click", ".clickable", function () {
+                //     var card = $(this);
+                //     if (card.css("opacity") == 1) {
+                //         card.css("opacity", 0.5);
+                //     } else {
+                //         card.css("opacity", 1);
+                //     }
+                // });
+
+                // $("#hand_to_drop").click(function () {
+                //     $("#hand img").filter(function () {
+                //         return $(this).css("opacity") === "0.5";
+                //     }).each(function () {
+                //         socket.emit("hand_to_drop", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
+                //         $(this).remove();
+                //     });
+                // });
+
+                // $("#drop_to_hand").click(function () {
+                //     $("#drop img").filter(function () {
+                //         return $(this).css("opacity") === "0.5";
+                //     }).each(function () {
+                //         socket.emit("drop_to_hand", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
+                //         $(this).remove();
+                //     });
+                // });
 
             });
 
