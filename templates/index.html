@@ -21,79 +21,85 @@
     </head>
     <body>
 
-        <section id = "game">
-            <div>
-                <h3>TAVOLO</h3>
-                <div class = "view" id = "drop"></div>
-            </div>
-            <div>
-                <h3>MANO</h3>
-                <div class = "view" id = "hand"></div>
-            </div>
-            <div>
-                <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
-                <textarea id = "private_notes" placeholder = "Note personali"></textarea>
-            </div>
-        </section>
-        <section id = "actions">
-            <h3>AZIONI</h3>
-            <table>
-                <tr>
-                    <th>CALA A TERRA DA</th>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                    <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                </tr>
-                <tr>
-                    <th>PRENDI IN MANO DA</th>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                    <td><img src = "static/assets/icons/drop.png" alt = ""></td>
-                    <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                </tr>
-                <tr>
-                    <th>RIPONI NEL MAZZO DA</th>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                    <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
-                    <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                </tr>
-                <tr>
-                    <th>AGGIUNGI AI PUNTI DA</th>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                    <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                </tr>
-                <tr>
-                    <th>DAI AD UNA MANO DA</th>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                    <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                </tr>
-                <tr>
-                    <th>SISTEMA LE CARTE</th>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                    <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
-                </tr>
-                <tr>
-                    <th>VEDI LE CARTE</th>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                    <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                </tr>
-                <tr>
-                    <th>FAI VEDERE LE CARTE</th>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                    <td><img src = "static/assets/icons/points.png" alt = "points"></td>
-                </tr>
-                <tr>
-                    <th>MISCHIA LE CARTE</th>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                    <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
-                </tr>
-                <tr>
-                    <th>ESCLUDI DELLE CARTE</th>
-                    <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
-                </tr>
-            </table>
-        </section>
+        <img id = "rotate" src = "static/assets/rotate.gif" alt = "rotate">
+
+        <main>
+            <section id = "game">
+                <div>
+                    <h3>TAVOLO</h3>
+                    <div class = "view" id = "drop"></div>
+                </div>
+                <div>
+                    <h3>MANO</h3>
+                    <div class = "view" id = "hand"></div>
+                </div>
+                <div>
+                    <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
+                    <textarea id = "private_notes" placeholder = "Note personali"></textarea>
+                </div>
+            </section>
+            <section id = "actions">
+                <h3>AZIONI</h3>
+                <div>
+                    <table>
+                        <tr>
+                            <th>CALA CARTE A TERRA DA</th>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
+                        </tr>
+                        <tr>
+                            <th>PRENDI CARTE IN MANO DA</th>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                            <td><img src = "static/assets/icons/drop.png" alt = ""></td>
+                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
+                        </tr>
+                        <tr>
+                            <th>RIPONI NEL MAZZO DA</th>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                            <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
+                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
+                        </tr>
+                        <tr>
+                            <th>AGGIUNGI AI PUNTI DA</th>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                            <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                        </tr>
+                        <tr>
+                            <th>DAI AD ALTRA MANO DA</th>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
+                        </tr>
+                        <tr>
+                            <th>DISPONI LE CARTE</th>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                            <td><img src = "static/assets/icons/drop.png" alt = "drop"></td>
+                        </tr>
+                        <tr>
+                            <th>VEDI LE CARTE DA</th>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
+                        </tr>
+                        <tr>
+                            <th>FAI VEDERE LE CARTE DA</th>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                            <td><img src = "static/assets/icons/points.png" alt = "points"></td>
+                        </tr>
+                        <tr>
+                            <th>MISCHIA LE CARTE</th>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                            <td><img src = "static/assets/icons/hand.png" alt = "hand"></td>
+                        </tr>
+                        <tr>
+                            <th>ESCLUDI DELLE CARTE DA</th>
+                            <td><img src = "static/assets/icons/deck.png" alt = "deck"></td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </main>
 
         <script type = "text/javascript">
 
