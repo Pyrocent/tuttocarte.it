@@ -7,19 +7,21 @@ body {
     margin: 0;
     display: flex;
     cursor: default;
-    font-family: "Alata", sans-serif;
     background-color: rgb(31, 35, 36);
 }
 
-#b {
+#game, #actions {
+    flex: 1;
+}
+
+#game {
     gap: 10px;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding: 10px 5px 10px 10px;
 }
 
-#b div {
+#game > div {
     flex: 1;
     gap: 10px;
     display: flex;
@@ -27,7 +29,6 @@ body {
 
 .view {
     flex: 1;
-    gap: 10px;
     display: flex;
     overflow-x: auto;
     border-radius: 5px;
@@ -54,7 +55,7 @@ textarea {
     font-family: "Alata", sans-serif;
 }
 
-#c {
+#actions {
     gap: 10px;
     display: flex;
     padding: 10px 10px 10px 5px;
@@ -88,20 +89,21 @@ table td img {
     filter: drop-shadow(0 0 0.05rem rgb(0, 0, 0));
 }
 
-#b h3,
-#c h3:not(table h3) {
+#game h3,
+#actions h3:not(table h3) {
     margin: 0;
     padding: 5px;
     text-align: center;
     text-orientation: mixed;
     writing-mode: vertical-rl;
+    font-family: "Alata", sans-serif;
 }
 
-#b h3 {
+#game h3 {
     background-color: rgb(255, 255, 255);
 }
 
-#c h3:not(table h3) {
+#actions h3:not(table h3) {
     color: rgb(255, 255, 255);
     background-color: rgb(203, 178, 146);
     text-shadow: 1px 1px 1px rgb(0, 0, 0);
