@@ -12,10 +12,49 @@ body {
 }
 
 body>section {
-    flex: 1;
     gap: 10px;
     padding: 5px;
     display: flex;
+}
+
+#a {
+    flex: 1;
+}
+
+#b,
+#c {
+    flex: 0.25;
+}
+
+.droppable {
+    flex: 1;
+    gap: 10px;
+    display: flex;
+    padding: 10px;
+    overflow-x: auto;
+    border-radius: 5px;
+    align-items: center;
+    border: 2px solid rgb(255, 255, 255);
+}
+
+#table {
+    position: relative;
+    align-items: flex-start;
+    background-color: rgb(0, 118, 73);
+}
+
+.card {
+    height: 75px;
+    position: absolute;
+}
+
+#french .card {
+    top: 100px;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 h3 {
@@ -26,50 +65,6 @@ h3 {
     writing-mode: vertical-rl;
     font-family: "Alata", sans-serif;
     background-color: rgb(255, 255, 255);
-}
-
-#table,
-#hand {
-    flex: 1;
-    gap: 10px;
-    display: flex;
-    padding: 10px;
-    overflow: auto;
-    border-radius: 5px;
-    align-items: center;
-    border: 2px solid rgb(255, 255, 255);
-}
-
-#table {
-    transition: transform 0.3s;
-    background-color: rgb(0, 118, 73);
-}
-
-.card {
-    height: 100px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.85);
-}
-
-.card:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-}
-
-#zoom {
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-#zoom button {
-    flex: 0.5;
-    font-size: 20px;
-    font-family: "Alata", sans-serif;
-}
-
-#zoom button:hover {
-    cursor: pointer;
 }
 
 textarea {
