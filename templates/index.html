@@ -64,7 +64,6 @@
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
-                    console.log("ww")
                     socket.emit("join", {room: room});
                 });
 
