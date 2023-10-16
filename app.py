@@ -23,9 +23,9 @@ fr = ["1C", "1F", "1P", "1Q", "2C", "2F", "2P", "2Q", "3C", "3F", "3P", "3Q", "4
 @app.get("/<room>")
 def index(room = None):
     if room is None:
-        return render_template("index.min.html", room = int(time()), it = sample(it, len(it)), fr = sample(fr, len(fr)))
+        return render_template("index.min.html", room = int(time()), start = True, it = sample(it, len(it)), fr = sample(fr, len(fr)))
     else:
-        return render_template("index.min.html", room = room, show = False)
+        return render_template("index.min.html", room = room)
 
 @socketio.on("join")
 def join(data):
