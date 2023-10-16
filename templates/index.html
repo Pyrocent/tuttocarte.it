@@ -60,7 +60,7 @@
 
             $(document).ready(function () {
 
-                var socket = io("wss://www.senzamazzo.it/");
+                var socket = io();
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
