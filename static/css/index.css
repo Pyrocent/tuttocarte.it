@@ -28,7 +28,6 @@ body>section {
 
 .droppable {
     flex: 1;
-    gap: 10px;
     display: flex;
     padding: 10px;
     overflow-x: auto;
@@ -39,15 +38,56 @@ body>section {
 
 #table {
     position: relative;
-    align-items: flex-start;
+    justify-content: center;
     background-color: rgb(0, 118, 73);
 }
 
+#start {
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#start h5 {
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    font-family: "Alata", sans-serif;
+    background-color: rgb(255, 255, 255);
+}
+
+#qrcode:hover {
+    cursor: pointer;
+}
+
+#start button {
+    font-size: 20px;
+    font-family: "Alata", sans-serif;
+}
+
+#start button:hover {
+    cursor: pointer;
+}
+
+#hand {
+    gap: 10px;
+}
+
+#decks {
+    display: none;
+}
+
 .card {
+    top: 10px;
+    left: 10px;
     position: absolute;
 }
 
-#french .card {
+.card:last-child {
+    filter: drop-shadow(0 0 0.1rem rgb(0, 0, 0));
+}
+
+#fr .card {
     top: 100px;
 }
 

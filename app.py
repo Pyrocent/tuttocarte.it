@@ -1,4 +1,5 @@
 from random import sample
+from time import time
 from flask import (
     Flask,
     redirect,
@@ -6,19 +7,33 @@ from flask import (
     render_template
 )
 from flask_socketio import (
-    SocketIO
+    emit,
+    SocketIO,
+    join_room
 )
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 app.template_folder = "templates/min"
 
-italian = ["1B", "1C", "1D", "1S", "2B", "2C", "2D", "2S", "3B", "3C", "3D", "3S", "4B", "4C", "4D", "4S", "5B", "5C", "5D", "5S", "6B", "6C", "6D", "6S", "7B", "7C", "7D", "7S", "8B", "8C", "8D", "8S", "9B", "9C", "9D", "9S", "10B", "10C", "10D", "10S"]
-french = ["1C", "1F", "1P", "1Q", "2C", "2F", "2P", "2Q", "3C", "3F", "3P", "3Q", "4C", "4F", "4P", "4Q", "5C", "5F", "5P", "5Q", "6C", "6F", "6P", "6Q", "7C", "7F", "7P", "7Q", "8C", "8F", "8P", "8Q", "9C", "9F", "9P", "9Q", "10C", "10F", "10P", "10Q", "JC", "JF", "JP", "JQ", "QC", "QF", "QP", "QQ", "KC", "KF", "KP", "KQ", "BJ", "RJ"]
+it = ["1B", "1C", "1D", "1S", "2B", "2C", "2D", "2S", "3B", "3C", "3D", "3S", "4B", "4C", "4D", "4S", "5B", "5C", "5D", "5S", "6B", "6C", "6D", "6S", "7B", "7C", "7D", "7S", "8B", "8C", "8D", "8S", "9B", "9C", "9D", "9S", "10B", "10C", "10D", "10S"]
+fr = ["1C", "1F", "1P", "1Q", "2C", "2F", "2P", "2Q", "3C", "3F", "3P", "3Q", "4C", "4F", "4P", "4Q", "5C", "5F", "5P", "5Q", "6C", "6F", "6P", "6Q", "7C", "7F", "7P", "7Q", "8C", "8F", "8P", "8Q", "9C", "9F", "9P", "9Q", "10C", "10F", "10P", "10Q", "JC", "JF", "JP", "JQ", "QC", "QF", "QP", "QQ", "KC", "KF", "KP", "KQ", "BJ", "RJ"]
 
 @app.get("/")
-def index():
-    return render_template("index.min.html", italian = sample(italian, len(italian)), french = sample(french, len(french)))
+@app.get("/<room>")
+def index(room = None):
+    if room is None:
+        return render_template("index.min.html", room = int(time()), it = sample(it, len(it)), fr = sample(fr, len(fr)))
+    else:
+        return render_template("index.min.html", room = room, show = False)
+
+@socketio.on("join")
+def join(data):
+    join_room(data["room"])
+    
+@socketio.on("table")
+def table(data):
+    emit("table", {"table": data["table"]}, room = data["room"])
 
 @app.route("/robots.txt")
 def robots():

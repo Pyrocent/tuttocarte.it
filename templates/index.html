@@ -3,7 +3,7 @@
     <head>
         <meta charset = "UTF-8">
         <title>SenzaMazzo.it</title>
-        <link rel = "manifest" href = "manifest.json">
+        <!-- <link rel = "manifest" href = "manifest.json"> -->
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "icon" href = "static/assets/icons/favicon.png">
         <link rel = "stylesheet" href = "static/css/min/index.min.css">
@@ -14,7 +14,7 @@
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
 
-        <script type = "text/javascript">navigator.serviceWorker.register("service-worker.js")</script>
+        <!-- <script type = "text/javascript">navigator.serviceWorker.register("service-worker.js")</script> -->
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
@@ -23,21 +23,28 @@
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
-
         <section id = "a">
             <div id = "table" class = "droppable">
-                <div id = "decks">
-                    <div id = "italian">
-                        {% for card in italian %}
-                            <img src = "static/assets/decks/italian/retro.jpg" id = "{{card}}" class = "card clickable draggable">
-                        {% endfor %}
+                {% if show != False %}
+                    <div id = "decks">
+                        <div id = "it">
+                            {% for card in it %}
+                                <img src = "static/assets/decks/it/retro.jpg" id = "{{card}}" class = "card clickable draggable" alt = "card">
+                            {% endfor %}
+                        </div>
+                        <div id = "fr">
+                            {% for card in fr %}
+                                <img src = "static/assets/decks/fr/retro.jpg" id = "{{card}}" class = "card clickable draggable" alt = "card">
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div id = "french">
-                        {% for card in french %}
-                            <img src = "static/assets/decks/french/retro.jpg" id = "{{card}}" class = "card clickable draggable">
-                        {% endfor %}
+                    <div id = "start">
+                        <h5>FAI SCANNERIZZARE IL QR CODE</h5>
+                        <img src = "https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:5000/{{room}}" id = "qrcode" alt = "qrcode">
+                        <h5>O CLICCALO PER COPIARE IL LINK</h5>
+                        <button>INIZIA</button>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </section>
         <section id = "b">
@@ -53,25 +60,52 @@
 
             $(document).ready(function () {
 
+                var socket = io(window.location.host);
+                const room = "{{room}}";
+
+                socket.on("connect", function () {
+                    socket.emit("join", {room: room});
+                });
+
+                $("#qrcode").click(function () {
+                    navigator.clipboard.writeText("http://127.0.0.1:5000/{{room}}");
+                });
+
+                $("#start button").click(function () {
+                    $("#start").remove();
+                    $("#decks").show();
+                    socket.emit("table", {room: room, "table": $("#table").html()});
+                });
+
+                socket.on("table", function (data) {
+                    $("#table").html(data.table);
+                });
+
                 $(".draggable").draggable({
                 });
                 $(".droppable").droppable({
                     accept: ".draggable",
                     drop: function (event, ui) {
+
                     }
                 });
 
                 $("#table").on("click", ".clickable", function () {
-                    card = $(this);
+                    var card = $(this);
+                    var src = card.attr("src");
 
-                    if (card.attr("src") === "static/assets/decks/italian/retro.jpg") {
-                        card.attr("src", `static/assets/decks/italian/${card.attr("id")}.jpg`);
-                    } else if (card.attr("src") === "static/assets/decks/french/retro.jpg") {
-                        card.attr("src", `static/assets/decks/french/${card.attr("id")}.png`);
-                    } else if (card.attr("src") != "static/assets/decks/italian/retro.jpg") {
-                        ard.attr("src", "static/assets/decks/italian/retro.jpg");
-                    } else if (card.attr("src") != "static/assets/decks/french/retro.jpg") {
-                        card.attr("src", "static/assets/decks/french/retro.jpg");
+                    if (src.endsWith("retro.jpg")) {
+                        if (src.startsWith("static/assets/decks/it/")) {
+                            card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
+                        } else if (src.startsWith("static/assets/decks/fr/")) {
+                            card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
+                        }
+                    } else {
+                        if (src.startsWith("static/assets/decks/it/")) {
+                            card.attr("src", "static/assets/decks/it/retro.jpg");
+                        } else if (src.startsWith("static/assets/decks/fr/")) {
+                            card.attr("src", "static/assets/decks/fr/retro.jpg");
+                        }
                     }
                 });
 
