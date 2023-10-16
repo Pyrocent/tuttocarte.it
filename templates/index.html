@@ -64,7 +64,7 @@
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
-                    socket.emit("join", {room: room});
+                    socket.emit("join", { room: room });
                 });
 
                 $("#qrcode").click(function () {
@@ -74,7 +74,7 @@
                 $("#start button").click(function () {
                     $("#start").remove();
                     $("#decks").show();
-                    socket.emit("table", {room: room, "table": $("#table").html()});
+                    socket.emit("table", { room: room, "table": $("#table").html() });
                 });
 
                 socket.on("table", function (data) {
