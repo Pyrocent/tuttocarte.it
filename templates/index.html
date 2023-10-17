@@ -60,7 +60,7 @@
 
             $(document).ready(function () {
 
-                var socket = io.connect(window.location.host, { transports: ["websocket"] });
+                var socket = io();
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
