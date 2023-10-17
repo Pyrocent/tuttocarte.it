@@ -45,7 +45,8 @@ body>section {
     transform: scale(1.1);
 }
 
-#hand, #notes {
+#hand,
+#notes {
     flex: 0.25;
 }
 

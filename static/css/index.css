@@ -55,7 +55,8 @@ body>section {
     font-family: "Alata", sans-serif;
 }
 
-#hand, #notes {
+#hand,
+#notes {
     flex: 0.25;
 }
 
