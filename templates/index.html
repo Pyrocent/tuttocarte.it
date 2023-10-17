@@ -60,8 +60,12 @@
 
             $(document).ready(function () {
 
-                var socket = io({ transports: ["websocket"] });
+                var socket = io.connect({ transports: ["websocket"] });
                 const room = "{{room}}";
+
+                socket.on("connect", function () {
+                    socket.emit("join", { room: room });
+                });
 
                 socket.on("table", function (data) {
                     $("#table").html(data.table);
