@@ -42,10 +42,34 @@ body>section {
     background-color: rgb(0, 118, 73);
 }
 
+#decks {
+    display: none;
+}
+
+.card {
+    top: 10px;
+    left: 10px;
+    position: absolute;
+}
+
+.deck .card:last-child {
+    filter: drop-shadow(0 0 0.1rem rgb(0, 0, 0));
+}
+
+#fr .card {
+    top: 100px;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 #start {
     gap: 5px;
     display: flex;
     flex-direction: column;
+    filter: drop-shadow(0 0 0.1rem rgb(0, 0, 0));
 }
 
 #start h5 {
@@ -61,7 +85,10 @@ body>section {
 }
 
 #start button {
-    font-size: 20px;
+    border: none;
+    font-size: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
     font-family: "Alata", sans-serif;
 }
 
@@ -71,29 +98,6 @@ body>section {
 
 #hand {
     gap: 10px;
-}
-
-#decks {
-    display: none;
-}
-
-.card {
-    top: 10px;
-    left: 10px;
-    position: absolute;
-}
-
-.card:last-child {
-    filter: drop-shadow(0 0 0.1rem rgb(0, 0, 0));
-}
-
-#fr .card {
-    top: 100px;
-}
-
-.card:hover {
-    cursor: pointer;
-    transform: scale(1.1);
 }
 
 h3 {

@@ -4,7 +4,6 @@
         <meta charset = "UTF-8">
         <title>SenzaMazzo.it</title>
         <meta name = "theme-color" content = "#1f2324">
-        <!-- <link rel = "manifest" href = "../manifest.json"> -->
         <link rel = "icon" href = "../static/assets/icons/favicon.png">
         <link rel = "stylesheet" href = "../static/css/min/index.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
@@ -13,8 +12,6 @@
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
-
-        <!-- <script type = "text/javascript">navigator.serviceWorker.register("service-worker.js")</script> -->
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
@@ -27,21 +24,21 @@
             <div id = "table" class = "droppable">
                 {% if start == True %}
                     <div id = "decks">
-                        <div id = "it">
+                        <div id = "it" class = "deck">
                             {% for card in it %}
-                                <img src = "static/assets/decks/it/retro.jpg" id = "{{card}}" class = "card clickable draggable" alt = "card">
+                                <img id = "{{card}}" class = "card clickable draggable" src = "static/assets/decks/it/retro.jpg" alt = "card">
                             {% endfor %}
                         </div>
-                        <div id = "fr">
+                        <div id = "fr" class = "deck">
                             {% for card in fr %}
-                                <img src = "static/assets/decks/fr/retro.jpg" id = "{{card}}" class = "card clickable draggable" alt = "card">
+                                <img id = "{{card}}" class = "card clickable draggable" src = "static/assets/decks/fr/retro.jpg" alt = "card">
                             {% endfor %}
                         </div>
                     </div>
                     <div id = "start">
                         <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                        <img src = "https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:5000/{{room}}" id = "qrcode" alt = "qrcode">
-                        <h5>O CLICCALO PER COPIARE IL LINK</h5>
+                        <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://127.0.0.1:5000/{{room}}" alt = "qrcode">
+                        <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
                         <button>INIZIA</button>
                     </div>
                 {% endif %}
@@ -60,19 +57,7 @@
 
             $(document).ready(function () {
 
-                navigator.serviceWorker.getRegistrations().then(function (registrations) {
-                    for (let registration of registrations) {
-                        registration.unregister();
-                    }
-                });
-
                 var socket = io();
-                console.log(socket.connected);
-
-                socket.on('error', function (error) {
-                    console.error('Socket.IO Error:', error);
-                });
-
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
@@ -85,6 +70,12 @@
 
                 $("#qrcode").click(function () {
                     navigator.clipboard.writeText(`${window.location.host}/{{room}}`);
+
+                    $("#copy").text("COPIATO!");
+
+                    setTimeout(function() {
+                        $("#copy").text("O CLICCALO PER COPIARE IL LINK");
+                    }, 2000)
                 });
 
                 $("#start button").click(function () {
@@ -93,7 +84,12 @@
                     socket.emit("table", { room: room, "table": $("#table").html() });
                 });
 
-                $(".draggable").draggable({});
+                $(document).on("mouseenter", ".draggable", function () {
+                    $(this).draggable();
+                });
+                $(document).on("touchstart", ".draggable", function () {
+                    $(this).draggable();
+                });
                 $(".droppable").droppable({
                     accept: ".draggable",
                     drop: function (event, ui) {
@@ -125,6 +121,5 @@
             });
 
         </script>
-
     </body>
 </html>
