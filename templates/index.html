@@ -60,7 +60,19 @@
 
             $(document).ready(function () {
 
+                navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                    for (let registration of registrations) {
+                        registration.unregister();
+                    }
+                });
+
                 var socket = io();
+                console.log(socket.connected);
+
+                socket.on('error', function (error) {
+                    console.error('Socket.IO Error:', error);
+                });
+
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
@@ -116,84 +128,3 @@
 
     </body>
 </html>
-
-<!-- $("#qr").click(function () {
-    navigator.clipboard.writeText("http://127.0.0.1:5000/{{room}}");
-});
-
-var socket = io(window.location.host);
-const room = "{{room}}";
-
-socket.on("connect", function () {
-    socket.emit("join", { room: room, user: socket.id });
-});
-
-socket.on("public_notes", function (data) {
-    $("#public_notes").val(data.text);
-});
-
-socket.on("pick", function (data) {
-    $("#hand").append(`<img class = "clickable" src = "static/assets/deck/${data.card}.jpg" alt = "${data.card}">`);
-});
-
-socket.on("drop", function (data) {
-    $("#drop").html(
-        data.cards.map(function (card) {
-            return `<img class = "clickable" src = "static/assets/deck/${card}.jpg" alt = "${card}">`;
-        }).join('')
-    );
-});
-
-socket.on("void", function () {
-    $("#deck_to_hand").prop("disabled", true);
-    $("#deck_to_drop").prop("disabled", true);
-});
-
-
-$("#public_notes").on("blur", function() {
-    socket.emit("public_notes", { room: room, text: $(this).val()});
-});
-
-$("#deck_to_drop").click(function () {
-    socket.emit("deck_to_drop", { room: room });
-});
-
-$("#deck_to_hand").click(function () {
-    socket.emit("deck_to_hand", { room: room, user: socket.id });
-});
-
-$("#hand").on("click", ".clickable", function () {
-    var card = $(this);
-    if (card.css("opacity") == 1) {
-        card.css("opacity", 0.5);
-    } else {
-        card.css("opacity", 1);
-    }
-});
-
-$("#drop").on("click", ".clickable", function () {
-    var card = $(this);
-    if (card.css("opacity") == 1) {
-        card.css("opacity", 0.5);
-    } else {
-        card.css("opacity", 1);
-    }
-});
-
-$("#hand_to_drop").click(function () {
-    $("#hand img").filter(function () {
-        return $(this).css("opacity") === "0.5";
-    }).each(function () {
-        socket.emit("hand_to_drop", { room: room, card: $(this).attr("src").split("/").pop().split(".")[0] });
-        $(this).remove();
-    });
-});
-
-$("#drop_to_hand").click(function () {
-    $("#drop img").filter(function () {
-        return $(this).css("opacity") === "0.5";
-    }).each(function () {
-        socket.emit("drop_to_hand", { room: room, user: socket.id, card: $(this).attr("src").split("/").pop().split(".")[0] });
-        $(this).remove();
-    });
-}); -->
