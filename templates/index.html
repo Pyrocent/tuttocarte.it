@@ -14,41 +14,22 @@
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
-
-        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
-        <section id = "a">
-            <div id = "table" class = "droppable">
-                {% if start == True %}
-                    <div id = "decks">
-                        <div id = "it" class = "deck">
-                            {% for card in it %}
-                                <img id = "{{card}}" class = "card clickable draggable" src = "static/assets/decks/it/retro.jpg" alt = "card">
-                            {% endfor %}
-                        </div>
-                        <div id = "fr" class = "deck">
-                            {% for card in fr %}
-                                <img id = "{{card}}" class = "card clickable draggable" src = "static/assets/decks/fr/retro.jpg" alt = "card">
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div id = "start">
-                        <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                        <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://127.0.0.1:5000/{{room}}" alt = "qrcode">
-                        <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
-                        <button>INIZIA</button>
-                    </div>
-                {% endif %}
+
+        <section id = "start">
+            <div>
+                <h5>FAI SCANNERIZZARE IL QR CODE</h5>
+                <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://127.0.0.1:5000/{{room}}" alt = "qrcode">
+                <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
+                <button>INIZIA</button>
             </div>
         </section>
-        <section id = "b">
+        <section id = "hand">
             <h3>MANO</h3>
-            <d id = "hand" class = "droppable"></div>
+            <div></div>
         </section>
-        <section id = "c">
+        <section id = "notes">
             <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
             <textarea id = "private_notes" placeholder = "Note personali"></textarea>
         </section>
@@ -57,19 +38,10 @@
 
             $(document).ready(function () {
 
-                var socket = io();
                 const room = "{{room}}";
 
-                socket.on("connect", function () {
-                    socket.emit("join", { room: room });
-                });
-
-                socket.on("table", function (data) {
-                    $("#table").html(data.table);
-                });
-
                 $("#qrcode").click(function () {
-                    navigator.clipboard.writeText(`${window.location.host}/{{room}}`);
+                    navigator.clipboard.writeText(`${window.location.host}/${room}`);
 
                     $("#copy").text("COPIATO!");
 
@@ -79,43 +51,7 @@
                 });
 
                 $("#start button").click(function () {
-                    $("#start").remove();
-                    $("#decks").show();
-                    socket.emit("table", { room: room, "table": $("#table").html() });
-                });
-
-                $(document).on("mouseenter", ".draggable", function () {
-                    $(this).draggable();
-                });
-                $(document).on("touchstart", ".draggable", function () {
-                    $(this).draggable();
-                });
-                $(".droppable").droppable({
-                    accept: ".draggable",
-                    drop: function (event, ui) {
-                        socket.emit("table", { room: room, "table": $("#table").html() });
-                    }
-                });
-
-                $("#table").on("click", ".clickable", function () {
-                    var card = $(this);
-                    var src = card.attr("src");
-
-                    if (src.endsWith("retro.jpg")) {
-                        if (src.startsWith("static/assets/decks/it/")) {
-                            card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
-                        } else if (src.startsWith("static/assets/decks/fr/")) {
-                            card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
-                        }
-                    } else {
-                        if (src.startsWith("static/assets/decks/it/")) {
-                            card.attr("src", "static/assets/decks/it/retro.jpg");
-                        } else if (src.startsWith("static/assets/decks/fr/")) {
-                            card.attr("src", "static/assets/decks/fr/retro.jpg");
-                        }
-                    }
-
-                    socket.emit("table", { room: room, "table": $("#table").html() });
+                    window.location.href = room
                 });
 
             });

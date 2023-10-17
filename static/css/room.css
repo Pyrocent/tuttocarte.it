@@ -17,42 +17,32 @@ body>section {
     display: flex;
 }
 
-#start {
+#table {
     flex: 1;
     margin: 5px;
+    overflow-x: auto;
     border-radius: 5px;
-    align-items: center;
-    justify-content: center;
+    position: relative;
     background-color: rgb(0, 118, 73);
     border: 2px solid rgb(255, 255, 255);
 }
 
-#start div {
-    gap: 5px;
-    display: flex;
-    flex-direction: column;
-    filter: drop-shadow(0 0 0.1rem rgb(0, 0, 0));
+.deck {
+    position: absolute;
 }
 
-#start h5 {
-    margin: 0;
-    padding: 5px;
-    text-align: center;
-    font-family: "Alata", sans-serif;
-    background-color: rgb(255, 255, 255);
+#fr {
+    top: 90px;
 }
 
-#qrcode:hover {
-    cursor: pointer;
-}
-
-#start button {
-    border: none;
-    cursor: pointer;
-    font-size: 25px;
-    margin-top: 20px;
+.card {
     border-radius: 5px;
-    font-family: "Alata", sans-serif;
+    position: absolute;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 #hand, #notes {
