@@ -17,7 +17,7 @@ fr = ["1C", "1F", "1P", "1Q", "2C", "2F", "2P", "2Q", "3C", "3F", "3P", "3Q", "4
 
 app = Flask(__name__)
 app.template_folder = "templates/min"
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode = "threading")
 
 @app.get("/")
 @app.get("/<room>")
