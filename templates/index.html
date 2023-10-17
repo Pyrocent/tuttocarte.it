@@ -3,10 +3,10 @@
     <head>
         <meta charset = "UTF-8">
         <title>SenzaMazzo.it</title>
-        <link rel = "manifest" href = "manifest.json">
         <meta name = "theme-color" content = "#1f2324">
-        <link rel = "icon" href = "static/assets/icons/favicon.png">
-        <link rel = "stylesheet" href = "static/css/min/index.min.css">
+        <!-- <link rel = "manifest" href = "../manifest.json"> -->
+        <link rel = "icon" href = "../static/assets/icons/favicon.png">
+        <link rel = "stylesheet" href = "../static/css/min/index.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <meta name = "description" content = "Gioca con i tuo amici a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
 
@@ -14,7 +14,7 @@
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
 
-        <script type = "text/javascript">navigator.serviceWorker.register("service-worker.js")</script>
+        <!-- <script type = "text/javascript">navigator.serviceWorker.register("service-worker.js")</script> -->
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
@@ -60,11 +60,15 @@
 
             $(document).ready(function () {
 
-                var socket = io();
+                var socket = io({ transports: ["websocket"] });
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
                     socket.emit("join", { room: room });
+                });
+
+                socket.on("table", function (data) {
+                    $("#table").html(data.table);
                 });
 
                 $("#qrcode").click(function () {
@@ -77,16 +81,11 @@
                     socket.emit("table", { room: room, "table": $("#table").html() });
                 });
 
-                socket.on("table", function (data) {
-                    $("#table").html(data.table);
-                });
-
-                $(".draggable").draggable({
-                });
+                $(".draggable").draggable({});
                 $(".droppable").droppable({
                     accept: ".draggable",
                     drop: function (event, ui) {
-
+                        socket.emit("table", { room: room, "table": $("#table").html() });
                     }
                 });
 
@@ -107,6 +106,8 @@
                             card.attr("src", "static/assets/decks/fr/retro.jpg");
                         }
                     }
+
+                    socket.emit("table", { room: room, "table": $("#table").html() });
                 });
 
             });
