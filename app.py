@@ -27,7 +27,7 @@ def index(room = None):
     else:
         return render_template("index.min.html", room = room)
 
-@socketio.on("join")
+@socketio.on("connect")
 def join(data):
     join_room(data["room"])
 
