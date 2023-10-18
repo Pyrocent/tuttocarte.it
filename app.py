@@ -24,6 +24,7 @@ socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
 
+@app.get("/")
 @app.get("/<room>")
 def index(room = None):
     if room is not None:
