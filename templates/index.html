@@ -27,7 +27,7 @@
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
                     <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://127.0.0.1:5000/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
-                    <button>INIZIA</button>
+                    <button>SIAMO TUTTI!</button>
                 </div>
             {% endif %}
         </section>
@@ -105,7 +105,7 @@
                             }
                         }
                     }
-                    socket.emit("table", { room: room, "table": $("#html").html() });
+                    socket.emit("table", { room: room, "html": $("#table").html() });
                 };
 
                 $("#table").on("click", ".click", function (event) {

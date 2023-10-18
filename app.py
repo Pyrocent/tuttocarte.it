@@ -38,21 +38,19 @@ def join(data):
 
 @socketio.on("start")
 def start(data):
-
     html = f"""
         <div id = "it" class = "deck">
             {'<img class = "card click drag" src = "static/assets/decks/it/retro.jpg" style = "position: absolute;" alt = "card">' * 2}
         </div>
         <div id = "fr" class = "deck">
-            
-            <img class = "card click drag" src = "static/assets/decks/fr/retro.jpg" style = "position: absolute;" alt = "card">
+            {'<img class = "card click drag" src = "static/assets/decks/fr/retro.jpg" style = "position: absolute;" alt = "card">' * 2}
         </div>
     """
-    emit("table", {"table": html}, room = data["room"])
+    emit("table", {"html": html}, room = data["room"])
 
 @socketio.on("table")
 def table(data):
-    emit("table", {"table": data["html"]}, room = data["room"])
+    emit("table", {"html": data["html"]}, room = data["room"])
 
 @app.route("/robots.txt")
 def robots():
