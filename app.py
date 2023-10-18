@@ -3,7 +3,6 @@ from random import choice
 from time import time
 from flask import (
     Flask,
-    request,
     redirect,
     send_file,
     render_template
