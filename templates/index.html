@@ -4,7 +4,7 @@
         <meta charset = "UTF-8">
         <title>SenzaMazzo.it</title>
         <meta name = "theme-color" content = "#1f2324">
-        <link rel = "icon" href = "../static/assets/icons/favicon.png">
+        <link rel = "icon" href = "../static/assets/favicon.png">
         <link rel = "stylesheet" href = "../static/css/min/index.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <meta name = "description" content = "Gioca con i tuo amici a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!">
@@ -34,7 +34,13 @@
         </section>
         <section id = "hand">
             <h3>MANO</h3>
-            <div></div>
+            <div>
+                <div id = "info">
+                    <p>
+                        Gioca come se stessi su un tavolo reale... Click qui + sulla carta per aggiungerla in mano (CTRL + click sulla carta se stai sul PC). Trascina le carte per spostarle ovunque. 1 click su di esse per scoprirle oppure coprirle
+                    </p>
+                </div>
+            </div>
         </section>
         <section id = "notes">
             <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
@@ -53,6 +59,9 @@
                 });
 
                 socket.on("table", function (data) {
+                    if (($("#info").is(":hidden"))) {
+                        $("#info").show();
+                    }
                     $("#table").html(data.html);
                 });
 
@@ -85,6 +94,9 @@
 
                 function click(card) {
                     if (event.ctrlKey || event.target.id === "hand") {
+                        if (($("#info").is(":visible"))) {
+                            $("#info").remove();
+                        }
                         card.css("top", "");
                         card.css("left", "");
                         card.css("position", "");
