@@ -3,6 +3,7 @@ from random import choice
 from time import time
 from flask import (
     Flask,
+    request,
     redirect,
     send_file,
     render_template
@@ -23,27 +24,34 @@ socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
 
-@app.get("/")
-def index():
-    return render_template("index.min.html", room = int(time()))
-
 @app.get("/<room>")
-def room(room):
-    return render_template("room.min.html", room = room)
+def index(room = None):
+    if room is not None:
+        return render_template("index.min.html", room = room)
+
+    return render_template("index.min.html", room = int(time()), dealer = True)
 
 @socketio.on("join")
 def join(data):
     join_room(data["room"])
 
-@socketio.on("draw")
-def draw(data):
-    remaining_cards = [card for card in decks[data["deck"]] if card not in data["IDs"]]
-    card = choice(remaining_cards)
-    emit("card", {"card": data["card"], "draw": card}, room = data["room"])
+@socketio.on("start")
+def start(data):
+
+    html = f"""
+        <div id = "it" class = "deck">
+            {'<img class = "card click drag" src = "static/assets/decks/it/retro.jpg" style = "position: absolute;" alt = "card">' * 2}
+        </div>
+        <div id = "fr" class = "deck">
+            
+            <img class = "card click drag" src = "static/assets/decks/fr/retro.jpg" style = "position: absolute;" alt = "card">
+        </div>
+    """
+    emit("table", {"table": html}, room = data["room"])
 
 @socketio.on("table")
 def table(data):
-    emit("table", {"table": data["table"]}, room = data["room"])
+    emit("table", {"table": data["html"]}, room = data["room"])
 
 @app.route("/robots.txt")
 def robots():

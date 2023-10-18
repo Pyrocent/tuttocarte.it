@@ -14,16 +14,22 @@
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
 
-        <section id = "start">
-            <div>
-                <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://127.0.0.1:5000/{{room}}" alt = "qrcode">
-                <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
-                <button>INIZIA</button>
-            </div>
+        <section id = "table">
+            {% if dealer == True %}
+                <div id = "start">
+                    <h5>FAI SCANNERIZZARE IL QR CODE</h5>
+                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://127.0.0.1:5000/{{room}}" alt = "qrcode">
+                    <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
+                    <button>INIZIA</button>
+                </div>
+            {% endif %}
         </section>
         <section id = "hand">
             <h3>MANO</h3>
@@ -31,14 +37,23 @@
         </section>
         <section id = "notes">
             <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
-            <textarea id = "private_notes" placeholder = "Note personali"></textarea>
+            <textarea placeholder = "Note personali"></textarea>
         </section>
 
         <script type = "text/javascript">
 
             $(document).ready(function () {
 
+                var socket = io();
                 const room = "{{room}}";
+
+                socket.on("connect", function () {
+                    socket.emit("join", { room: room });
+                });
+
+                socket.on("table", function (data) {
+                    $("#table").html(data.html);
+                });
 
                 $("#qrcode").click(function () {
                     navigator.clipboard.writeText(`${window.location.host}/${room}`);
@@ -51,7 +66,53 @@
                 });
 
                 $("#start button").click(function () {
-                    window.location.href = room
+                    socket.emit("start", { room: room });
+                });
+
+                $(document).on("touchstart", ".drag", function () {
+                    $(this).draggable();
+                });
+                $(document).on("mouseenter", ".drag", function () {
+                    $(this).draggable();
+                });
+                $("#table").droppable({
+                    accept: ".drag",
+                    drop: function (event, ui) {
+                        socket.emit("table", { room: room, "html": $("#table").html() });
+                    }
+                });
+
+                function click(card) {
+                    if (event.ctrlKey || event.target.id === "hand") {
+                        card.css("top", "");
+                        card.css("left", "");
+                        card.css("position", "");
+                        $("#hand div").append(card);
+                    } else {
+                        var src = card.attr("src");
+
+                        if (src.endsWith("retro.jpg")) {
+                            if (src.startsWith("static/assets/decks/it/")) {
+                                card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
+                            } else if (src.startsWith("static/assets/decks/fr/")) {
+                                card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
+                            }
+                        } else {
+                            if (src.startsWith("static/assets/decks/it/")) {
+                                card.attr("src", "static/assets/decks/it/retro.jpg");
+                            } else if (src.startsWith("static/assets/decks/fr/")) {
+                                card.attr("src", "static/assets/decks/fr/retro.jpg");
+                            }
+                        }
+                    }
+                    socket.emit("table", { room: room, "table": $("#html").html() });
+                };
+
+                $("#table").on("click", ".click", function (event) {
+                    click($(this));
+                });
+                $("#hand").on("click", ".click", function (event) {
+                    click($(this));
                 });
 
             });
