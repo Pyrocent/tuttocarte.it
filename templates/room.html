@@ -112,26 +112,32 @@
                     }
                 });
 
-                $("#table").on("dblclick", ".click", function () {
+                $("#table").on("click", ".click", function (event) {
 
                     var card = $(this);
-                    var src = card.attr("src");
 
-                    if (src.endsWith("retro.jpg")) {
-                        if (src.startsWith("static/assets/decks/it/")) {
-                            card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
-                        } else if (src.startsWith("static/assets/decks/fr/")) {
-                            card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
-                        }
+                    if (event.ctrlKey || event.target.id === "hand") {
+                        alert("w");
                     } else {
-                        if (src.startsWith("static/assets/decks/it/")) {
-                            card.attr("src", "static/assets/decks/it/retro.jpg");
-                        } else if (src.startsWith("static/assets/decks/fr/")) {
-                            card.attr("src", "static/assets/decks/fr/retro.jpg");
-                        }
-                    }
 
-                    socket.emit("table", { room: room, "table": $("#table").html() });
+                        var src = card.attr("src");
+
+                        if (src.endsWith("retro.jpg")) {
+                            if (src.startsWith("static/assets/decks/it/")) {
+                                card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
+                            } else if (src.startsWith("static/assets/decks/fr/")) {
+                                card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
+                            }
+                        } else {
+                            if (src.startsWith("static/assets/decks/it/")) {
+                                card.attr("src", "static/assets/decks/it/retro.jpg");
+                            } else if (src.startsWith("static/assets/decks/fr/")) {
+                                card.attr("src", "static/assets/decks/fr/retro.jpg");
+                            }
+                        }
+
+                        socket.emit("table", { room: room, "table": $("#table").html() });
+                    }
                 });
 
             });
