@@ -26,7 +26,7 @@ body>section {
     align-items: center;
     justify-content: center;
     background-color: rgb(0, 118, 73);
-    border: 10px solid rgb(255, 255, 255);
+    border: 10px solid rgb(235, 235, 235);
 }
 
 #start {
@@ -38,9 +38,10 @@ body>section {
 
 #start h1 {
     padding: 0;
+    margin-top: 0;
     text-align: center;
-    margin: 0 10px 10px 10px;
-    color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    color: rgb(235, 235, 235);
     font-family: "Alata", sans-serif;
 }
 
@@ -48,8 +49,9 @@ body>section {
     margin: 0;
     padding: 5px;
     text-align: center;
+    color: rgb(31, 35, 36);
     font-family: "Outfit", sans-serif;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(235, 235, 235);
 }
 
 #qrcode:hover {
@@ -62,7 +64,9 @@ body>section {
     cursor: pointer;
     font-size: 20px;
     border-radius: 5px;
+    color: rgb(235, 235, 235);
     font-family: "Outfit", sans-serif;
+    background-color: rgb(31, 35, 36);
 }
 
 .deck {
@@ -80,6 +84,7 @@ body>section {
 
 .card {
     border-radius: 5px;
+    border: 1px solid rgb(0, 0, 0);
 }
 
 .card:hover {
@@ -97,9 +102,10 @@ body>section {
     padding: 5px;
     text-align: center;
     text-orientation: mixed;
+    color: rgb(31, 35, 36);
     writing-mode: vertical-rl;
     font-family: "Outfit", sans-serif;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(235, 235, 235);
 }
 
 #hand div:not(#info) {
@@ -110,7 +116,7 @@ body>section {
     overflow-x: auto;
     border-radius: 5px;
     align-items: center;
-    border: 2px solid rgb(255, 255, 255);
+    border: 2px solid rgb(235, 235, 235);
 }
 
 #info {
@@ -124,8 +130,8 @@ body>section {
 
 #info p {
     margin: 0;
-    font-size: 15px;
-    color: rgb(255, 255, 255);
+    font-size: 1.75vh;
+    color: rgb(235, 235, 235);
     font-family: "Outfit", sans-serif;
 }
 

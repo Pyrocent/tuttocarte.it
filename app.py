@@ -1,5 +1,4 @@
 from secrets import token_hex
-from random import choice
 from time import time
 from flask import (
     Flask,
@@ -50,6 +49,10 @@ def start(data):
 @socketio.on("table")
 def table(data):
     emit("table", {"html": data["html"]}, room = data["room"])
+
+@socketio.on("notes")
+def notes(data):
+    emit("notes", {"notes": data["notes"]}, room = data["room"])
 
 @app.route("/robots.txt")
 def robots():

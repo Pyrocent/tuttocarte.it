@@ -37,7 +37,7 @@
             <div>
                 <div id = "info">
                     <p>
-                        Gioca come se stessi su un tavolo reale... Click qui + sulla carta per aggiungerla in mano (CTRL + click sulla carta se stai sul PC). Trascina le carte per spostarle ovunque. 1 click su di esse per scoprirle oppure coprirle
+                        Gioca come se stessi su un tavolo reale! Fai click qui + sulla carta per aggiungerla in mano (CTRL + click sulla carta se stai sul PC). Trascina le carte per spostarle ovunque, mentre con 1 click su di esse puoi scoprirle/coprirle
                     </p>
                 </div>
             </div>
@@ -63,6 +63,10 @@
                         $("#info").show();
                     }
                     $("#table").html(data.html);
+                });
+
+                socket.on("notes", function (data) {
+                    $("#public_notes").val(data.notes)
                 });
 
                 $("#qrcode").click(function () {
@@ -126,6 +130,10 @@
                 });
                 $("#hand").on("click", ".click", function (event) {
                     click($(this));
+                });
+
+                $("#public_notes").on("blur", function() {
+                    socket.emit("notes", { room: room, "notes": $("#public_notes").val() });
                 });
 
             });
