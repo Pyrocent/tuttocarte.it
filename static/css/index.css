@@ -145,9 +145,9 @@ body>section {
     font-family: "Alata", sans-serif;
 }
 
-h1, h3, h5 {
+h1, h3, h5, #start button {
     user-select: none;
+    -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    -ms-user-select: none;
 }
