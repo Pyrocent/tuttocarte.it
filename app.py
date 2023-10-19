@@ -20,7 +20,9 @@ decks = {
 app = Flask(__name__)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
-socketio = SocketIO(app, cors_allowed_origins = "*")
+
+socketio = SocketIO(app)
+socketio.init_app(app, cors_allowed_origins = "*")
 
 @app.get("/")
 @app.get("/<room>")
