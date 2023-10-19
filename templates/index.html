@@ -51,7 +51,7 @@
 
             $(document).ready(function () {
 
-                var socket = io({ transport: ["websocket"] });
+                var socket = io(`${window.location.host}:5000/`, { transport: ["websocket"] });
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
