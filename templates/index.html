@@ -31,16 +31,13 @@
                     <button>INIZIAMO!</button>
                 </div>
             {% else %}
-                
             {% endif %}
         </section>
         <section id = "hand">
             <h3>MANO</h3>
             <div>
                 <div id = "info">
-                    <p>
-                        Gioca come se stessi su un tavolo reale! Fai click qui + sulla carta per aggiungerla in mano (CTRL + click sulla carta se stai sul PC). Trascina le carte per spostarle ovunque, mentre con 1 click su di esse puoi scoprirle/coprirle
-                    </p>
+                    <p>Gioca come se stessi su un tavolo reale! Fai click qui + sulla carta per aggiungerla in mano (CTRL + click sulla carta se stai sul PC). Trascina le carte per spostarle ovunque, mentre con 1 click su di esse puoi scoprirle/coprirle</p>
                 </div>
             </div>
         </section>
@@ -53,8 +50,8 @@
 
             $(document).ready(function () {
 
-                var socket = io({ transport: ["websocket"] });
                 const room = "{{room}}";
+                var socket = io({ transport: ["websocket"] });
 
                 socket.on("connect", function () {
                     socket.emit("join", { room: room });
@@ -64,7 +61,7 @@
                     if (($("#info").is(":hidden"))) {
                         $("#info").show();
                     }
-                    $("#table").html(data.html);
+                    $("#table").css("display", "block").html(data.html);
                 });
 
                 socket.on("notes", function (data) {
@@ -73,9 +70,7 @@
 
                 $("#qrcode").click(function () {
                     navigator.clipboard.writeText(`SenzaMazzo.it/${room}`);
-
                     $("#copy").text("COPIATO!");
-
                     setTimeout(function () {
                         $("#copy").text("O CLICCALO PER COPIARE IL LINK");
                     }, 2000)
@@ -94,6 +89,7 @@
                 $("#table").droppable({
                     accept: ".drag",
                     drop: function (event, ui) {
+                        $("#table").append(ui.helper);
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     }
                 });
@@ -103,9 +99,6 @@
                         if (($("#info").is(":visible"))) {
                             $("#info").remove();
                         }
-                        card.css("top", "");
-                        card.css("left", "");
-                        card.css("position", "");
                         $("#hand div").append(card);
                     } else {
                         var src = card.attr("src");
