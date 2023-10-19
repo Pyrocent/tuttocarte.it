@@ -20,26 +20,21 @@
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
-
-        <section id = "table">
-            {% if dealer == True %}
-                <div id = "start">
+        {% if dealer == True %}
+            <section id = "start">
+                <div>
                     <h1>TuttoCarte.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=TuttoCarte.it/{{room}}" alt = "qrcode">
+                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=TuttoCarte.it/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
                     <button>INIZIAMO!</button>
                 </div>
-            {% else %}
-            {% endif %}
-        </section>
+            </section>
+        {% endif %}
+        <section id = "table"></section>
         <section id = "hand">
             <h3>MANO</h3>
-            <div>
-                <div id = "info">
-                    <p>Gioca come se stessi su un tavolo reale! Fai click qui + sulla carta per aggiungerla in mano (CTRL + click sulla carta se stai sul PC). Trascina le carte per spostarle ovunque, mentre con 1 click su di esse puoi scoprirle/coprirle</p>
-                </div>
-            </div>
+            <div></div>
         </section>
         <section id = "notes">
             <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
@@ -58,10 +53,7 @@
                 });
 
                 socket.on("table", function (data) {
-                    if (($("#info").is(":hidden"))) {
-                        $("#info").show();
-                    }
-                    $("#table").css("display", "block").html(data.html);
+                    $("#table").html(data.html);
                 });
 
                 socket.on("notes", function (data) {
@@ -77,13 +69,14 @@
                 });
 
                 $("#start button").click(function () {
-                    socket.emit("start", { room: room });
+                    $("#start").remove();
+                    socket.emit("table", { room: room, html: `<img class = "card" src = "static/assets/decks/it/retro.jpg" alt = "card"><img class = "card" src = "static/assets/decks/fr/retro.jpg" alt = "card">`});
                 });
 
-                $(document).on("touchstart", ".drag", function () {
+                $(document).on("touchstart", ".card", function () {
                     $(this).draggable();
                 });
-                $(document).on("mouseenter", ".drag", function () {
+                $(document).on("mouseenter", ".card", function () {
                     card = $(this);
                     card.draggable({
                         "start": function (event, ui) {
@@ -101,9 +94,6 @@
 
                 function click(card) {
                     if (event.ctrlKey || event.target.id === "hand") {
-                        if (($("#info").is(":visible"))) {
-                            $("#info").remove();
-                        }
                         card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
                     } else {
                         var src = card.attr("src");
@@ -125,10 +115,10 @@
                     socket.emit("table", { room: room, "html": $("#table").html() });
                 };
 
-                $("#table").on("click", ".click", function (event) {
+                $("#table").on("click", ".card", function (event) {
                     click($(this));
                 });
-                $("#hand").on("click", ".click", function (event) {
+                $("#hand").on("click", ".card", function (event) {
                     click($(this));
                 });
 

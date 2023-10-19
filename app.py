@@ -33,21 +33,6 @@ def index(room = None):
 def join(data):
     join_room(data["room"])
 
-@socketio.on("start")
-def start(data):
-
-    shuffle_IT_deck = "".join([f"<img id = '{card}' class = 'card click drag' src = 'static/assets/decks/it/retro.jpg' style = 'position: absolute;' alt = 'card'>" for card in sample(IT_deck, 40)])
-    shuffle_FR_deck = "".join([f"<img id = '{card}' class = 'card click drag' src = 'static/assets/decks/fr/retro.jpg' style = 'position: absolute;' alt = 'card'>" for card in sample(FR_deck, 54)])
-
-    html = f"""
-        <div id = "decks">
-            <div>{shuffle_IT_deck}</div>
-            <div>{shuffle_FR_deck}</div>
-        </div>
-    """
-
-    emit("table", {"html": html}, room = data["room"])
-
 @socketio.on("table")
 def table(data):
     emit("table", {"html": data["html"]}, room = data["room"])
@@ -69,4 +54,4 @@ def sitemap():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socketio.run(app)
+if __name__ == "__main__": socketio.run(app, debug = True, allow_unsafe_werkzeug = True)
