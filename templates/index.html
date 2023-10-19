@@ -84,12 +84,17 @@
                     $(this).draggable();
                 });
                 $(document).on("mouseenter", ".drag", function () {
-                    $(this).draggable();
+                    card = $(this);
+                    card.draggable({
+                        "start": function (event, ui) {
+                            card.css("cursor", "grabbing");
+                        }
+                    });
                 });
                 $("#table").droppable({
                     accept: ".drag",
                     drop: function (event, ui) {
-                        $("#table").append(ui.helper);
+                        ui.helper.prependTo("#table").css({ "cursor": "grab", "position": "absolute" });
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     }
                 });
@@ -99,7 +104,7 @@
                         if (($("#info").is(":visible"))) {
                             $("#info").remove();
                         }
-                        $("#hand div").append(card);
+                        card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
                     } else {
                         var src = card.attr("src");
 

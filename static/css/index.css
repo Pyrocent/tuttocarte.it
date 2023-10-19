@@ -71,13 +71,13 @@ body>section {
 }
 
 #decks {
-    gap: 85px;
+    gap: 80px;
     display: flex;
     flex-direction: column;
 }
 
 .card {
-    cursor: pointer;
+    cursor: grab;
     border-radius: 5px;
     border: 1px solid rgb(0, 0, 0);
 }

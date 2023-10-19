@@ -41,8 +41,8 @@ def start(data):
 
     html = f"""
         <div id = "decks">
-            <div id = "it" class = "deck">{shuffle_IT_deck}</div>
-            <div id = "fr" class = "deck">{shuffle_FR_deck}</div>
+            <div>{shuffle_IT_deck}</div>
+            <div>{shuffle_FR_deck}</div>
         </div>
     """
 
