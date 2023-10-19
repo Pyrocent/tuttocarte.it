@@ -89,7 +89,8 @@ body {
     transform: scale(1.1);
 }
 
-#hand, #notes {
+#hand,
+#notes {
     gap: 10px;
     padding: 5px;
     display: flex;

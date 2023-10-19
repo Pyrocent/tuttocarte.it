@@ -1,5 +1,4 @@
 from secrets import token_hex
-from random import sample
 from time import time
 from flask import (
     Flask,
