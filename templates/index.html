@@ -26,10 +26,12 @@
                 <div id = "start">
                     <h1>SenzaMazzo.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=http://senzamazzo.it/{{room}}" alt = "qrcode">
+                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=senzamazzo.it/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
                     <button>INIZIAMO!</button>
                 </div>
+            {% else %}
+                
             {% endif %}
         </section>
         <section id = "hand">
@@ -50,8 +52,8 @@
         <script type = "text/javascript">
 
             $(document).ready(function () {
-                console.log(location.protocol + "//" + location.host)
-                var socket = io(location.protocol + "//" + location.host, { transport: ["websocket"] });
+
+                var socket = io({ transport: ["websocket"] });
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
@@ -70,7 +72,7 @@
                 });
 
                 $("#qrcode").click(function () {
-                    navigator.clipboard.writeText(`${window.location.host}/${room}`);
+                    navigator.clipboard.writeText(`senzamazzo.it/${room}`);
 
                     $("#copy").text("COPIATO!");
 
@@ -132,7 +134,7 @@
                     click($(this));
                 });
 
-                $("#public_notes").on("blur", function() {
+                $("#public_notes").on("blur", function () {
                     socket.emit("notes", { room: room, "notes": $("#public_notes").val() });
                 });
 
