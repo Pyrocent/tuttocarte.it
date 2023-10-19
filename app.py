@@ -18,7 +18,7 @@ decks = {
 }
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins='*')
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
 
@@ -67,4 +67,4 @@ def sitemap():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socketio.run(app, host='0.0.0.0', port=5000)
+if __name__ == "__main__": socketio.run(app, host = "0.0.0.0", port = 5000)
