@@ -144,3 +144,10 @@ body>section {
     border-radius: 5px;
     font-family: "Alata", sans-serif;
 }
+
+h1, h3, h5 {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
