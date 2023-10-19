@@ -26,7 +26,7 @@
                 <div id = "start">
                     <h1>SenzaMazzo.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=senzamazzo.it/{{room}}" alt = "qrcode">
+                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=SenzaMazzo.it/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
                     <button>INIZIAMO!</button>
                 </div>
@@ -72,7 +72,7 @@
                 });
 
                 $("#qrcode").click(function () {
-                    navigator.clipboard.writeText(`senzamazzo.it/${room}`);
+                    navigator.clipboard.writeText(`SenzaMazzo.it/${room}`);
 
                     $("#copy").text("COPIATO!");
 
