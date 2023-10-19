@@ -2,7 +2,7 @@
 <html lang = "it">
     <head>
         <meta charset = "UTF-8">
-        <title>SenzaMazzo.it</title>
+        <title>TuttoCarte.it</title>
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "icon" href = "../static/assets/favicon.png">
         <link rel = "stylesheet" href = "../static/css/min/index.min.css">
@@ -24,9 +24,9 @@
         <section id = "table">
             {% if dealer == True %}
                 <div id = "start">
-                    <h1>SenzaMazzo.it</h1>
+                    <h1>TuttoCarte.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=SenzaMazzo.it/{{room}}" alt = "qrcode">
+                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=TuttoCarte.it/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
                     <button>INIZIAMO!</button>
                 </div>
@@ -69,7 +69,7 @@
                 });
 
                 $("#qrcode").click(function () {
-                    navigator.clipboard.writeText(`SenzaMazzo.it/${room}`);
+                    navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
                     $("#copy").text("COPIATO!");
                     setTimeout(function () {
                         $("#copy").text("O CLICCALO PER COPIARE IL LINK");
