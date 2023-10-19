@@ -50,8 +50,8 @@
         <script type = "text/javascript">
 
             $(document).ready(function () {
-
-                var socket = io(`${window.location.host}:5000/`, { transport: ["websocket"] });
+                console.log(location.protocol + "//" + location.host)
+                var socket = io(location.protocol + "//" + location.host, { transport: ["websocket"] });
                 const room = "{{room}}";
 
                 socket.on("connect", function () {
