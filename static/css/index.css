@@ -6,8 +6,11 @@ body {
 body {
     margin: 0;
     display: flex;
-    cursor: default;
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
     flex-direction: column;
+    -webkit-user-select: none;
     background-color: rgb(31, 35, 36);
 }
 
@@ -98,9 +101,9 @@ hr {
 }
 
 .card {
-    margin: 2.5px;
-    height: 50px;
     cursor: grab;
+    height: 50px;
+    margin: 2.5px;
     border-radius: 5px;
     border: 1px solid rgb(0, 0, 0);
 }
@@ -147,20 +150,12 @@ hr {
 }
 
 #notes textarea {
-    flex: 0.5;
+    flex: 1;
     resize: none;
     padding: 10px;
     font-size: 15px;
+    overflow-x: auto;
     border-radius: 5px;
+    white-space: nowrap;
     font-family: "Alata", sans-serif;
-}
-
-h1,
-h3,
-h5,
-#start button {
-    user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
 }

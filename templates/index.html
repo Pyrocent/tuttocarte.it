@@ -39,8 +39,8 @@
             <div></div>
         </section>
         <section id = "notes">
-            <textarea id = "public_notes" placeholder = "Note condivise"></textarea>
-            <textarea placeholder = "Note personali"></textarea>
+            <textarea id = "shared_notes" placeholder = "Note condivise"></textarea>
+            <textarea id = "personal_notes" placeholder = "Note personali"></textarea>
         </section>
 
         <script type = "text/javascript">
@@ -79,24 +79,26 @@
                     $(this).draggable();
                 });
                 $(document).on("mouseenter", ".card", function () {
-                    card = $(this);
-                    card.draggable({
-                        "start": function (event, ui) {
-                            card.css("cursor", "grabbing");
+                    $card = $(this);
+                    $card.draggable({
+                        start: function (event, ui) {
+                            $card.css("cursor", "grabbing");
+                        },
+                        stop: function (event, ui) {
+                            $card.css("cursor", "");
                         }
                     });
                 });
                 $("#table").droppable({
-                    accept: ".drag",
+                    accept: ".card",
                     drop: function (event, ui) {
-                        ui.helper.prependTo("#table").css({ "cursor": "grab", "position": "absolute" });
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     }
                 });
 
-                function click(card) {
+                function click($card) {
                     if (event.ctrlKey || event.target.id === "hand") {
-                        card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
+                        $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
                     } else {
                         var src = card.attr("src");
 
@@ -124,8 +126,18 @@
                     click($(this));
                 });
 
-                $("#public_notes").on("blur", function () {
+                $("#shared_notes").click(function () {
+                    $("#personal_notes").hide();
+                });
+                $("#shared_notes").blur(function () {
+                    $("#personal_notes").show();
                     socket.emit("notes", { room: room, "notes": $("#public_notes").val() });
+                });
+                $("#personal_notes").click(function () {
+                    $("#shared_notes").hide();
+                });
+                $("#personal_notes").blur(function () {
+                    $("#shared_notes").show();
                 });
 
             });
