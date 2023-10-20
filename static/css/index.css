@@ -97,6 +97,7 @@ hr {
 }
 
 .card {
+    margin: 2.5px;
     height: 50px;
     cursor: grab;
     border-radius: 5px;
