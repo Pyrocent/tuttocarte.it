@@ -22,12 +22,14 @@
     <body>
         {% if dealer == True %}
             <section id = "start">
-                <div>
+                <div id = "overlay">
                     <h1>TuttoCarte.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
                     <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=TuttoCarte.it/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
                     <button>INIZIAMO!</button>
+                    <div id = "separator"><hr><h6>OPPURE</h6><hr></div>
+                    <button>SOLITARIO</button>
                 </div>
             </section>
         {% endif %}
@@ -62,7 +64,7 @@
 
                 $("#qrcode").click(function () {
                     navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
-                    $("#copy").text("COPIATO!");
+                    $("#copy").text("COPIATO");
                     setTimeout(function () {
                         $("#copy").text("O CLICCALO PER COPIARE IL LINK");
                     }, 2000)
