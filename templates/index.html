@@ -35,8 +35,7 @@
         {% endif %}
         <section id = "table"></section>
         <section id = "hand">
-            <h3>MANO</h3>
-            <div></div>
+            <h3>MANO</h3><div></div>
         </section>
         <section id = "notes">
             <textarea id = "shared_notes" placeholder = "Note condivise"></textarea>
@@ -72,7 +71,7 @@
 
                 $("#start button").click(function () {
                     $("#start").remove();
-                    socket.emit("table", { room: room, html: `<img class = "card" src = "static/assets/decks/it/retro.jpg" alt = "card"><img class = "card" src = "static/assets/decks/fr/retro.jpg" alt = "card">` });
+                    socket.emit("table", { room: room, html: `<img class = "card" src = "static/assets/decks/IT/BACK.jpg" alt = "card"><img class = "card" src = "static/assets/decks/FR/BACK-B.jpg" alt = "card"><img class = "card" src = "static/assets/decks/FR/BACK-R.jpg" alt = "card">` });
                 });
 
                 $(document).on("touchstart", ".card", function () {
