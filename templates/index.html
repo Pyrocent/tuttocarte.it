@@ -71,15 +71,25 @@
 
                 $("#start button").click(function () {
                     $("#start").remove();
-                    socket.emit("table", { room: room, html: `<img class = "card" src = "static/assets/decks/IT/BACK.jpg" alt = "card"><img class = "card" src = "static/assets/decks/FR/BACK-B.jpg" alt = "card"><img class = "card" src = "static/assets/decks/FR/BACK-R.jpg" alt = "card">` });
+                    socket.emit("table", {
+                        room: room,
+                        html: `
+                            <img class = "card drag click" src = "static/assets/decks/IT/BACK.jpg" alt = "card">
+                            <img class = "card drag click" src = "static/assets/decks/FR/BACK-B.jpg" alt = "card">
+                            <img class = "card drag click" src = "static/assets/decks/FR/BACK-R.jpg" alt = "card">
+                            <img class = "fiche drag click" src = "static/assets/fiches/FICHE-1.png" alt = "fiche">
+                            <img class = "fiche drag click" src = "static/assets/fiches/FICHE-2.png" alt = "fiche">
+                            <img class = "fiche drag click" src = "static/assets/fiches/FICHE-3.png" alt = "fiche">
+                            <img class = "fiche drag" src = "static/assets/fiches/DEALER.png" alt = "fiche">`
+                    });
                 });
 
-                $(document).on("touchstart", ".card", function () {
+                $(document).on("touchstart", ".drag", function () {
                     $(this).draggable({
                         helper: "clone"
                     });
                 });
-                $(document).on("mouseenter", ".card", function () {
+                $(document).on("mouseenter", ".drag", function () {
                     $card = $(this);
                     $card.draggable({
                         helper: "clone",
@@ -92,39 +102,41 @@
                     });
                 });
                 $("#table").droppable({
-                    accept: ".card",
+                    accept: ".drag",
                     drop: function (event, ui) {
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     }
                 });
 
-                function click($card) {
+                function click($object) {
                     if (event.ctrlKey || event.target.id === "hand") {
-                        $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
-                    } else {
-                        var src = card.attr("src");
+                        $object.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
+                        socket.emit("table", { room: room, "html": $("#table").html() });
+                    } else if ($object.hasClass("card")) {
+                        // const $card = $object;
+                        // const $src = card.attr("src");
 
-                        if (src.endsWith("retro.jpg")) {
-                            if (src.startsWith("static/assets/decks/it/")) {
-                                card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
-                            } else if (src.startsWith("static/assets/decks/fr/")) {
-                                card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
-                            }
-                        } else {
-                            if (src.startsWith("static/assets/decks/it/")) {
-                                card.attr("src", "static/assets/decks/it/retro.jpg");
-                            } else if (src.startsWith("static/assets/decks/fr/")) {
-                                card.attr("src", "static/assets/decks/fr/retro.jpg");
-                            }
-                        }
+                        // if ($src.endsWith("retro.jpg")) {
+                        //     if ($src.startsWith("static/assets/decks/it/")) {
+                        //         card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
+                        //     } else if ($src.startsWith("static/assets/decks/fr/")) {
+                        //         card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
+                        //     }
+                        // } else {
+                        //     if ($src.startsWith("static/assets/decks/it/")) {
+                        //         card.attr("src", "static/assets/decks/it/retro.jpg");
+                        //     } else if ($src.startsWith("static/assets/decks/fr/")) {
+                        //         card.attr("src", "static/assets/decks/fr/retro.jpg");
+                        //     }
+                        // }
+                        // socket.emit("table", { room: room, "html": $("#table").html() });
                     }
-                    socket.emit("table", { room: room, "html": $("#table").html() });
                 };
 
-                $("#table").on("click", ".card", function (event) {
+                $("#table").on("click", ".click", function () {
                     click($(this));
                 });
-                $("#hand").on("click", ".card", function (event) {
+                $("#hand").on("click", ".click", function () {
                     click($(this));
                 });
 

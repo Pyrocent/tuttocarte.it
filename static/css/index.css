@@ -100,11 +100,19 @@ hr {
     border: 10px solid rgb(245, 245, 245);
 }
 
-.card {
+.card, .fiche {
     cursor: grab;
     margin: 2.5px;
-    border-radius: 5px;
     border: 1px solid rgb(0, 0, 0);
+}
+
+.card {
+    height: 50px;
+    border-radius: 5px;
+}
+.fiche {
+    height: 30px;
+    border-radius: 90%;
 }
 
 .card:hover {
