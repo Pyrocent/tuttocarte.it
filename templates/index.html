@@ -3,6 +3,7 @@
     <head>
         <meta charset = "UTF-8">
         <title>TuttoCarte.it</title>
+        <link rel = "manifest" href = "manifest.json">
         <meta name = "theme-color" content = "#1f2324">
         <meta name = "mobile-web-app-capable" content = "yes">
         <link rel = "icon" href = "../static/assets/favicon.png">
@@ -14,6 +15,8 @@
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
+
+        <script>navigator.serviceWorker.register("service-worker.js")</script>
 
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
@@ -159,7 +162,7 @@
                     if (window.orientation === 0 || window.orientation === 180) {
                         $("#overlay").css("transform", "translate(-50%, -50%)")
                     } else {
-                        $("#overlay").css("transform", "translate(-50%, -50%) scale(0.5)")
+                        $("#overlay").css("transform", "translate(-50%, -50%) scale(0.55)")
                     }
                 });
 

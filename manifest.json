@@ -1,0 +1,26 @@
+{
+    "name": "TuttoCarte",
+    "short_name": "TuttoCarte",
+    "start_url": "/",
+    "display": "standalone",
+    "description": "Gioca con i tuo amici a qualsiasi gioco di carte senza la necessità di avere un mazzo di carte a portata di mano!",
+    "lang": "it",
+    "dir": "auto",
+    "theme_color": "#1f2324",
+    "background_color": "#1f2324",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "https://www.pwabuilder.com/assets/icons/icon_192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}
