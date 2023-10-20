@@ -74,12 +74,12 @@
                     socket.emit("table", {
                         room: room,
                         html: `
-                            <img class = "card drag click" src = "static/assets/decks/IT/BACK.jpg" alt = "card">
-                            <img class = "card drag click" src = "static/assets/decks/FR/BACK-B.jpg" alt = "card">
-                            <img class = "card drag click" src = "static/assets/decks/FR/BACK-R.jpg" alt = "card">
-                            <img class = "fiche drag click" src = "static/assets/fiches/FICHE-1.png" alt = "fiche">
-                            <img class = "fiche drag click" src = "static/assets/fiches/FICHE-2.png" alt = "fiche">
-                            <img class = "fiche drag click" src = "static/assets/fiches/FICHE-3.png" alt = "fiche">
+                            <img class = "card drag" src = "static/assets/decks/IT/BACK.jpg" alt = "card">
+                            <img class = "card drag" src = "static/assets/decks/FR/BACK-B.jpg" alt = "card">
+                            <img class = "card drag" src = "static/assets/decks/FR/BACK-R.jpg" alt = "card">
+                            <img class = "fiche drag" src = "static/assets/fiches/FICHE-1.png" alt = "fiche">
+                            <img class = "fiche drag" src = "static/assets/fiches/FICHE-2.png" alt = "fiche">
+                            <img class = "fiche drag" src = "static/assets/fiches/FICHE-3.png" alt = "fiche">
                             <img class = "fiche drag" src = "static/assets/fiches/DEALER.png" alt = "fiche">`
                     });
                 });
@@ -108,12 +108,11 @@
                     }
                 });
 
-                function click($object) {
+                function click($card) {
                     if (event.ctrlKey || event.target.id === "hand") {
-                        $object.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
+                        $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
                         socket.emit("table", { room: room, "html": $("#table").html() });
-                    } else if ($object.hasClass("card")) {
-                        // const $card = $object;
+                    } else {
                         // const $src = card.attr("src");
 
                         // if ($src.endsWith("retro.jpg")) {
@@ -133,10 +132,10 @@
                     }
                 };
 
-                $("#table").on("click", ".click", function () {
+                $("#table").on("click", ".card", function () {
                     click($(this));
                 });
-                $("#hand").on("click", ".click", function () {
+                $("#hand").on("click", ".card", function () {
                     click($(this));
                 });
 
