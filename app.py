@@ -56,10 +56,6 @@ def manifest():
 def service_worker():
     return send_file("service-worker.js")
 
-@app.route("/sitemap.xml")
-def sitemap():
-    return send_file("sitemap.xml")
-
 @app.errorhandler(404)
 @app.errorhandler(405)
 def error(_):
