@@ -76,11 +76,14 @@
                 });
 
                 $(document).on("touchstart", ".card", function () {
-                    $(this).draggable();
+                    $(this).draggable({
+                        helper: "clone"
+                    });
                 });
                 $(document).on("mouseenter", ".card", function () {
                     $card = $(this);
                     $card.draggable({
+                        helper: "clone",
                         start: function (event, ui) {
                             $card.css("cursor", "grabbing");
                         },
