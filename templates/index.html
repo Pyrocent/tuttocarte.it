@@ -153,6 +153,15 @@
                     $("#shared_notes").show();
                 });
 
+                $(window).on("orientationchange", function () {
+
+                    if (window.orientation === 0 || window.orientation === 180) {
+                        $("#overlay").css("transform", "translate(-50%, -50%)")
+                    } else {
+                        $("#overlay").css("transform", "translate(-50%, -50%) scale(0.65)")
+                    }
+                });
+
             });
 
         </script>

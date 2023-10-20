@@ -33,21 +33,10 @@ body {
     border-radius: 5px;
     position: absolute;
     flex-direction: column;
+    transform: translate(-50%, -50%);
     border: 2px solid rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
     filter: drop-shadow(0 0 0.5rem rgb(0, 0, 0));
-}
-
-@media (orientation: portrait) {
-    #overlay {
-        transform: translate(-50%, -50%);
-    }
-}
-
-@media (orientation: landscape) {
-    #overlay {
-        transform: translate(-50%, -50%) scale(0.65);
-    }
 }
 
 #start h1 {
@@ -111,7 +100,8 @@ hr {
     border: 10px solid rgb(245, 245, 245);
 }
 
-.card, .fiche {
+.card,
+.fiche {
     cursor: grab;
     margin: 2.5px;
     border: 1px solid rgb(0, 0, 0);
@@ -121,6 +111,7 @@ hr {
     height: 50px;
     border-radius: 5px;
 }
+
 .fiche {
     height: 30px;
     border-radius: 90%;
