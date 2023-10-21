@@ -20,8 +20,8 @@ app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
 socketio = SocketIO(app, cors_allowed_origins = "*")
 
-@app.get("/")
-@app.get("/<room>")
+@app.route("/", methods = ["GET", "POST"])
+@app.route("/<room>")
 def index(room = None):
     if room is not None:
         return render_template("index.min.html", room = room)
