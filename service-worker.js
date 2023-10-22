@@ -1,6 +1,6 @@
 const cacheName = "pwa-cache";
 const cacheURLs = [
-    "/index.html",
+    "/templates/min/index.min.html",
     "/static/css/min/index.min.css",
 ];
 

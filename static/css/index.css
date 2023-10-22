@@ -93,6 +93,7 @@ hr {
 #table {
     flex: 1;
     margin: 5px;
+    display: flex;
     overflow: auto;
     position: relative;
     border-radius: 5px;
@@ -102,19 +103,47 @@ hr {
 
 .card,
 .fiche {
+    top: 5px;
     cursor: grab;
     margin: 2.5px;
+    position: absolute;
     border: 1px solid rgb(0, 0, 0);
 }
 
 .card {
-    height: 50px;
     border-radius: 5px;
 }
 
+.card+.card {
+    margin-top: -1px;
+}
+
+.it {
+    left: 0;
+}
+
+.fr-b {
+    left: 40px;
+}
+
+.fr-r {
+    left: 85px;
+}
+
 .fiche {
-    height: 30px;
     border-radius: 90%;
+}
+
+#fiche-1 {
+    left: 130px;
+}
+
+#fiche-2 {
+    left: 175px;
+}
+
+#fiche-3 {
+    left: 220px;
 }
 
 .card:hover {

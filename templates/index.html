@@ -49,11 +49,17 @@
 
             $(document).ready(function () {
 
+                var key = "";
                 const room = "{{room}}";
                 var socket = io({ transport: ["websocket"] });
 
                 socket.on("connect", function () {
                     socket.emit("join", { room: room });
+                });
+
+                socket.on("start", function (data) {
+                    key = data.key;
+                    $("#table").html(data.html);
                 });
 
                 socket.on("table", function (data) {
@@ -74,33 +80,20 @@
 
                 $("#start button").click(function () {
                     $("#start").remove();
-                    socket.emit("table", {
-                        room: room,
-                        html: `
-                            <img class = "card drag" src = "static/assets/decks/it/BACK.jpg" alt = "card">
-                            <img class = "card drag" src = "static/assets/decks/fr/BACK-B.jpg" alt = "card">
-                            <img class = "card drag" src = "static/assets/decks/fr/BACK-R.jpg" alt = "card">
-                            <img class = "fiche drag" src = "static/assets/fiches/FICHE-1.png" alt = "fiche">
-                            <img class = "fiche drag" src = "static/assets/fiches/FICHE-2.png" alt = "fiche">
-                            <img class = "fiche drag" src = "static/assets/fiches/FICHE-3.png" alt = "fiche">
-                            <img class = "fiche drag" src = "static/assets/fiches/DEALER.png" alt = "fiche">`
-                    });
+                    socket.emit("start", { room: room });
                 });
 
                 $(document).on("touchstart", ".drag", function () {
-                    $(this).draggable({
-                        helper: "clone"
-                    });
+                    $(this).draggable();
                 });
                 $(document).on("mouseenter", ".drag", function () {
-                    $card = $(this);
-                    $card.draggable({
-                        helper: "clone",
+                    $object = $(this);
+                    $object.draggable({
                         start: function (event, ui) {
-                            $card.css("cursor", "grabbing");
+                            $object.css("cursor", "grabbing");
                         },
                         stop: function (event, ui) {
-                            $card.css("cursor", "");
+                            $object.css("cursor", "");
                         }
                     });
                 });
@@ -116,22 +109,22 @@
                         $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     } else {
-                        // const $src = card.attr("src");
+                        const $src = $card.attr("src");
+                        const $val = "";
 
-                        // if ($src.endsWith("retro.jpg")) {
-                        //     if ($src.startsWith("static/assets/decks/it/")) {
-                        //         card.attr("src", `static/assets/decks/it/${card.attr("id")}.jpg`);
-                        //     } else if ($src.startsWith("static/assets/decks/fr/")) {
-                        //         card.attr("src", `static/assets/decks/fr/${card.attr("id")}.jpg`);
-                        //     }
-                        // } else {
-                        //     if ($src.startsWith("static/assets/decks/it/")) {
-                        //         card.attr("src", "static/assets/decks/it/retro.jpg");
-                        //     } else if ($src.startsWith("static/assets/decks/fr/")) {
-                        //         card.attr("src", "static/assets/decks/fr/retro.jpg");
-                        //     }
-                        // }
-                        // socket.emit("table", { room: room, "html": $("#table").html() });
+                        if ($src.endsWith("retro.jpg")) {
+                            if ($src.startsWith("static/assets/decks/it/")) {
+                                $card.attr("src", `static/assets/decks/it/${$val}.jpg`);
+                            } else if ($src.startsWith("static/assets/decks/fr/")) {
+                                $card.attr("src", `static/assets/decks/fr/${$val}.jpg`);
+                            }
+                        } else {
+                            if ($src.startsWith("static/assets/decks/it/")) {
+                                $card.attr("src", "static/assets/decks/it/BACK.jpg");
+                            } else if ($src.startsWith("static/assets/decks/fr/")) {
+                            }
+                        }
+                        socket.emit("table", { room: room, "html": $("#table").html() });
                     }
                 };
 
