@@ -48,7 +48,6 @@
         </section>
 
         <script type = "text/javascript">
-
             $(document).ready(function () {
 
                 var key = "";
@@ -111,7 +110,6 @@
                     } else {
                         const $src = $card.attr("src");
                         const $val = new fernet.Token({ secret: new fernet.Secret(key), token: $card.attr("id") }).decode();
-
                         if ($src.endsWith("BACK.jpg")) {
                             if ($src.startsWith("static/assets/decks/it/")) {
                                 $card.attr("src", `static/assets/decks/it/${$val}.jpg`);
@@ -132,7 +130,6 @@
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     }
                 };
-
                 $("#table").on("click", ".card", function () {
                     click($(this));
                 });
@@ -161,9 +158,7 @@
                         $("#overlay").css("transform", "translate(-50%, -50%) scale(0.55)")
                     }
                 });
-
             });
-
         </script>
     </body>
 </html>
