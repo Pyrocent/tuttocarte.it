@@ -40,21 +40,21 @@ def start(data):
     cipher_suite = Fernet(key)
 
     html = f"""
-        <div>
-            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode())}' class = 'it card drag' src = 'static/assets/decks/it/BACK.jpg' alt = 'card'>" for card in sample(it_deck, 40)])}
+        <div class = "deck">
+            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'it card drag' src = 'static/assets/decks/it/BACK.jpg' alt = 'card'>" for card in sample(it_deck, 40)])}
         </div>
-        <div>
-            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode())}' class = 'fr-b card drag' src = 'static/assets/decks/fr/BACK-B.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
+        <div class = "deck">
+            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'fr-b card drag' src = 'static/assets/decks/fr-b/BACK.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
         </div>
-        <div>
-            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode())}' class = 'fr-r card drag' src = 'static/assets/decks/fr/BACK-R.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
+        <div class = "deck">
+            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'fr-r card drag' src = 'static/assets/decks/fr-r/BACK.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
         </div>
         <img src = 'static/assets/fiches/FICHE-1.png'  id = 'fiche-1' class = 'fiche' alt = 'fiche'>
         <img src = 'static/assets/fiches/FICHE-2.png'  id = 'fiche-2' class = 'fiche' alt = 'fiche'>
         <img src = 'static/assets/fiches/FICHE-3.png'  id = 'fiche-3' class = 'fiche' alt = 'fiche'>
     """
 
-    emit("start", {"html": html, "key": key}, room = data["room"])
+    emit("table", {"html": html, "key": key.decode()}, room = data["room"])
 
 @socketio.on("table")
 def table(data):
@@ -85,4 +85,4 @@ def service_worker():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socketio.run(app, port = "8080", debug = True, allow_unsafe_werkzeug = True)
+if __name__ == "__main__": socketio.run(app)

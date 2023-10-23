@@ -103,9 +103,8 @@ hr {
 
 .card,
 .fiche {
-    top: 5px;
+    top: 10px;
     cursor: grab;
-    margin: 2.5px;
     position: absolute;
     border: 1px solid rgb(0, 0, 0);
 }
@@ -115,19 +114,19 @@ hr {
 }
 
 .card+.card {
-    margin-top: -1px;
+    margin-top: -5px;
 }
 
 .it {
-    left: 0;
+    left: 5px;
 }
 
 .fr-b {
-    left: 40px;
+    left: 45px;
 }
 
 .fr-r {
-    left: 85px;
+    left: 90px;
 }
 
 .fiche {
@@ -135,18 +134,22 @@ hr {
 }
 
 #fiche-1 {
-    left: 130px;
+    left: 135px;
 }
 
 #fiche-2 {
-    left: 175px;
+    left: 180px;
 }
 
 #fiche-3 {
-    left: 220px;
+    left: 225px;
 }
 
-.card:hover {
+.card+.card:hover {
+    margin-top: 5px;
+}
+
+.fiche:hover {
     transform: scale(1.1);
 }
 

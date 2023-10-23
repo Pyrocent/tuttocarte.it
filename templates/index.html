@@ -20,6 +20,8 @@
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
 
+        <script src = "https://cdn.jsdelivr.net/npm/fernet@0.4.0/fernetBrowser.min.js"></script>
+
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
@@ -57,12 +59,10 @@
                     socket.emit("join", { room: room });
                 });
 
-                socket.on("start", function (data) {
-                    key = data.key;
-                    $("#table").html(data.html);
-                });
-
                 socket.on("table", function (data) {
+                    if (data.key != "" && key === "") {
+                        key = data.key;
+                    }
                     $("#table").html(data.html);
                 });
 
@@ -110,18 +110,23 @@
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     } else {
                         const $src = $card.attr("src");
-                        const $val = "";
+                        const $val = new fernet.Token({ secret: new fernet.Secret(key), token: $card.attr("id") }).decode();
 
-                        if ($src.endsWith("retro.jpg")) {
+                        if ($src.endsWith("BACK.jpg")) {
                             if ($src.startsWith("static/assets/decks/it/")) {
                                 $card.attr("src", `static/assets/decks/it/${$val}.jpg`);
-                            } else if ($src.startsWith("static/assets/decks/fr/")) {
-                                $card.attr("src", `static/assets/decks/fr/${$val}.jpg`);
+                            } else if ($src.startsWith("static/assets/decks/fr-b/")) {
+                                $card.attr("src", `static/assets/decks/fr-b/${$val}.jpg`);
+                            } else if ($src.startsWith("static/assets/decks/fr-r/")) {
+                                $card.attr("src", `static/assets/decks/fr-r/${$val}.jpg`);
                             }
                         } else {
                             if ($src.startsWith("static/assets/decks/it/")) {
                                 $card.attr("src", "static/assets/decks/it/BACK.jpg");
-                            } else if ($src.startsWith("static/assets/decks/fr/")) {
+                            } else if ($src.startsWith("static/assets/decks/fr-b/")) {
+                                $card.attr("src", `static/assets/decks/fr-b/BACK.jpg`);
+                            } else if ($src.startsWith("static/assets/decks/fr-r/")) {
+                                $card.attr("src", `static/assets/decks/fr-r/BACK.jpg`);
                             }
                         }
                         socket.emit("table", { room: room, "html": $("#table").html() });
