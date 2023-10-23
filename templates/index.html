@@ -82,22 +82,14 @@
                     socket.emit("start", { room: room });
                 });
 
-                $(document).on("touchstart", ".drag", function () {
+                $(document).on("touchstart", ".card", function () {
                     $(this).draggable();
                 });
-                $(document).on("mouseenter", ".drag", function () {
-                    $object = $(this);
-                    $object.draggable({
-                        start: function (event, ui) {
-                            $object.css("cursor", "grabbing");
-                        },
-                        stop: function (event, ui) {
-                            $object.css("cursor", "");
-                        }
-                    });
+                $(document).on("mouseenter", ".card", function () {
+                    $(this).draggable();
                 });
                 $("#table").droppable({
-                    accept: ".drag",
+                    accept: ".card, .fiche",
                     drop: function (event, ui) {
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     }

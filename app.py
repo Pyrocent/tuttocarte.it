@@ -42,17 +42,17 @@ def start(data):
 
     html = f"""
         <div class = "deck">
-            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'it card drag' src = 'static/assets/decks/it/BACK.jpg' alt = 'card'>" for card in sample(it_deck, 40)])}
+            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'it card' src = 'static/assets/decks/it/BACK.jpg' alt = 'card'>" for card in sample(it_deck, 40)])}
         </div>
         <div class = "deck">
-            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'fr-b card drag' src = 'static/assets/decks/fr-b/BACK.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
+            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'fr-b card' src = 'static/assets/decks/fr-b/BACK.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
         </div>
         <div class = "deck">
-            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'fr-r card drag' src = 'static/assets/decks/fr-r/BACK.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
+            {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'fr-r card' src = 'static/assets/decks/fr-r/BACK.jpg' alt = 'card'>" for card in sample(fr_deck, 54)])}
         </div>
-        <img src = 'static/assets/fiches/FICHE-1.png'  id = 'fiche-1' class = 'fiche' alt = 'fiche'>
-        <img src = 'static/assets/fiches/FICHE-2.png'  id = 'fiche-2' class = 'fiche' alt = 'fiche'>
-        <img src = 'static/assets/fiches/FICHE-3.png'  id = 'fiche-3' class = 'fiche' alt = 'fiche'>
+        <img id = 'fiche-1' class = 'fiche' src = 'static/assets/fiches/FICHE-1.png' alt = 'fiche'>
+        <img id = 'fiche-2' class = 'fiche' src = 'static/assets/fiches/FICHE-2.png' alt = 'fiche'>
+        <img id = 'fiche-3' class = 'fiche' src = 'static/assets/fiches/FICHE-3.png' alt = 'fiche'>
     """
 
     emit("table", {"html": html, "key": key.decode()}, room = data["room"])
