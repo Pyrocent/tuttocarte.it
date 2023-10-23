@@ -185,7 +185,7 @@ hr {
     overflow: auto;
     border-radius: 5px;
     align-items: center;
-    border: 2px solid rgb(245, 245, 245);
+    border: 1px solid rgb(245, 245, 245);
 }
 
 #notes {
