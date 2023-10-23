@@ -21,7 +21,7 @@ fr_deck = ["1C", "1F", "1P", "1Q", "2C", "2F", "2P", "2Q", "3C", "3F", "3P", "3Q
 app = Flask(__name__)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
-socketio = SocketIO(app, cors_allowed_origins = "*")
+socketio = SocketIO(app, cors_allowed_origins = "*", async_mode = "gevent")
 
 @app.get("/")
 @app.get("/<room>")
@@ -86,4 +86,4 @@ def service_worker():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socketio.run(app)
+if __name__ == "__main__": socketio.run(app, port = "8080", debug = True, allow_unsafe_werkzeug = True)
