@@ -101,6 +101,11 @@ hr {
     border: 10px solid rgb(245, 245, 245);
 }
 
+.deck,
+.fiche {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+}
+
 .card,
 .fiche {
     top: 10px;
@@ -145,7 +150,8 @@ hr {
     left: 225px;
 }
 
-.card+.card:hover, .fiche:hover {
+.card+.card:hover,
+.fiche:hover {
     transform: scale(1.075);
 }
 
