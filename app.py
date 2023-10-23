@@ -21,7 +21,7 @@ fr_deck = ["1C", "1F", "1P", "1Q", "2C", "2F", "2P", "2Q", "3C", "3F", "3P", "3Q
 app = Flask(__name__)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
-socketio = SocketIO(app, cors_allowed_origins = "*")
+socketio = SocketIO(app)
 
 @app.get("/")
 @app.get("/<room>")
