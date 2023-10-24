@@ -10,7 +10,6 @@ from flask import (
 )
 from flask_socketio import (
     emit,
-    rooms,
     SocketIO,
     join_room
 )
@@ -27,9 +26,9 @@ socketio = SocketIO(app)
 @app.get("/<room>")
 def index(room = None):
     if room is not None:
-        return render_template("index.min.html", room = room, turn = len(rooms()[room]))
+        return render_template("index.min.html", room = room)
 
-    return render_template("index.min.html", room = int(time()), turn = "1", dealer = True)
+    return render_template("index.min.html", room = int(time()), dealer = True)
 
 @socketio.on("join")
 def join(data):
