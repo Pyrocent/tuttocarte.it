@@ -167,7 +167,7 @@ hr {
 }
 
 #hand {
-    height: 79.8px;
+    height: 74px;
 }
 
 #hand h3 {
@@ -186,10 +186,18 @@ hr {
     gap: 10px;
     display: flex;
     padding: 10px;
-    overflow: auto;
     border-radius: 5px;
     align-items: center;
+    overflow: auto hidden;
     border: 1px solid rgb(245, 245, 245);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+}
+
+#hand div>.card {
+    top: 0;
+    left: 0;
+    margin: 0;
+    position: relative;
 }
 
 #notes {

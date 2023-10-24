@@ -46,7 +46,6 @@
             <textarea id = "shared_notes" placeholder = "Note condivise"></textarea>
             <textarea id = "personal_notes" placeholder = "Note personali"></textarea>
         </section>
-
         <script type = "text/javascript">
             $(document).ready(function () {
 
@@ -98,7 +97,7 @@
 
                 function click($card) {
                     if (event.ctrlKey || hand === true) {
-                        $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
+                        $card.prependTo("#hand div").css({ "position": "relative", "top": "", "left": "" });
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     } else {
                         const $src = $card.attr("src");
@@ -129,10 +128,10 @@
                 $("#hand").on("click", ".card", function () {
                     click($(this));
                 });
-                $("#hand").on("touchstart", function () {
+                $("#hand h3").on("touchstart", function () {
                     hand = true;
                 });
-                $("#hand").on("touchend", function () {
+                $("#hand h3").on("touchend", function () {
                     hand = false;
                 });
 

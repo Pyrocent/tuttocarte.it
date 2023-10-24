@@ -38,7 +38,6 @@ def join(data):
 def start(data):
     key = Fernet.generate_key()
     cipher_suite = Fernet(key)
-
     html = f"""
         <div class = "deck">
             {"".join([f"<img id = '{cipher_suite.encrypt(card.encode()).decode()}' class = 'it card' src = 'static/assets/decks/it/BACK.jpg' alt = 'card'>" for card in sample(it_deck, 40)])}
@@ -54,7 +53,6 @@ def start(data):
         <img id = 'fiche-3' class = 'fiche' src = 'static/assets/fiches/FICHE-3.png' alt = 'fiche'>
         <img id = 'dealer' class = 'fiche' src = 'static/assets/fiches/DEALER.png' alt = 'fiche'>
     """
-
     emit("table", {"html": html, "key": key.decode()}, room = data["room"])
 
 @socketio.on("table")
@@ -86,4 +84,4 @@ def service_worker():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socketio.run(app, port = "8080", debug = True, allow_unsafe_werkzeug = True)
+if __name__ == "__main__": socketio.run(app, debug = True, allow_unsafe_werkzeug = True)
