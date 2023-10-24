@@ -67,7 +67,7 @@
                 });
 
                 socket.on("notes", function (data) {
-                    $("#shared_notes").val(data.notes)
+                    $("#shared_notes").val(data.notes);
                 });
 
                 $("#qrcode").click(function () {
