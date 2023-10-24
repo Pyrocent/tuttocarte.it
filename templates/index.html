@@ -51,6 +51,7 @@
             $(document).ready(function () {
 
                 var key = "";
+                var hand = false;
                 const room = "{{room}}";
                 var socket = io({ transport: ["websocket"] });
 
@@ -128,10 +129,10 @@
                 $("#hand").on("click", ".card", function () {
                     click($(this));
                 });
-                $("#hand").on("touchstart", function () {
+                $("#hand").touchstart( function () {
                     hand = true;
                 });
-                $("#hand").on("touchend", function () {
+                $("#hand").touchend( function () {
                     hand = false;
                 });
 
