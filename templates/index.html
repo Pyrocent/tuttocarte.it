@@ -96,7 +96,7 @@
                 });
 
                 function click($card) {
-                    if (event.ctrlKey || event.target.id === "hand") {
+                    if (event.ctrlKey || hand === true) {
                         $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
                         socket.emit("table", { room: room, "html": $("#table").html() });
                     } else {
@@ -128,13 +128,19 @@
                 $("#hand").on("click", ".card", function () {
                     click($(this));
                 });
+                $("#hand").on("touchstart", function () {
+                    hand = true;
+                });
+                $("#hand").on("touchend", function () {
+                    hand = false;
+                });
 
                 $("#shared_notes").click(function () {
                     $("#personal_notes").hide();
                 });
                 $("#shared_notes").blur(function () {
                     $("#personal_notes").show();
-                    socket.emit("notes", { room: room, "notes": $("#public_notes").val() });
+                    socket.emit("notes", { room: room, "notes": $("#shared_notes").val() });
                 });
                 $("#personal_notes").click(function () {
                     $("#shared_notes").hide();

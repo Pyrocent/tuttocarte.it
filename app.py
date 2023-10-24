@@ -52,6 +52,7 @@ def start(data):
         <img id = 'fiche-1' class = 'fiche' src = 'static/assets/fiches/FICHE-1.png' alt = 'fiche'>
         <img id = 'fiche-2' class = 'fiche' src = 'static/assets/fiches/FICHE-2.png' alt = 'fiche'>
         <img id = 'fiche-3' class = 'fiche' src = 'static/assets/fiches/FICHE-3.png' alt = 'fiche'>
+        <img id = 'dealer' class = 'fiche' src = 'static/assets/fiches/DEALER.png' alt = 'fiche'>
     """
 
     emit("table", {"html": html, "key": key.decode()}, room = data["room"])

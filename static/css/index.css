@@ -150,6 +150,10 @@ hr {
     left: 225px;
 }
 
+#dealer {
+    left: 265px;
+}
+
 .card+.card:hover,
 .fiche:hover {
     transform: scale(1.075);
