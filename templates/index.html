@@ -129,10 +129,10 @@
                 $("#hand").on("click", ".card", function () {
                     click($(this));
                 });
-                $("#hand").touchstart(function () {
+                $("#hand").on("touchstart", function () {
                     hand = true;
                 });
-                $("#hand").touchend(function () {
+                $("#hand").on("touchend", function () {
                     hand = false;
                 });
 
