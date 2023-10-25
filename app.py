@@ -27,7 +27,6 @@ socketio = SocketIO(app)
 def index(room = None):
     if room is not None:
         return render_template("index.min.html", room = room)
-
     return render_template("index.min.html", room = int(time()), dealer = True)
 
 @socketio.on("join")

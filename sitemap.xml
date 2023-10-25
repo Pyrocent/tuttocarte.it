@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
+		<loc>https://www.tuttocarte.it/templates</loc>
+		<priority>0.75</priority>
+		<lastmod>2023-10-25</lastmod>
+	</url>
+	<url>
 		<loc>https://www.tuttocarte.it/templates/min/index.min.html</loc>
-		<priority>1</priority>
-		<lastmod>2023-10-05</lastmod>
+		<priority>0.25</priority>
+		<lastmod>2023-10-25</lastmod>
 	</url>
 </urlset>
