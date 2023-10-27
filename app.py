@@ -70,9 +70,9 @@ def robots():
 def sitemap():
     return send_file("sitemap.xml")
 
-@app.route("/manifest.json")
+@app.route("/app.webmanifest")
 def manifest():
-    return send_file("manifest.json")
+    return send_file("app.webmanifest")
 
 @app.route("/service-worker.js")
 def service_worker():
