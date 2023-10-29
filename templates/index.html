@@ -9,23 +9,18 @@
         <link rel = "stylesheet" href = "../static/css/min/index.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <meta name = "description" content = "Gioca con i tuoi amici a qualsiasi gioco di carte senza la necessità di avere un mazzo a portata di mano!">
-
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
-        <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Alata&family=Outfit&display=swap">
-
+        <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Outfit&display=swap">
+        <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
         <script>
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/service-worker.js");
             }
         </script>
-
-        <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
-
-        <script src = "https://cdn.jsdelivr.net/npm/fernet@0.4.0/fernetBrowser.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
     </head>
     <body>
         {% if dealer == True %}
@@ -33,43 +28,29 @@
                 <div id = "overlay">
                     <h1>TuttoCarte.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=TuttoCarte.it/{{room}}" alt = "qrcode">
+                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?data=TuttoCarte.it/{{room}}" alt = "qrcode">
                     <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
-                    <button>INIZIAMO!</button>
+                    <button id = "together">INIZIAMO!</button>
                     <div id = "separator"><hr><h6>OPPURE</h6><hr></div>
-                    <button>SOLITARIO</button>
+                    <button id = "alone">SOLITARIO</button>
                 </div>
             </section>
         {% endif %}
-        <section id = "table"></section>
-        <section id = "hand">
-            <h3>MANO</h3><div></div>
-        </section>
-        <section id = "notes">
+        <section id = "table">{{ html | safe }}</section>
+        <section id = "hand"><h3>MANO</h3><div></div></section>
+        <section>
             <textarea id = "shared_notes" placeholder = "Note condivise"></textarea>
             <textarea id = "personal_notes" placeholder = "Note personali"></textarea>
         </section>
         <script type = "text/javascript">
             $(document).ready(function () {
 
-                var key = "";
                 var hand = false;
                 const room = "{{room}}";
                 const socket = io({ transport: ["websocket"] });
 
                 socket.on("connect", function () {
                     socket.emit("join", { room: room });
-                });
-
-                socket.on("table", function (data) {
-                    if (data.key != "" && key === "") {
-                        key = data.key;
-                    }
-                    $("#table").html(data.html);
-                });
-
-                socket.on("notes", function (data) {
-                    $("#shared_notes").val(data.notes);
                 });
 
                 $("#qrcode").click(function () {
@@ -80,49 +61,83 @@
                     }, 2000)
                 });
 
-                $("#start button").click(function () {
+                $("#together").click(function () {
                     $("#start").remove();
-                    socket.emit("start", { room: room });
+                    socket.emit("table", { room: room, html: $("#table").html() });
                 });
 
-                $(document).on("touchstart", ".card", function () {
+                $("#alone").click(function () {
+                    $("#start").remove();
+                    $("#shared_notes").remove();
+                });
+
+                socket.on("table", function (data) {
+                    $("#table").html(data.html);
+                });
+
+                socket.on("notes", function (data) {
+                    $("#shared_notes").val(data.notes);
+                });
+
+                $("#table").on("touchstart", ".card", function () {
                     $(this).draggable();
                 });
-                $(document).on("mouseenter", ".card", function () {
-                    $(this).draggable();
+                $("#table").on("mouseenter", ".card", function () {
+                    $(this).draggable({
+                        helper: "clone",
+                        opacity: 0.35,
+                        revert: true
+                    });
                 });
                 $("#table").droppable({
                     accept: ".card, .fiche",
                     drop: function (event, ui) {
-                        socket.emit("table", { room: room, "html": $("#table").html() });
+                        ui.helper.remove();
                     }
+                });
+
+                $("#table").on("touchend", function () {
+                    socket.emit("table", { room: room, html: $("#table").html() });
+                });
+                $("#table").on("mouseup", ".card", function () {
+                    socket.emit("table", { room: room, html: $("#table").html() });
+                });
+
+                $("#hand div").on("touchstart", ".card", function () {
+                    $(this).draggable({ containment: "#table" });
+                });
+                $("#hand div").on("mouseenter", ".card", function () {
+                    $(this).draggable({ containment: "#table" });
                 });
 
                 function click($card) {
                     if (event.ctrlKey || hand === true) {
-                        $card.prependTo("#hand div").css({ "position": "", "top": "", "left": "" });
-                        socket.emit("table", { room: room, "html": $("#table").html() });
+                        $card.prependTo("#hand div").css({ position: "", top: "", left: "" });
+                        socket.emit("table", { room: room, html: $("#table").html() });
                     } else {
                         const $src = $card.attr("src");
-                        const $val = new fernet.Token({ secret: new fernet.Secret(key), token: $card.attr("id") }).decode();
-                        if ($src.endsWith("BACK.jpg")) {
-                            if ($src.startsWith("static/assets/decks/it/")) {
-                                $card.attr("src", `static/assets/decks/it/${$val}.jpg`);
-                            } else if ($src.startsWith("static/assets/decks/fr-b/")) {
-                                $card.attr("src", `static/assets/decks/fr-b/${$val}.jpg`);
-                            } else if ($src.startsWith("static/assets/decks/fr-r/")) {
-                                $card.attr("src", `static/assets/decks/fr-r/${$val}.jpg`);
+                        socket.emit("draw", { room: room, id: $card.attr("id") });
+                        socket.on("draw", function (data) {
+                            const $val = data.card;
+                            if ($src.endsWith("BACK.jpg")) {
+                                if ($src.startsWith("static/assets/decks/italian/")) {
+                                    $card.attr("src", `static/assets/decks/italian/${$val}.jpg`);
+                                } else if ($src.startsWith("static/assets/decks/french1/")) {
+                                    $card.attr("src", `static/assets/decks/french1/${$val}.jpg`);
+                                } else if ($src.startsWith("static/assets/decks/french2/")) {
+                                    $card.attr("src", `static/assets/decks/french2/${$val}.jpg`);
+                                }
+                            } else {
+                                if ($src.startsWith("static/assets/decks/italian/")) {
+                                    $card.attr("src", "static/assets/decks/italian/BACK.jpg");
+                                } else if ($src.startsWith("static/assets/decks/french1/")) {
+                                    $card.attr("src", "static/assets/decks/french1/BACK.jpg");
+                                } else if ($src.startsWith("static/assets/decks/french2/")) {
+                                    $card.attr("src", "static/assets/decks/french2/BACK.jpg");
+                                }
                             }
-                        } else {
-                            if ($src.startsWith("static/assets/decks/it/")) {
-                                $card.attr("src", "static/assets/decks/it/BACK.jpg");
-                            } else if ($src.startsWith("static/assets/decks/fr-b/")) {
-                                $card.attr("src", `static/assets/decks/fr-b/BACK.jpg`);
-                            } else if ($src.startsWith("static/assets/decks/fr-r/")) {
-                                $card.attr("src", `static/assets/decks/fr-r/BACK.jpg`);
-                            }
-                        }
-                        socket.emit("table", { room: room, "html": $("#table").html() });
+                            socket.emit("table", { room: room, html: $("#table").html() });
+                        });
                     }
                 };
                 $("#table").on("click", ".card", function () {
@@ -143,7 +158,7 @@
                 });
                 $("#shared_notes").blur(function () {
                     $("#personal_notes").show();
-                    socket.emit("notes", { room: room, "notes": $("#shared_notes").val() });
+                    socket.emit("notes", { room: room, notes: $("#shared_notes").val() });
                 });
                 $("#personal_notes").click(function () {
                     $("#shared_notes").hide();
@@ -154,9 +169,9 @@
 
                 $(window).on("orientationchange", function () {
                     if (window.orientation === 0 || window.orientation === 180) {
-                        $("#overlay").css("transform", "translate(-50%, -50%)")
+                        $("#overlay").css("transform", "");
                     } else {
-                        $("#overlay").css("transform", "translate(-50%, -50%) scale(0.55)")
+                        $("#overlay").css("transform", "scale(0.55)");
                     }
                 });
             });
