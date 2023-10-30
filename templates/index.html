@@ -36,7 +36,12 @@
                 </div>
             </section>
         {% endif %}
-        <section id = "table">{{ html | safe }}</section>
+        <section id = "table">{{ decks | safe }}
+            <img id = "fiche1" class = "fiche clonable" src = "static/assets/fiches/FICHE1.png" alt = "fiche">
+            <img id = "fiche2" class = "fiche clonable" src = "static/assets/fiches/FICHE2.png" alt = "fiche">
+            <img id = "fiche3" class = "fiche clonable" src = "static/assets/fiches/FICHE3.png" alt = "fiche">
+            <img id = "dealer" class = "fiche clonable" src = "static/assets/fiches/DEALER.png" alt = "fiche">
+        </section>
         <section id = "hand"><h3>MANO</h3><div></div></section>
         <section>
             <textarea id = "shared_notes" placeholder = "Note condivise"></textarea>
@@ -51,6 +56,14 @@
 
                 socket.on("connect", function () {
                     socket.emit("join", { room: room });
+                });
+
+                socket.on("table", function (data) {
+                    $("#table").html(data.html);
+                });
+
+                socket.on("notes", function (data) {
+                    $("#shared_notes").val(data.notes);
                 });
 
                 $("#qrcode").click(function () {
@@ -71,43 +84,49 @@
                     $("#shared_notes").remove();
                 });
 
-                socket.on("table", function (data) {
-                    $("#table").html(data.html);
-                });
-
-                socket.on("notes", function (data) {
-                    $("#shared_notes").val(data.notes);
-                });
-
                 $("#table").on("touchstart", ".card", function () {
                     $(this).draggable();
                 });
                 $("#table").on("mouseenter", ".card", function () {
+                    $(this).draggable();
+                });
+                $("#table").on("touchstart", ".fiche", function () {
                     $(this).draggable({
-                        helper: "clone",
-                        opacity: 0.35,
-                        revert: true
+                        helper: function () {
+                            if ($(this).hasClass("clonable")) {
+                                return $(this).clone().removeClass("clonable");
+                            } else {
+                                return $(this);
+                            }
+                        }
+                    });
+                });
+                $("#table").on("mouseenter", ".fiche", function () {
+                    $(this).draggable({
+                        helper: function () {
+                            if ($(this).hasClass("clonable")) {
+                                return $(this).clone().removeClass("clonable");
+                            } else {
+                                return $(this);
+                            }
+                        }
                     });
                 });
                 $("#table").droppable({
-                    accept: ".card, .fiche",
-                    drop: function (event, ui) {
-                        ui.helper.remove();
+                    drop: function () {
+                        socket.emit("table", { room: room, html: $("#table").html() });
                     }
                 });
 
-                $("#table").on("touchend", function () {
-                    socket.emit("table", { room: room, html: $("#table").html() });
-                });
-                $("#table").on("mouseup", ".card", function () {
-                    socket.emit("table", { room: room, html: $("#table").html() });
-                });
-
                 $("#hand div").on("touchstart", ".card", function () {
-                    $(this).draggable({ containment: "#table" });
+                    $(this).draggable({
+                        axis: "x"
+                    });
                 });
                 $("#hand div").on("mouseenter", ".card", function () {
-                    $(this).draggable({ containment: "#table" });
+                    $(this).draggable({
+                        axis: "x"
+                    });
                 });
 
                 function click($card) {
@@ -140,16 +159,13 @@
                         });
                     }
                 };
-                $("#table").on("click", ".card", function () {
+                $(document).on("click", ".card", function () {
                     click($(this));
                 });
-                $("#hand").on("click", ".card", function () {
-                    click($(this));
-                });
-                $("#hand h3").on("touchstart", function () {
+                $("#hand").on("touchstart", "h3", function () {
                     hand = true;
                 });
-                $("#hand h3").on("touchend", function () {
+                $("#hand").on("touchend", "h3", function () {
                     hand = false;
                 });
 

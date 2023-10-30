@@ -38,7 +38,7 @@ def index(room = None):
         "index.min.html",
         room = int(time()),
         dealer = True,
-        html = f"""
+        decks = f"""
             <div class = "deck">
                 {"".join([f'<img id = "{card}" class = "italian card" src = "static/assets/decks/italian/BACK.jpg" alt = "card">' for card in encrypted_italian_deck])}
             </div>
@@ -48,10 +48,6 @@ def index(room = None):
             <div class = "deck">
                 {"".join([f'<img id = "{card}" class = "french2 card" src = "static/assets/decks/french2/BACK.jpg" alt = "card">' for card in encrypted_french2_deck])}
             </div>
-            <img id = "fiche1" class = "fiche" src = "static/assets/fiches/FICHE1.png" alt = "fiche">
-            <img id = "fiche2" class = "fiche" src = "static/assets/fiches/FICHE2.png" alt = "fiche">
-            <img id = "fiche3" class = "fiche" src = "static/assets/fiches/FICHE3.png" alt = "fiche">
-            <img id = "dealer" class = "fiche" src = "static/assets/fiches/DEALER.png" alt = "fiche">
         """)
 
 @socket.on("join")
@@ -91,4 +87,4 @@ def service_worker():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socket.run(app,allow_unsafe_werkzeug=True)
+if __name__ == "__main__": socket.run(app, allow_unsafe_werkzeug = True)
