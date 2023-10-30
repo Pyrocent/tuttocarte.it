@@ -50,6 +50,8 @@
         <script type = "text/javascript">
             $(document).ready(function () {
 
+                $("body").scrollTop($("body")[0].scrollHeight);
+
                 var hand = false;
                 const room = "{{room}}";
                 const socket = io({ transport: ["websocket"] });
