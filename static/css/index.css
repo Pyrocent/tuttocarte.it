@@ -97,11 +97,6 @@ hr {
     border: 5px solid rgb(245, 245, 245);
 }
 
-.deck,
-.fiche {
-    filter: drop-shadow(0 0 0.25rem rgb(0, 0, 0));
-}
-
 .card,
 .fiche {
     top: 10px;

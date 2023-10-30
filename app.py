@@ -37,8 +37,8 @@ def index(room = None):
     return render_template(
         "index.min.html",
         room = int(time()),
-        dealer = True,
-        decks = f"""
+        host = True,
+        html = f"""
             <div class = "deck">
                 {"".join([f'<img id = "{card}" class = "italian card" src = "static/assets/decks/italian/BACK.jpg" alt = "card">' for card in encrypted_italian_deck])}
             </div>
@@ -48,6 +48,10 @@ def index(room = None):
             <div class = "deck">
                 {"".join([f'<img id = "{card}" class = "french2 card" src = "static/assets/decks/french2/BACK.jpg" alt = "card">' for card in encrypted_french2_deck])}
             </div>
+            <img id = "fiche1" class = "fiche clonable" src = "static/assets/fiches/FICHE1.png" alt = "fiche">
+            <img id = "fiche2" class = "fiche clonable" src = "static/assets/fiches/FICHE2.png" alt = "fiche">
+            <img id = "fiche3" class = "fiche clonable" src = "static/assets/fiches/FICHE3.png" alt = "fiche">
+            <img id = "dealer" class = "fiche" src = "static/assets/fiches/DEALER.png" alt = "fiche">
         """)
 
 @socket.on("join")
