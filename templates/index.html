@@ -50,7 +50,7 @@
         <script type = "text/javascript">
             $(document).ready(function () {
 
-                $("body").scrollTop($("body")[0].scrollHeight);
+                $("html, body").animate({scrollTop: "0px"}, 0);
 
                 var hand = false;
                 const room = "{{room}}";
