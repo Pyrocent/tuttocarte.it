@@ -55,6 +55,10 @@ def table(data):
 def notes(data):
     emit("notes", {"notes": data["notes"]}, room = data["room"])
 
+@app.route("/ads.txt")
+def ads():
+    return send_file("ads.txt")
+
 @app.route("/robots.txt")
 def robots():
     return send_file("robots.txt")
