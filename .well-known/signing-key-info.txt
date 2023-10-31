@@ -1,8 +1,0 @@
-Key store file: signing.keystore
-Key store password: YYoB18Vi4_Gi
-Key alias: my-key-alias
-Key password: ZduGbzUvtxwj
-Signer's full name: TuttoCarte Admin
-Signer's organization: TuttoCarte
-Signer's organizational unit: Engineering
-Signer's country code: US
