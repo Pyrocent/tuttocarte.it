@@ -113,36 +113,8 @@ hr {
     margin-top: -3px;
 }
 
-.italian {
-    left: 5px;
-}
-
-.french1 {
-    left: 45px;
-}
-
-.french2 {
-    left: 90px;
-}
-
 .fiche {
     border-radius: 90%;
-}
-
-#fiche1 {
-    left: 135px;
-}
-
-#fiche2 {
-    left: 180px;
-}
-
-#fiche3 {
-    left: 225px;
-}
-
-#dealer {
-    left: 270px;
 }
 
 .card+.card:hover,

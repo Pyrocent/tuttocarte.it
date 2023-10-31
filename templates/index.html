@@ -35,7 +35,27 @@
                     <button id = "alone">SOLITARIO</button>
                 </div>
             </section>
-            <section id = "table">{{ html | safe }}</section>
+            <section id = "table">
+                <div class = "deck">
+                    {% for card in italian_deck %}
+                        <img id = "{{card}}" class = "italian card" src = "../static/assets/backs/italian.jpg" alt = "card" style = "left: 5px;">
+                    {% endfor %}
+                </div>
+                <div class = "deck">
+                    {% for card in french1_deck %}
+                        <img id = "{{card}}" class = "french1 card" src = "../static/assets/backs/french1.jpg" alt = "card" style = "left: 45px;">
+                    {% endfor %}
+                </div>
+                <div class = "deck">
+                    {% for card in french2_deck %}
+                        <img id = "{{card}}" class = "french2 card" src = "../static/assets/backs/french2.jpg" alt = "card" style = "left: 90px;">
+                    {% endfor %}
+                </div>
+                <img class = "fiche clonable" src = "../static/assets/fiches/fiche1.png" alt = "fiche" style = "left: 135px;">
+                <img class = "fiche clonable" src = "../static/assets/fiches/fiche2.png" alt = "fiche" style = "left: 180px;">
+                <img class = "fiche clonable" src = "../static/assets/fiches/fiche3.png" alt = "fiche" style = "left: 225px;">
+                <img class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "fiche" style = "left: 270px;">
+            </section>
         {% else %}
             <section id = "table"></section>
         {% endif %}
@@ -131,25 +151,21 @@
                         $card.prependTo("#hand div").css({ position: "", top: "", left: "" });
                         socket.emit("table", { room: room, html: $("#table").html() });
                     } else {
-                        const $src = $card.attr("src");
-                        socket.emit("draw", { room: room, id: $card.attr("id") });
+                        socket.emit("draw", { user: socket.id, id: $card.attr("id") });
                         socket.on("draw", function (data) {
-                            const $val = data.card;
-                            if ($src.endsWith("BACK.jpg")) {
-                                if ($src.startsWith("static/assets/decks/italian/")) {
-                                    $card.attr("src", `static/assets/decks/italian/${$val}.jpg`);
-                                } else if ($src.startsWith("static/assets/decks/french1/")) {
-                                    $card.attr("src", `static/assets/decks/french1/${$val}.jpg`);
-                                } else if ($src.startsWith("static/assets/decks/french2/")) {
-                                    $card.attr("src", `static/assets/decks/french2/${$val}.jpg`);
+                            if ($card.attr("src").startsWith("static/assets/backs/")) {
+                                if ($card.hasClass("italian")) {
+                                    $card.attr("src", `static/assets/decks/italian/${data.card}`);
+                                } else if ($card.hasClass("french1") || $card.hasClass("french2")) {
+                                    $card.attr("src", `static/assets/decks/french/${data.card}`);
                                 }
                             } else {
-                                if ($src.startsWith("static/assets/decks/italian/")) {
-                                    $card.attr("src", "static/assets/decks/italian/BACK.jpg");
-                                } else if ($src.startsWith("static/assets/decks/french1/")) {
-                                    $card.attr("src", "static/assets/decks/french1/BACK.jpg");
-                                } else if ($src.startsWith("static/assets/decks/french2/")) {
-                                    $card.attr("src", "static/assets/decks/french2/BACK.jpg");
+                                if ($card.hasClass("italian")) {
+                                    $card.attr("src", "static/assets/backs/italian.jpg");
+                                } else if ($card.hasClass("french1")) {
+                                    $card.attr("src", "static/assets/backs/french1.jpg");
+                                } else if ($card.hasClass("french2")) {
+                                    $card.attr("src", "static/assets/backs/french2.jpg");
                                 }
                             }
                             socket.emit("table", { room: room, html: $("#table").html() });
