@@ -75,6 +75,10 @@ def manifest():
 def service_worker():
     return send_file("service-worker.js")
 
+@app.route("/.well-known/assetlinks.json")
+def assetlinks():
+    return send_file(".well-known/assetlinks.json")
+
 @app.errorhandler(404)
 @app.errorhandler(405)
 def error(_):
