@@ -16,13 +16,14 @@ from flask_socketio import (
 )
 
 encryption_key = Fernet.generate_key()
-encrypted_italian_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/italian")]
-encrypted_french_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/french")]
+encrypted_ita_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/ita")]
+encrypted_fr1_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr1")]
+encrypted_fr2_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr2")]
 
 app = Flask(__name__)
+socket = SocketIO(app)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
-socket = SocketIO(app)
 
 @app.get("/")
 @app.get("/<room>")
@@ -34,30 +35,34 @@ def index(room = None):
         "index.min.html",
         room = int(time()),
         host = True,
-        italian_deck = sample(encrypted_italian_deck, 40),
-        french1_deck = sample(encrypted_french_deck, 54),
-        french2_deck = sample(encrypted_french_deck, 54)
+        ita_deck = sample(encrypted_ita_deck, 40),
+        fr1_deck = sample(encrypted_fr1_deck, 54),
+        fr2_deck = sample(encrypted_fr2_deck, 54)
     )
 
 @socket.on("join")
 def join(data):
     join_room(data["room"])
 
-@socket.on("draw")
-def draw(data):
-    emit("draw", {"card": Fernet(encryption_key).decrypt(data["id"]).decode()}, room = data["user"])
+@socket.on("play")
+def play(data):
+    emit("play", to = data["room"], args = {"table": data["table"]})
 
-@socket.on("table")
-def table(data):
-    emit("table", {"html": data["html"]}, room = data["room"])
+@socket.on("move")
+def move(data):
+    emit("move", to = data["room"], args = {"card": data["card"]})
 
-@socket.on("notes")
-def notes(data):
-    emit("notes", {"notes": data["notes"]}, room = data["room"])
+@socket.on("turn")
+def turn(data):
+    emit("turn", to = data["room"], args = {"value": Fernet(encryption_key).decrypt(data["card"]).decode()})
 
-@app.route("/ads.txt")
-def ads():
-    return send_file("ads.txt")
+@socket.on("hand")
+def hand(data):
+    emit("hand", to = data["room"], args = {"card": data["card"]})
+
+@socket.on("chat")
+def chat(data):
+    emit("chat", to = data["room"], args = {"chat": data["chat"]})
 
 @app.route("/robots.txt")
 def robots():
