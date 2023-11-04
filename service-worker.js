@@ -1,10 +1,14 @@
 const assets = [
-    "./static/assets/backs/*.jpg",
-    "./templates/min/index.min.html",
-    "./static/css/min/index.min.css",
-    "./static/assets/decks/fr1/*.jpg",
-    "./static/assets/decks/fr2/*.jpg",
-    "./static/assets/decks/ita/*.jpg",
+    "app.webmanifest",
+    "service-worker.js",
+    "templates/min/index.min.html",
+    "static/css/min/index.min.css",
+    "static/assets/backs/*.jpg",
+    "static/assets/decks/fr1/*.jpg",
+    "static/assets/decks/fr2/*.jpg",
+    "static/assets/decks/ita/*.jpg",
+    "static/assets/fiches/*.png",
+    "static/assets/favicon.png",
     "https://fonts.googleapis.com/css2?family=Outfit&display=swap"
 ];
 
