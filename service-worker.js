@@ -1,8 +1,10 @@
 const assets = [
-    "/",
-    "static/assets/",
-    "/templates/min/index.min.html",
-    "/static/css/min/index.min.css",
+    "./static/assets/backs/*.jpg",
+    "./templates/min/index.min.html",
+    "./static/css/min/index.min.css",
+    "./static/assets/decks/fr1/*.jpg",
+    "./static/assets/decks/fr2/*.jpg",
+    "./static/assets/decks/ita/*.jpg",
     "https://fonts.googleapis.com/css2?family=Outfit&display=swap"
 ];
 
