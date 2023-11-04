@@ -88,7 +88,10 @@
 
                 $("#qrcode").click(function () {
                     navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
-                    $("#copy").text("COPIATO").delay(2000).text("O CLICCALO PER COPIARE IL LINK");
+                    $("#copy").text("COPIATO");
+                    setTimeout(function () {
+                        $("#copy").text("O CLICCALO PER COPIARE IL LINK");
+                    }, 2000);
                 });
 
                 $("#group").click(function () {

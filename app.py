@@ -46,23 +46,23 @@ def join(data):
 
 @socket.on("play")
 def play(data):
-    emit("play", to = data["room"], args = {"table": data["table"]})
+    emit("play", {"table": data["table"]}, to = data["room"])
 
 @socket.on("move")
 def move(data):
-    emit("move", to = data["room"], args = {"card": data["card"]})
+    emit("move", {"card": data["card"]}, to = data["room"])
 
 @socket.on("turn")
 def turn(data):
-    emit("turn", to = data["room"], args = {"value": Fernet(encryption_key).decrypt(data["card"]).decode()})
+    emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode()}, to = data["room"])
 
 @socket.on("hand")
 def hand(data):
-    emit("hand", to = data["room"], args = {"card": data["card"]})
+    emit("hand", {"card": data["card"]}, to = data["room"])
 
 @socket.on("chat")
 def chat(data):
-    emit("chat", to = data["room"], args = {"chat": data["chat"]})
+    emit("chat", {"chat": data["chat"]}, to = data["room"])
 
 @app.route("/robots.txt")
 def robots():
