@@ -67,7 +67,7 @@
         <script type = "text/javascript">
             $(document).ready(function () {
 
-                var hand = false;
+                let hand;
                 const room = "{{room}}";
                 const socket = io({ transport: ["websocket"] });
 
@@ -80,6 +80,9 @@
                 });
 
                 socket.on("move", function (data) {
+                });
+
+                socket.on("hand", function (data) {
                 });
 
                 socket.on("chat", function (data) {
@@ -140,17 +143,18 @@
 
                 function click($card) {
                     if (event.ctrlKey || hand === true) {
-                        socket.emit("hand", { room: room, card: $("#card").html() });
+                        socket.emit("hand", { room: room, card: $card.html() });
                     } else {
-                        socket.emit("turn", { room: room, card: $card.attr("id") });
                         socket.on("turn", function (data) {
                             $class = $card[0].classList[0];
+                            console.log($class);
                             if ($card.attr("src").startsWith("static/assets/backs/")) {
                                 $card.attr("src", `static/assets/decks/${$class}/${data.value}`);
                             } else {
                                 $card.attr("src", `static/assets/backs/${$class}.jpg`);
                             }
                         });
+                        socket.emit("turn", { room: room, card: $card.attr("id") });
                     }
                 };
                 $(document).on("click", ".card", function () {

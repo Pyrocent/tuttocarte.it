@@ -54,7 +54,7 @@ def move(data):
 
 @socket.on("turn")
 def turn(data):
-    emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode()}, to = data["room"])
+    emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
 
 @socket.on("hand")
 def hand(data):
