@@ -72,7 +72,7 @@
                 const socket = io({ transport: ["websocket"] });
 
                 socket.on("connect", function () {
-                    socket.emit("join", { room: room });
+                    socket.emit("join", { room });
                 });
 
                 socket.on("play", function (data) {
@@ -99,94 +99,64 @@
 
                 $("#group").click(function () {
                     $("#play").remove();
-                    socket.emit("play", { room: room, table: $("#table").html() });
+                    socket.emit("play", { room, table: $("#table").html() });
                 });
-
                 $("#alone").click(function () {
-                    $("#play").remove();
-                    $("#chat").remove();
+                    $("#play, #chat").remove();
                 });
 
-                $("#table").on("touchstart", ".card", function () {
-                    $(this).draggable();
-                });
-                $("#table").on("mouseenter", ".card", function () {
-                    $(this).draggable();
-                });
-                $("#table").on("touchstart", ".fiche", function () {
-                    $(this).draggable({
+                $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
+                    const $element = $(this);
+
+                    $element.draggable({
                         helper: function () {
-                            if ($(this).hasClass("clonable")) {
-                                return $(this).clone().removeClass("clonable");
-                            } else {
-                                return $(this);
-                            }
-                        }
-                    });
-                });
-                $("#table").on("mouseenter", ".fiche", function () {
-                    $(this).draggable({
-                        helper: function () {
-                            if ($(this).hasClass("clonable")) {
-                                return $(this).clone().removeClass("clonable");
-                            } else {
-                                return $(this);
-                            }
+                            return $element.hasClass("clonable") ? $element.clone().removeClass("clonable") : $element;
                         }
                     });
                 });
                 $("#table").droppable({
                     drop: function () {
-                        socket.emit("move", { room: room, card: $(this).html() });
+                        socket.emit("move", { room, card: $(this).html() });
                     }
                 });
 
-                function click($card) {
+                $("#table, #hand").on("click", ".card", function () {
+                    const $card = $(this);
+
                     if (event.ctrlKey || hand === true) {
-                        socket.emit("hand", { room: room, card: $card.html() });
+                        socket.emit("hand", { room, card: $card.html() });
                     } else {
-                        socket.on("turn", function (data) {
+                        socket.emit("turn", { room, card: $card.attr("id") });
+                        socket.once("turn", function (data) {
                             $class = $card[0].classList[0];
-                            console.log($class);
-                            if ($card.attr("src").startsWith("static/assets/backs/")) {
-                                $card.attr("src", `static/assets/decks/${$class}/${data.value}`);
-                            } else {
-                                $card.attr("src", `static/assets/backs/${$class}.jpg`);
-                            }
+                            $card.attr("src", $card.attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$class}/${data.value}` : `static/assets/backs/${$class}.jpg`);
                         });
-                        socket.emit("turn", { room: room, card: $card.attr("id") });
                     }
-                };
-                $(document).on("click", ".card", function () {
-                    click($(this));
                 });
-                $("#hand").on("touchstart", "h3", function () {
-                    hand = true;
-                });
-                $("#hand").on("touchend", "h3", function () {
-                    hand = false;
+                $("#hand").on("touchstart touchend", "h3", function (event) {
+                    hand = event.type === "touchstart";
                 });
 
-                $("#chat").click(function () {
-                    $("#note").hide();
+                $("#chat").on({
+                    click: function () {
+                        $("#note").hide();
+                    },
+                    blur: function () {
+                        $("#note").show();
+                        socket.emit("chat", { room, chat: $("#chat").val() });
+                    }
                 });
-                $("#chat").blur(function () {
-                    $("#note").show();
-                    socket.emit("chat", { room: room, chat: $("#chat").val() });
-                });
-                $("#note").click(function () {
-                    $("#chat").hide();
-                });
-                $("#note").blur(function () {
-                    $("#chat").show();
+                $("#note").on({
+                    click: function () {
+                        $("#chat").hide();
+                    },
+                    blur: function () {
+                        $("#chat").show();
+                    }
                 });
 
                 $(window).on("orientationchange", function () {
-                    if (window.orientation === 0 || window.orientation === 180) {
-                        $("#play > div").css("transform", "");
-                    } else {
-                        $("#play > div").css("transform", "scale(0.55)");
-                    }
+                    $("#play > div").css("transform", window.orientation === 0 || window.orientation === 180 ? "" : "scale(0.55)");
                 });
             });
         </script>
