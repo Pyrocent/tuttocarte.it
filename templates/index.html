@@ -105,31 +105,25 @@
                     $("#play, #chat").remove();
                 });
 
-                $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
-                    const $element = $(this);
-
-                    $element.draggable({
+                $("#table").on("touchstart mouseenter", ".card", function () {
+                    $(this).draggable();
+                });
+                $("#table").on("touchstart mouseenter", ".fiche", function () {
+                    $(this).draggable({
                         helper: function () {
-                            return $element.hasClass("clonable") ? $element.clone().removeClass("clonable") : $element;
+                            return $(this).hasClass("clonable") ? $(this).clone().removeClass("clonable") : $(this);
                         }
                     });
                 });
-                $("#table").droppable({
-                    drop: function () {
-                        socket.emit("move", { room, card: $(this).html() });
-                    }
-                });
 
-                $("#table, #hand").on("click", ".card", function () {
-                    const $card = $(this);
-
+                $("#table, #hand").on("click", ".card", function (event) {
+                    let $card = $(this);
                     if (event.ctrlKey || hand === true) {
                         socket.emit("hand", { room, card: $card.html() });
                     } else {
                         socket.emit("turn", { room, card: $card.attr("id") });
                         socket.once("turn", function (data) {
-                            $class = $card[0].classList[0];
-                            $card.attr("src", $card.attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$class}/${data.value}` : `static/assets/backs/${$class}.jpg`);
+                            $card.attr("src", $card.attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$card[0].classList[0]}/${data.value}` : `static/assets/backs/${$card[0].classList[0]}.jpg`);
                         });
                     }
                 });
