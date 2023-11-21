@@ -7,7 +7,7 @@ const assets = [
     "static/assets/decks/fr1/*.jpg",
     "static/assets/decks/fr2/*.jpg",
     "static/assets/decks/ita/*.jpg",
-    "static/assets/fiches/*.png",
+    "static/assets/fiches/*.jpg",
     "static/assets/favicon.png",
     "https://fonts.googleapis.com/css2?family=Outfit&display=swap"
 ];
