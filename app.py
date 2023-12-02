@@ -30,15 +30,15 @@ app.template_folder = "templates/min"
 def index(room = None):
     if room is not None:
         return render_template("index.min.html", room = room)
-
-    return render_template(
-        "index.min.html",
-        room = int(time()),
-        host = True,
-        ita_deck = sample(encrypted_ita_deck, 40),
-        fr1_deck = sample(encrypted_fr1_deck, 54),
-        fr2_deck = sample(encrypted_fr2_deck, 54)
-    )
+    else:
+        return render_template(
+            "index.min.html",
+            room = int(time()),
+            host = True,
+            ita_deck = sample(encrypted_ita_deck, 40),
+            fr1_deck = sample(encrypted_fr1_deck, 54),
+            fr2_deck = sample(encrypted_fr2_deck, 54)
+        )
 
 @socket.on("join")
 def join(data):
@@ -89,4 +89,4 @@ def assetlinks():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socket.run(app, allow_unsafe_werkzeug = True)
+if __name__ == "__main__": socket.run(app)
