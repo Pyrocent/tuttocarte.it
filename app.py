@@ -21,7 +21,7 @@ encrypted_fr1_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for
 encrypted_fr2_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr2")]
 
 app = Flask(__name__)
-socket = SocketIO(app)
+socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 app.template_folder = "templates/min"
 
@@ -40,48 +40,48 @@ def index(room = None):
             fr2_deck = sample(encrypted_fr2_deck, 54)
         )
 
-@socket.on("join")
-def join(data):
+@socketio.on("join")
+def handle_join(data):
     join_room(data["room"])
 
-@socket.on("play")
-def play(data):
+@socketio.on("play")
+def handle_play(data):
     emit("play", {"table": data["table"]}, to = data["room"])
 
-@socket.on("move")
-def move(data):
+@socketio.on("move")
+def handle_move(data):
     emit("move", {"card": data["card"]}, to = data["room"])
 
-@socket.on("turn")
-def turn(data):
+@socketio.on("turn")
+def handle_turn(data):
     emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode()}, to = data["room"])
 
-@socket.on("hand")
-def hand(data):
+@socketio.on("hand")
+def handle_hand(data):
     emit("hand", {"card": data["card"]}, to = data["room"])
 
-@socket.on("chat")
-def chat(data):
+@socketio.on("chat")
+def handle_chat(data):
     emit("chat", {"chat": data["chat"]}, to = data["room"])
 
 @app.route("/robots.txt")
-def robots():
+def serve_robots():
     return send_file("robots.txt")
 
 @app.route("/sitemap.xml")
-def sitemap():
+def serve_sitemap():
     return send_file("sitemap.xml")
 
 @app.route("/manifest.json")
-def manifest():
+def serve_manifest():
     return send_file("manifest.json")
 
 @app.route("/service-worker.js")
-def service_worker():
+def serve_service_worker():
     return send_file("service-worker.js")
 
 @app.route("/.well-known/assetlinks.json")
-def assetlinks():
+def serve_assetlinks():
     return send_file(".well-known/assetlinks.json")
 
 @app.errorhandler(404)
@@ -89,4 +89,4 @@ def assetlinks():
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": socket.run(app)
+if __name__ == "__main__": app.run()
