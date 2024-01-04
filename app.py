@@ -28,9 +28,7 @@ app.template_folder = "templates/min"
 @app.get("/")
 @app.get("/<room>")
 def index(room = None):
-    if room is not None:
-        return render_template("index.min.html", room = room)
-    else:
+    if room is None:
         return render_template(
             "index.min.html",
             room = int(time()),
@@ -39,6 +37,8 @@ def index(room = None):
             fr1_deck = sample(encrypted_fr1_deck, 54),
             fr2_deck = sample(encrypted_fr2_deck, 54)
         )
+    else:
+        return render_template("index.min.html", room = room)
 
 @socketio.on("join")
 def handle_join(data):
@@ -66,27 +66,27 @@ def handle_chat(data):
 
 @app.route("/robots.txt")
 def serve_robots():
-    return send_file("robots.txt")
+    return send_file("./robots.txt")
 
 @app.route("/sitemap.xml")
 def serve_sitemap():
-    return send_file("sitemap.xml")
+    return send_file("./sitemap.xml")
 
 @app.route("/manifest.json")
 def serve_manifest():
-    return send_file("manifest.json")
+    return send_file("./manifest.json")
 
 @app.route("/service-worker.js")
 def serve_service_worker():
-    return send_file("service-worker.js")
+    return send_file("./service-worker.js")
 
 @app.route("/.well-known/assetlinks.json")
 def serve_assetlinks():
-    return send_file(".well-known/assetlinks.json")
+    return send_file("./.well-known/assetlinks.json")
 
 @app.errorhandler(404)
 @app.errorhandler(405)
 def error(_):
     return redirect("/")
 
-if __name__ == "__main__": app.run()
+if __name__ == "__main__": app.run(debug = True)

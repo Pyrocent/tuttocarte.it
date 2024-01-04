@@ -6,6 +6,7 @@ body {
 body {
     margin: 0;
     display: flex;
+    cursor: default;
     user-select: none;
     -ms-user-select: none;
     flex-direction: column;
