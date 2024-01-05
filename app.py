@@ -23,14 +23,13 @@ encrypted_fr2_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for
 app = Flask(__name__)
 socketio = SocketIO(app)
 app.secret_key = token_hex(16)
-app.template_folder = "templates/min"
 
 @app.get("/")
 @app.get("/<room>")
 def index(room = None):
     if room is None:
         return render_template(
-            "index.min.html",
+            "index.html",
             room = int(time()),
             host = True,
             ita_deck = sample(encrypted_ita_deck, 40),
@@ -38,7 +37,7 @@ def index(room = None):
             fr2_deck = sample(encrypted_fr2_deck, 54)
         )
     else:
-        return render_template("index.min.html", room = room)
+        return render_template("index.html", room = room)
 
 @socketio.on("join")
 def handle_join(data):

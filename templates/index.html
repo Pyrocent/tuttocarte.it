@@ -5,8 +5,8 @@
         <title>TuttoCarte.it</title>
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "manifest" href = "/manifest.json">
-        <link rel = "icon" href = "../static/assets/favicon.png">
-        <link rel = "stylesheet" href = "../static/css/min/index.min.css">
+        <link rel = "icon" href = "../static/assets/favicon.ico">
+        <link rel = "stylesheet" href = "../static/css/index.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <meta name = "description" content = "Gioca con i tuoi amici a qualsiasi gioco di carte senza la necessità di avere un mazzo a portata di mano!">
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
@@ -64,7 +64,7 @@
             <textarea id = "chat" placeholder = "Chat di gruppo"></textarea>
             <textarea id = "note" placeholder = "Note personali"></textarea>
         </section>
-        <script type = "text/javascript">
+        <script type = "text/javascript" charset = "UTF-8">
             $(function () {
 
                 let hand;
@@ -89,7 +89,7 @@
                     $("#chat").val(data.chat);
                 });
 
-                $("#qrcode").click(function () {
+                $("#qrcode").on("click", function () {
                     navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
                     $("#copy").text("COPIATO");
                     setTimeout(function () {
@@ -97,26 +97,26 @@
                     }, 2000);
                 });
 
-                $("#group").click(function () {
+                $("#group").on("click", function () {
                     $("#play").remove();
                     socket.emit("play", { room, table: $("#table").html() });
                 });
-                $("#alone").click(function () {
+                $("#alone").on("click", function () {
                     $("#play, #chat").remove();
                 });
 
-                $("#table").on("touchstart mouseenter", ".card", function () {
-                    $(this).draggable();
-                });
-                $("#table").on("touchstart mouseenter", ".fiche", function () {
+                $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
                     $(this).draggable({
-                        helper: function () {
-                            return $(this).hasClass("clonable") ? $(this).clone().removeClass("clonable") : $(this);
+                        start: function () {
+                            if ($(this).hasClass("clonable")) {
+                                $(this).clone().appendTo("#table");
+                                $(this).removeClass("clonable");
+                            }
                         }
                     });
                 });
 
-                $("#table, #hand").on("click", ".card", function (event) {
+                $(".card").on("click", function (event) {
                     let $card = $(this);
                     if (event.ctrlKey || hand === true) {
                         socket.emit("hand", { room, card: $card.html() });
