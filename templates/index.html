@@ -82,6 +82,10 @@
                 socket.on("hand", function (data) {
                 });
 
+                socket.on("turn", function (data) {
+                    $(data.id).attr("src", $(data.id).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$(data.id)[0].classList[0]}/${data.value}` : `static/assets/backs/${$(data.id)[0].classList[0]}.jpg`);
+                });
+
                 socket.on("chat", function (data) {
                     $("#chat").val(data.chat);
                 });
@@ -119,15 +123,7 @@
                 });
 
                 $("#table").on("click", ".card", function (event) {
-                    if (event.ctrlKey || hand === true) {
-                        socket.emit("hand", { room, card: $(this).html() });
-                    } else {
-                        let $card = $(this);
-                        socket.emit("turn", { room, card: $card.attr("id") });
-                        socket.once("turn", function (data) {
-                            $card.attr("src", $card.attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$card[0].classList[0]}/${data.value}` : `static/assets/backs/${$card[0].classList[0]}.jpg`);
-                        });
-                    }
+                    event.ctrlKey || hand === true ? socket.emit("hand", { room, card: $(this).html() }) : socket.emit("turn", { room, card: $(this).attr("id") });
                 });
 
                 $("#h3").on("touchstart touchend", function (event) {
