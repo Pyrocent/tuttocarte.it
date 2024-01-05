@@ -105,14 +105,14 @@
                 $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
                     $(this).draggable({
                         start: function () {
-                            $(this).css("cursor", "grabbing");
+                            $(this).css("cursor", "move");
                             if ($(this).hasClass("clonable")) {
                                 $(this).clone().appendTo("#table");
                                 $(this).removeClass("clonable");
                             }
                         },
                         stop: function () {
-                            $(this).css("cursor", "grab");
+                            $(this).css("cursor", "pointer");
                             socket.emit("play", { room, table: $("#table").html() });
                         }
                     });
