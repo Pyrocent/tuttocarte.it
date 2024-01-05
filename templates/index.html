@@ -118,7 +118,7 @@
                     });
                 });
 
-                $(".card").on("click", function (event) {
+                $("#table").on("click", ".card", function (event) {
                     if (event.ctrlKey || hand === true) {
                         socket.emit("hand", { room, card: $(this).html() });
                     } else {
@@ -129,7 +129,7 @@
                     }
                 });
 
-                $("#hand").on("touchstart touchend", "h3", function (event) {
+                $("#h3").on("touchstart touchend", function (event) {
                     hand = event.type === "touchstart";
                 });
 
