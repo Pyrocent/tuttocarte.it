@@ -122,9 +122,10 @@
                     if (event.ctrlKey || hand === true) {
                         socket.emit("hand", { room, card: $(this).html() });
                     } else {
-                        socket.emit("turn", { room, card: $(this).attr("id") });
+                        let $card = $(this);
+                        socket.emit("turn", { room, card: $card.attr("id") });
                         socket.once("turn", function (data) {
-                            $(this).attr("src", $(this).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$(this)[0].classList[0]}/${data.value}` : `static/assets/backs/${$(this)[0].classList[0]}.jpg`);
+                            $card.attr("src", $card.attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$card[0].classList[0]}/${data.value}` : `static/assets/backs/${$card[0].classList[0]}.jpg`);
                         });
                     }
                 });
