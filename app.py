@@ -47,10 +47,6 @@ def handle_join(data):
 def handle_play(data):
     emit("play", {"table": data["table"]}, to = data["room"])
 
-@socketio.on("move")
-def handle_move(data):
-    emit("move", {"card": data["card"]}, to = data["room"])
-
 @socketio.on("turn")
 def handle_turn(data):
     emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode()}, to = data["room"])

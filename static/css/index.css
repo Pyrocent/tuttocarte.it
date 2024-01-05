@@ -102,7 +102,7 @@ body {
 .card,
 .fiche {
     top: 10px;
-    cursor: pointer;
+    cursor: grab;
     position: absolute;
     border: 1px solid rgb(0, 0, 0);
 }

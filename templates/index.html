@@ -79,9 +79,6 @@
                     $("#table").html(data.table);
                 });
 
-                socket.on("move", function (data) {
-                });
-
                 socket.on("hand", function (data) {
                 });
 
@@ -108,25 +105,30 @@
                 $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
                     $(this).draggable({
                         start: function () {
+                            $(this).css("cursor", "grabbing");
                             if ($(this).hasClass("clonable")) {
                                 $(this).clone().appendTo("#table");
                                 $(this).removeClass("clonable");
                             }
+                        },
+                        stop: function () {
+                            $(this).css("cursor", "grab");
+                            socket.emit("play", { room, table: $("#table").html() });
                         }
                     });
                 });
 
                 $(".card").on("click", function (event) {
-                    let $card = $(this);
                     if (event.ctrlKey || hand === true) {
-                        socket.emit("hand", { room, card: $card.html() });
+                        socket.emit("hand", { room, card: $(this).html() });
                     } else {
-                        socket.emit("turn", { room, card: $card.attr("id") });
+                        socket.emit("turn", { room, card: $(this).attr("id") });
                         socket.once("turn", function (data) {
-                            $card.attr("src", $card.attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$card[0].classList[0]}/${data.value}` : `static/assets/backs/${$card[0].classList[0]}.jpg`);
+                            $(this).attr("src", $(this).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$(this)[0].classList[0]}/${data.value}` : `static/assets/backs/${$(this)[0].classList[0]}.jpg`);
                         });
                     }
                 });
+
                 $("#hand").on("touchstart touchend", "h3", function (event) {
                     hand = event.type === "touchstart";
                 });
