@@ -45,7 +45,7 @@ def handle_join(data):
 
 @socketio.on("play")
 def handle_play(data):
-    emit("play", to = data["room"], args = {"table": data["table"]}, )
+    emit("play", {"table": data["table"]}, to = data["room"])
 
 @socketio.on("turn")
 def handle_turn(data):
