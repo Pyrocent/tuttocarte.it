@@ -51,10 +51,6 @@ def handle_play(data):
 def handle_turn(data):
     emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
 
-@socketio.on("hand")
-def handle_hand(data):
-    emit("hand", {"card": data["card"]}, to = data["room"])
-
 @socketio.on("chat")
 def handle_chat(data):
     emit("chat", {"chat": data["chat"]}, to = data["room"])

@@ -120,7 +120,7 @@ body {
     border-radius: 90%;
 }
 
-.card+.card:hover,
+.card:hover,
 .fiche:hover {
     transform: scale(1.075);
 }

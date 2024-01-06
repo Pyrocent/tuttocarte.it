@@ -79,9 +79,6 @@
                     $("#table").html(data.table);
                 });
 
-                socket.on("hand", function (data) {
-                });
-
                 socket.on("turn", function (data) {
                     console.log($("#" + data.card));
                     // $("#" + data.card).attr("src", $("#" + data.card).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$("#" + data.card)[0].classList[0]}/${data.value}` : `static/assets/backs/${$("#" + data.card)[0].classList[0]}.jpg`);
