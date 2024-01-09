@@ -15,20 +15,17 @@ from flask_socketio import (
     join_room
 )
 
-def encrypt_deck(deck_path, fernet_obj):
-    return [fernet_obj.encrypt(card.encode()).decode() for card in listdir(deck_path)]
-
-encryption_key = Fernet(Fernet.generate_key())
-encrypted_ita_deck = encrypt_deck("static/assets/decks/ita", encryption_key)
-encrypted_fr1_deck = encrypt_deck("static/assets/decks/fr1", encryption_key)
-encrypted_fr2_deck = encrypt_deck("static/assets/decks/fr2", encryption_key)
+fernet_obj = Fernet(Fernet.generate_key())
+encrypted_ita_deck = [fernet_obj.encrypt(card.encode()).decode() for card in listdir("static/assets/decks/ita")]
+encrypted_fr1_deck = [fernet_obj.encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr1")]
+encrypted_fr2_deck = [fernet_obj.encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr2")]
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 
 @app.get("/")
-@app.get("/<room>")
+@app.get("/int:<room>")
 def index(room = None):
     if room is None:
         return render_template(
@@ -52,7 +49,7 @@ def handle_play(data):
 
 @socketio.on("turn")
 def handle_turn(data):
-    emit("turn", {"value": Fernet(encryption_key).decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
+    emit("turn", {"value": fernet_obj.decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
 
 @socketio.on("chat")
 def handle_chat(data):
