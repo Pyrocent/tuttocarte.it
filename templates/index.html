@@ -14,6 +14,7 @@
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Outfit&display=swap">
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-mobile@1.5.0-alpha.1/js/core.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
         <script>
@@ -22,7 +23,7 @@
             }
         </script>
     </head>
-    <body>
+    <body oncontextmenu = "return false">
         {% if host == True %}
             <section id = "play">
                 <div>
@@ -61,30 +62,29 @@
         {% endif %}
         <section id = "hand"><h3>MANO</h3><div></div></section>
         <section>
-            <textarea id = "note" placeholder = "Note personali"></textarea>
+            <textarea id = "notes" placeholder = "Note personali"></textarea>
             <textarea id = "chat" placeholder = "Chat di gruppo"></textarea>
         </section>
         <script type = "text/javascript" charset = "UTF-8">
             $(function () {
 
-                let hand;
                 const room = "{{room}}";
-                const socket = io({ transport: ["websocket"] });
+                const socketio = io({ transport: ["websocket"] });
 
-                socket.on("connect", function () {
-                    socket.emit("join", { room });
+                socketio.on("connect", function () {
+                    socketio.emit("join", { room });
                 });
 
-                socket.on("play", function (data) {
+                socketio.on("play", function (data) {
                     $("#table").html(data.table);
                 });
 
-                socket.on("turn", function (data) {
+                socketio.on("turn", function (data) {
                     console.log($("#" + data.card));
                     // $("#" + data.card).attr("src", $("#" + data.card).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$("#" + data.card)[0].classList[0]}/${data.value}` : `static/assets/backs/${$("#" + data.card)[0].classList[0]}.jpg`);
                 });
 
-                socket.on("chat", function (data) {
+                socketio.on("chat", function (data) {
                     $("#chat").val(data.chat);
                 });
 
@@ -98,7 +98,7 @@
 
                 $("#group").on("click", function () {
                     $("#play").remove();
-                    socket.emit("play", { room, table: $("#table").html() });
+                    socketio.emit("play", { room, table: $("#table").html() });
                 });
                 $("#alone").on("click", function () {
                     $("#play, #chat").remove();
@@ -115,29 +115,37 @@
                         },
                         stop: function () {
                             $(this).css("cursor", "pointer");
-                            socket.emit("play", { room, table: $("#table").html() });
+                            socketio.emit("play", { room, table: $("#table").html() });
                         }
                     });
                 });
 
-                $("#table").on("click", ".card", function (event) {
-                    event.ctrlKey || hand === true ? socket.emit("hand", { room, card: $(this).html() }) : socket.emit("turn", { room, card: $(this).attr("id") });
-                });
+                $("#table").on({
+                    vclick: function () {
+                    },
+                    taphold: function () {
+                    }
+                },".card, .fiche");
 
-                $("#h3").on("touchstart touchend", function (event) {
-                    hand = event.type === "touchstart";
+                $("#table").on("mousedown", ".card, .fiche", function (event) {
+                    switch (event.which) {
+                        case 1:
+                            alert("C");
+                        case 3:
+                            alert("D");
+                    }
                 });
 
                 $("#chat").on({
                     click: function () {
-                        $("#note").hide();
+                        $("#notes").hide();
                     },
                     blur: function () {
-                        $("#note").show();
-                        socket.emit("chat", { room, chat: $("#chat").val() });
+                        $("#notes").show();
+                        socketio.emit("chat", { room, chat: $("#chat").val() });
                     }
                 });
-                $("#note").on({
+                $("#notes").on({
                     click: function () {
                         $("#chat").hide();
                     },

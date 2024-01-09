@@ -15,10 +15,13 @@ from flask_socketio import (
     join_room
 )
 
-encryption_key = Fernet.generate_key()
-encrypted_ita_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/ita")]
-encrypted_fr1_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr1")]
-encrypted_fr2_deck = [Fernet(encryption_key).encrypt(card.encode()).decode() for card in listdir("static/assets/decks/fr2")]
+def encrypt_deck(deck_path, fernet_obj):
+    return [fernet_obj.encrypt(card.encode()).decode() for card in listdir(deck_path)]
+
+encryption_key = Fernet(Fernet.generate_key())
+encrypted_ita_deck = encrypt_deck("static/assets/decks/ita", encryption_key)
+encrypted_fr1_deck = encrypt_deck("static/assets/decks/fr1", encryption_key)
+encrypted_fr2_deck = encrypt_deck("static/assets/decks/fr2", encryption_key)
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -55,25 +58,17 @@ def handle_turn(data):
 def handle_chat(data):
     emit("chat", {"chat": data["chat"]}, to = data["room"])
 
-@app.route("/robots.txt")
-def serve_robots():
-    return send_file("./robots.txt")
-
-@app.route("/sitemap.xml")
-def serve_sitemap():
-    return send_file("./sitemap.xml")
-
-@app.route("/manifest.json")
-def serve_manifest():
-    return send_file("./manifest.json")
-
-@app.route("/service-worker.js")
-def serve_service_worker():
-    return send_file("./service-worker.js")
-
-@app.route("/.well-known/assetlinks.json")
-def serve_assetlinks():
-    return send_file("./.well-known/assetlinks.json")
+@app.route("/<path:filename>")
+def serve_file(filename):
+    valid_files = {
+        "robots.txt": "./robots.txt",
+        "sitemap.xml": "./sitemap.xml",
+        "manifest.json": "./manifest.json",
+        "service-worker.js": "./service-worker.js",
+        ".well-known/assetlinks.json": "./.well-known/assetlinks.json"
+    }
+    if filename in valid_files:
+        return send_file(valid_files[filename])
 
 @app.errorhandler(404)
 @app.errorhandler(405)
