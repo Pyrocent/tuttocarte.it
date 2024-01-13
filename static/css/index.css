@@ -117,6 +117,7 @@ body {
 }
 
 .fiche {
+    width: 35px;
     border-radius: 90%;
 }
 
@@ -149,8 +150,12 @@ body {
     left: 225px;
 }
 
-#dealer {
+#fiche4 {
     left: 270px;
+}
+
+#dealer {
+    left: 315px;
 }
 
 section:not(#play, #table) {

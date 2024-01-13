@@ -1,20 +1,10 @@
-from cryptography.fernet import Fernet
-from secrets import token_hex
-from random import sample
-from os import listdir
 from time import time
-from flask import (
-    Flask,
-    request,
-    redirect,
-    send_file,
-    render_template
-)
-from flask_socketio import (
-    emit,
-    SocketIO,
-    join_room
-)
+from os import listdir
+from random import sample
+from secrets import token_hex
+from cryptography.fernet import Fernet
+from flask_socketio import emit, SocketIO, join_room
+from flask import Flask, request, redirect, send_file, render_template
 
 fernet_obj = Fernet(Fernet.generate_key())
 encrypted_ita_deck = [fernet_obj.encrypt(card.encode()).decode() for card in listdir("static/assets/decks/ita")]
