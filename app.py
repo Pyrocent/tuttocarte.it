@@ -5,6 +5,7 @@ from os import listdir
 from time import time
 from flask import (
     Flask,
+    request,
     redirect,
     send_file,
     render_template
@@ -25,7 +26,7 @@ socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 
 @app.get("/")
-@app.get("/int:<room>")
+@app.get("/<int(fixed_digits=10):room>")
 def index(room = None):
     if room is None:
         return render_template(
@@ -54,18 +55,14 @@ def handle_turn(data):
 @socketio.on("chat")
 def handle_chat(data):
     emit("chat", {"chat": data["chat"]}, to = data["room"])
-
-@app.route("/<path:filename>")
-def serve_file(filename):
-    valid_files = {
-        "robots.txt": "./robots.txt",
-        "sitemap.xml": "./sitemap.xml",
-        "manifest.json": "./manifest.json",
-        "service-worker.js": "./service-worker.js",
-        ".well-known/assetlinks.json": "./.well-known/assetlinks.json"
-    }
-    if filename in valid_files:
-        return send_file(valid_files[filename])
+ 
+@app.get("/robots.txt")
+@app.get("/sitemap.xml")
+@app.get("/manifest.json")
+@app.get("/service-worker.js")
+@app.get("/.well-known/assetlinks.json")
+def serve_file():
+    return send_file(f"./{request.path}")
 
 @app.errorhandler(404)
 @app.errorhandler(405)
