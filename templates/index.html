@@ -73,7 +73,7 @@
                 const socketio = io({ transport: ["websocket"] });
 
                 socketio.on("connect", function () {
-                    socketio.emit("join", { room });
+                    socketio.emit("join", room);
                 });
 
                 socketio.on("play", function (data) {
