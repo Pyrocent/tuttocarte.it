@@ -193,7 +193,7 @@ body {
     display: flex;
 }
 
-#notes, #chat textarea {
+#notes, #chatview {
     resize: none;
     padding: 5px;
     font-size: 15px;
@@ -207,6 +207,10 @@ body {
     width: 50%;
 }
 
+#chatview {
+    cursor: default;
+}
+
 #chat {
     gap: 5px;
     display: flex;
@@ -218,6 +222,12 @@ body {
     gap: 5px;
     display: flex;
 }
+
 #message {
     width: 100%;
+}
+
+#send {
+    cursor: pointer;
+    font-family: "Outfit", sans-serif;
 }
