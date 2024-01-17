@@ -4,7 +4,7 @@ from random import sample
 from secrets import token_hex
 from cryptography.fernet import Fernet
 from flask_socketio import emit, SocketIO, join_room
-from flask import Flask, request, redirect, send_file, render_template
+from flask import Flask, request, session, redirect, send_file, render_template
 
 fernet_obj = Fernet(Fernet.generate_key())
 encrypted_ita_deck = [fernet_obj.encrypt(card.encode()).decode() for card in listdir("static/assets/decks/ita")]
@@ -33,19 +33,22 @@ def index(room = None):
 @socketio.on("join")
 def handle_join(data):
     join_room(data["room"])
+    session["nick"] = data["nick"]
 
 @socketio.on("play")
 def handle_play(data):
     emit("play", {"table": data["table"]}, to = data["room"])
+    emit("chat", {"chat": data["chat"] + "BOT: " + session.get("nick") + " ha mosso/pescato\n"}, to = data["room"])
 
 @socketio.on("turn")
 def handle_turn(data):
     emit("turn", {"value": fernet_obj.decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
+    emit("chat", {"chat": data["chat"] + "BOT: " + session.get("nick") + " ha girato una carta\n"}, to = data["room"])
 
 @socketio.on("chat")
 def handle_chat(data):
-    emit("chat", {"chat": data["chat"]}, to = data["room"])
- 
+    emit("chat", {"chat": data["chat"] + session.get("nick") + ":" + data["message"] + "\n"}, to = data["room"])
+
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")
 @app.get("/manifest.json")

@@ -158,13 +158,6 @@ body {
     left: 315px;
 }
 
-section:not(#play, #table) {
-    gap: 10px;
-    height: 74px;
-    padding: 5px;
-    display: flex;
-}
-
 #hand h3 {
     margin: 0;
     padding: 5px;
@@ -193,8 +186,14 @@ section:not(#play, #table) {
     position: relative;
 }
 
-textarea {
-    flex: 1;
+#hand, #textareas {
+    gap: 10px;
+    height: 74px;
+    padding: 5px;
+    display: flex;
+}
+
+#notes, #chat textarea {
     resize: none;
     padding: 5px;
     font-size: 15px;
@@ -202,4 +201,23 @@ textarea {
     border-radius: 5px;
     white-space: nowrap;
     font-family: "Outfit", sans-serif;
+}
+
+#notes {
+    width: 50%;
+}
+
+#chat {
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+#chat > form {
+    gap: 5px;
+    display: flex;
+}
+#message {
+    width: 100%;
 }

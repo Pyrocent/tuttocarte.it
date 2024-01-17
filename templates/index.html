@@ -63,9 +63,15 @@
             <section id = "table"></section>
         {% endif %}
         <section id = "hand"><h3>MANO</h3><div></div></section>
-        <section>
+        <section id = "textareas">
             <textarea id = "notes" placeholder = "Note personali"></textarea>
-            <textarea id = "chat" placeholder = "Chat di gruppo"></textarea>
+            <div id = "chat">
+                <textarea id = "chatview" placeholder = "Chat di gruppo" readonly></textarea>
+                <form>
+                    <input id = "message" type = "text" placeholder = "Scrivi..." required>
+                    <input type = "submit" value = ">">
+                </form>
+            </div>
         </section>
         <script type = "text/javascript" charset = "UTF-8">
             $(function () {
@@ -74,7 +80,7 @@
                 const socketio = io({ transport: ["websocket"] });
 
                 socketio.on("connect", function () {
-                    socketio.emit("join", room);
+                    socketio.emit("join", {room, nick: "utente"});
                 });
 
                 socketio.on("play", function (data) {
@@ -87,7 +93,8 @@
                 });
 
                 socketio.on("chat", function (data) {
-                    $("#chat").val(data.chat);
+                    console.log("ee")
+                    $("#chatview").val(data.chat);
                 });
 
                 $("#qrcode").on("click", function () {
@@ -103,7 +110,7 @@
                     socketio.emit("play", { room, table: $("#table").html() });
                 });
                 $("#alone").on("click", function () {
-                    $("#play, #chat").remove();
+                    $("#play, #chat, #logs").remove();
                 });
 
                 $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
@@ -138,22 +145,10 @@
                     }
                 });
 
-                $("#chat").on({
-                    click: function () {
-                        $("#notes").hide();
-                    },
-                    blur: function () {
-                        $("#notes").show();
-                        socketio.emit("chat", { room, chat: $("#chat").val() });
-                    }
-                });
-                $("#notes").on({
-                    click: function () {
-                        $("#chat").hide();
-                    },
-                    blur: function () {
-                        $("#chat").show();
-                    }
+                $("#chat form").submit(function(event) {
+                    event.preventDefault();
+                    console.log($("#message").val())
+                    socketio.emit("chat", { room, chat: $("#chatview").val(), message: $("#message").val()});
                 });
 
                 $(window).on("orientationchange", function () {
