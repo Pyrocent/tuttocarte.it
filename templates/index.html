@@ -93,7 +93,6 @@
                 });
 
                 socketio.on("chat", function (data) {
-                    console.log("ee")
                     $("#chatview").val(data.chat);
                 });
 
@@ -110,7 +109,7 @@
                     socketio.emit("play", { room, table: $("#table").html() });
                 });
                 $("#alone").on("click", function () {
-                    $("#play, #chat, #logs").remove();
+                    $("#play, #chat").remove();
                 });
 
                 $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
@@ -147,8 +146,8 @@
 
                 $("#chat form").submit(function(event) {
                     event.preventDefault();
-                    console.log($("#message").val())
                     socketio.emit("chat", { room, chat: $("#chatview").val(), message: $("#message").val()});
+                    $("#message").val("");
                 });
 
                 $(window).on("orientationchange", function () {

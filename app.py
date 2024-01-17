@@ -47,7 +47,7 @@ def handle_turn(data):
 
 @socketio.on("chat")
 def handle_chat(data):
-    emit("chat", {"chat": data["chat"] + session.get("nick") + ":" + data["message"] + "\n"}, to = data["room"])
+    emit("chat", {"chat": data["chat"] + session.get("nick") + ": " + data["message"] + "\n"}, to = data["room"])
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")
