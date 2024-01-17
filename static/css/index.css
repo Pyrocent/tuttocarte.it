@@ -186,14 +186,16 @@ body {
     position: relative;
 }
 
-#hand, #textareas {
+#hand,
+#textareas {
     gap: 10px;
     height: 74px;
     padding: 5px;
     display: flex;
 }
 
-#notes, #chatview {
+#notes,
+#chatview {
     resize: none;
     padding: 5px;
     font-size: 15px;
@@ -218,7 +220,7 @@ body {
     justify-content: space-between
 }
 
-#chat > form {
+#chat>form {
     gap: 5px;
     display: flex;
 }
