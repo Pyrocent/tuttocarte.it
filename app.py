@@ -43,11 +43,10 @@ def handle_play(data):
 @socketio.on("turn")
 def handle_turn(data):
     emit("turn", {"value": fernet_obj.decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
-    emit("chat", {"chat": data["chat"] + "BOT: " + session.get("nick") + " ha girato una carta\n"}, to = data["room"])
 
 @socketio.on("chat")
 def handle_chat(data):
-    emit("chat", {"chat": data["chat"] + session.get("nick") + ": " + data["message"] + "<br>"}, to = data["room"])
+    emit("chat", {"message": session.get("nick") + ": " + data["message"]}, to = data["room"])
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")

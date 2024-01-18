@@ -92,7 +92,7 @@
                 });
 
                 socketio.on("chat", function (data) {
-                    $("#chatview").val(data.chat);
+                    $("#chatview").val(data.message + "\n" + $("#chatview").val());
                 });
 
                 $("#qrcode").on("click", function () {
@@ -145,7 +145,7 @@
 
                 $("#chat form").submit(function(event) {
                     event.preventDefault();
-                    socketio.emit("chat", { room, chat: $("#chatview").val(), message: $("#message").val()});
+                    socketio.emit("chat", { room, message: $("#message").val()});
                     $("#message").val("");
                 });
 
