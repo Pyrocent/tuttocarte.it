@@ -219,9 +219,14 @@ body {
     display: flex;
 }
 
+#nick,
 #message {
-    flex: 1;
+    width: 82.5%;
     font-family: "Outfit", sans-serif;
+}
+
+#nick {
+    width: 17.5%;
 }
 
 #send {

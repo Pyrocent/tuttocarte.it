@@ -63,9 +63,10 @@
         {% endif %}
         <section id = "hand"><h3>MANO</h3><div></div></section>
         <section id = "chat">
-            <textarea id = "chatview" placeholder = "Chat di gruppo" rows = "10" readonly></textarea>
+            <textarea id = "chatview" placeholder = "Chat di gruppo" readonly></textarea>
             <form>
-                <input id = "message" type = "text" placeholder = "Messaggio..." required>
+                <input id = "nick" name = "nick" type = "text" placeholder = "Nick" required>
+                <input id = "message" name = "message" type = "text" placeholder = "Messaggio..." required>
                 <button id = "send" type = "submit"><img src = "../static/assets/other/send.png" alt = "send"></button>
             </form>
         </section>
@@ -76,7 +77,7 @@
                 const socketio = io({ transport: ["websocket"] });
 
                 socketio.on("connect", function () {
-                    socketio.emit("join", {room, nick: "utente"});
+                    socketio.emit("join", {room});
                 });
 
                 socketio.on("play", function (data) {
@@ -140,7 +141,7 @@
                     }
                 });
 
-                $("#message").on("keypress", function (event) {
+                $("#nick, #message").on("keypress", function (event) {
                     if (event.which === 13) {
                         event.preventDefault();
                         $("#chat form").submit();
@@ -149,7 +150,7 @@
 
                 $("#chat form").on("submit", function(event) {
                     event.preventDefault();
-                    socketio.emit("chat", { room, message: $("#message").val()});
+                    socketio.emit("chat", { room, nick: $("#nick").val(), message: $("#message").val()});
                     $("#message").val("");
                 });
 
