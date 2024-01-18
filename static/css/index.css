@@ -221,6 +221,7 @@ body {
 
 #message {
     flex: 1;
+    font-family: "Outfit", sans-serif;
 }
 
 #send {
