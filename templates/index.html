@@ -141,7 +141,13 @@
                     }
                 });
 
-                $("#chat form").submit(function(event) {
+                $("#message").on("keypress", function (event) {
+                    if (event.which === 13) {
+                        $("#chat form").submit();
+                    }
+                });
+
+                $("#chat form").on("submit", function(event) {
                     event.preventDefault();
                     socketio.emit("chat", { room, message: $("#message").val()});
                     $("#message").val("");
