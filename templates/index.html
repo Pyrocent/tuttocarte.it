@@ -143,6 +143,7 @@
 
                 $("#message").on("keypress", function (event) {
                     if (event.which === 13) {
+                        event.preventDefault();
                         $("#chat form").submit();
                     }
                 });
