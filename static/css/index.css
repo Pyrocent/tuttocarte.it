@@ -224,6 +224,7 @@ body {
 }
 
 #send {
+    padding: 5px;
+    display: flex;
     cursor: pointer;
-    font-family: "Outfit", sans-serif;
 }
