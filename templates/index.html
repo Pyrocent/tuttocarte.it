@@ -23,9 +23,10 @@
             }
         </script>
     </head>
-    <body oncontextmenu = "return false">
+    <!-- <body oncontextmenu = "return false"> -->
+    <body>
         {% if host == True %}
-            <section id = "play">
+            <section id = "menu">
                 <div>
                     <h1>TuttoCarte.it</h1>
                     <h5>FAI SCANNERIZZARE IL QR CODE</h5>
@@ -62,15 +63,12 @@
             <section id = "table"></section>
         {% endif %}
         <section id = "hand"><h3>MANO</h3><div></div></section>
-        <section id = "textareas">
-            <textarea id = "notes" placeholder = "Note personali"></textarea>
-            <div id = "chat">
-                <textarea id = "chatview" placeholder = "Chat di gruppo" readonly></textarea>
-                <form>
-                    <input id = "message" type = "text" placeholder = "Scrivi..." required>
-                    <input id = "send" type = "submit" value = ">">
-                </form>
-            </div>
+        <section id = "chat">
+            <textarea id = "chatview" placeholder = "Chat di gruppo" readonly></textarea>
+            <form>
+                <input id = "message" type = "text" placeholder = "Messaggio..." required>
+                <input id = "send" type = "submit" value = ">">
+            </form>
         </section>
         <script type = "text/javascript" charset = "UTF-8">
             $(function () {
@@ -104,11 +102,11 @@
                 });
 
                 $("#group").on("click", function () {
-                    $("#play").remove();
+                    $("#menu").remove();
                     socketio.emit("play", { room, table: $("#table").html() });
                 });
                 $("#alone").on("click", function () {
-                    $("#play, #chat").remove();
+                    $("#menu, #chat").remove();
                 });
 
                 $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
@@ -150,7 +148,7 @@
                 });
 
                 $(window).on("orientationchange", function () {
-                    $("#play > div").css("transform", window.orientation === 0 || window.orientation === 180 ? "" : "scale(0.55)");
+                    $("#menu > div").css("transform", window.orientation === 0 || window.orientation === 180 ? "" : "scale(0.55)");
                 });
             });
         </script>
