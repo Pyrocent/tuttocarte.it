@@ -4,12 +4,12 @@
 //     "/service-worker.js",
 //     "/templates/index.html",
 //     "/static/css/index.css",
+//     "/static/assets/favicon.ico",
 //     "/static/assets/backs/*.jpg",
+//     "/static/assets/fiches/*.png",
 //     "/static/assets/decks/fr1/*.jpg",
 //     "/static/assets/decks/fr2/*.jpg",
 //     "/static/assets/decks/ita/*.jpg",
-//     "/static/assets/fiches/*.png",
-//     "/static/assets/favicon.ico",
 //     "https://fonts.googleapis.com/css2?family=Outfit&display=swap"
 // ];
 

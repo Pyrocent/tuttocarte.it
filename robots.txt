@@ -1,5 +1,5 @@
-User-agent: *
 Allow: /
+User-agent: *
 
 Sitemap: https://tuttocarte.it/sitemap.xml
 Sitemap: https://www.tuttocarte.it/sitemap.xml
