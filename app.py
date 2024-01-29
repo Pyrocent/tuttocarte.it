@@ -37,7 +37,7 @@ def handle_join(data):
 @socketio.on("play")
 def handle_play(data):
     emit("play", {"table": data["table"]}, to = data["room"])
-    emit("chat", {"message": f"BOT: {data["nick"]} ha mosso/pescato"}, to = data["room"])
+    emit("chat", {"message": f"BOT: {data['nick']} ha mosso/pescato"}, to = data["room"])
 
 @socketio.on("turn")
 def handle_turn(data):
