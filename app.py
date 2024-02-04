@@ -20,7 +20,7 @@ app.secret_key = token_hex(16)
 def index(room = None):
     if room is None:
         return render_template(
-            "index.html",
+            "demo.html",
             room = int(time()),
             host = True,
             ita_deck = sample(encrypted_ita_deck, 40),
