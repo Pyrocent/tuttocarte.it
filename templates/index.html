@@ -17,7 +17,6 @@
         <script src = "https://cdn.jsdelivr.net/npm/jquery-mobile@1.5.0-alpha.1/js/core.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/pinch-zoom-js@2.3.5/dist/pinch-zoom.umd.min.js"></script>
         <script>
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/service-worker.js");
@@ -26,38 +25,67 @@
     </head>
     <body oncontextmenu = "return false">
         <section id = "table">
-            <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?data=TuttoCarte.it/{{room}}&amp;size=55x55&amp;color=f5f5f5&amp;bgcolor=007649" alt = "qrcode">
+            <img id = "qrcode" class = "zoomable" src = "https://api.qrserver.com/v1/create-qr-code/?data=TuttoCarte.it/{{room}}&amp;size=55x55&amp;color=f5f5f5&amp;bgcolor=007649" alt = "qrcode">
             <div>
                 {% for card in ita_deck %}
-                    <img id = "{{card}}" class = "ita card" src = "../static/assets/backs/ita.jpg" alt = "card">
+                    <img id = "{{card}}" class = "ita card zoomable" src = "../static/assets/backs/ita.jpg" alt = "card">
                 {% endfor %}
             </div>
             <div>
                 {% for card in fr1_deck %}
-                    <img id = "{{card}}" class = "fr1 card" src = "../static/assets/backs/fr1.jpg" alt = "card">
+                    <img id = "{{card}}" class = "fr1 card zoomable" src = "../static/assets/backs/fr1.jpg" alt = "card">
                 {% endfor %}
             </div>
             <div>
                 {% for card in fr2_deck %}
-                    <img id = "{{card}}" class = "fr2 card" src = "../static/assets/backs/fr2.jpg" alt = "card">
+                    <img id = "{{card}}" class = "fr2 card zoomable" src = "../static/assets/backs/fr2.jpg" alt = "card">
                 {% endfor %}
             </div>
-            <img id = "fiche1" class = "fiche clonable" src = "../static/assets/fiches/fiche1.png" alt = "fiche">
-            <img id = "fiche2" class = "fiche clonable" src = "../static/assets/fiches/fiche2.png" alt = "fiche">
-            <img id = "fiche3" class = "fiche clonable" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
-            <img id = "fiche4" class = "fiche clonable" src = "../static/assets/fiches/fiche4.png" alt = "fiche">
-            <img id = "dealer" class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "fiche">
+            <img id = "fiche1" class = "fiche clonable zoomable" src = "../static/assets/fiches/fiche1.png" alt = "fiche">
+            <img id = "fiche2" class = "fiche clonable zoomable" src = "../static/assets/fiches/fiche2.png" alt = "fiche">
+            <img id = "fiche3" class = "fiche clonable zoomable" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
+            <img id = "fiche4" class = "fiche clonable zoomable" src = "../static/assets/fiches/fiche4.png" alt = "fiche">
+            <img id = "dealer" class = "fiche zoomable" src = "../static/assets/fiches/dealer.png" alt = "fiche">
         </section>
         <section id = "hand"><h5>MANO</h5><div></div></section>
         <script type = "text/javascript" charset = "UTF-8">
 
             $(function () {
 
-                var pz = new PinchZoom.default($("#table"));
-
                 const socketio = io({ transport: ["websocket"] });
                 socketio.on("connect", function () {
                     socketio.emit("join");
+                });
+
+                var table = $("#table");
+                var zoomable = $(".zoomable");
+                var lastDistance = 0;
+
+                table.on("touchmove", function(event) {
+                    event.preventDefault();
+                    var touch1 = event.originalEvent.touches[0];
+                    var touch2 = event.originalEvent.touches[1];
+
+                    if (touch1 && touch2) {
+                        var distance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                        if (lastDistance !== 0) {
+                            var scaleFactor = distance / lastDistance;
+                            zoomable.each(function() {
+                                var zoomed = $(this);
+                                var currentWidth = parseFloat(zoomed.css("width"));
+                                var currentHeight = parseFloat(zoomed.css("height"));
+                                zoomed.css({
+                                    width: (currentWidth * scaleFactor) + "px",
+                                    height: (currentHeight * scaleFactor) + "px"
+                                });
+                            });
+                        }
+                        lastDistance = distance;
+                    }
+                });
+
+                table.on("touchend", function() {
+                    lastDistance = 0;
                 });
 
             });
