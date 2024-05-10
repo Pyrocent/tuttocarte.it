@@ -17,146 +17,49 @@
         <script src = "https://cdn.jsdelivr.net/npm/jquery-mobile@1.5.0-alpha.1/js/core.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/pinch-zoom-js@2.3.5/dist/pinch-zoom.umd.min.js"></script>
         <script>
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("/service-worker.js");
             }
         </script>
     </head>
-    <body> <!-- oncontextmenu = "return false"> -->
-        {% if host == True %}
-            <section id = "menu">
-                <div>
-                    <h1>TuttoCarte.it</h1>
-                    <h5>FAI SCANNERIZZARE IL QR CODE</h5>
-                    <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?data=TuttoCarte.it/{{room}}" alt = "qrcode">
-                    <h5 id = "copy">O CLICCALO PER COPIARE IL LINK</h5>
-                    <button id = "group">INIZIAMO!</button>
-                    <div id = "separator"><hr><h6>OPPURE</h6><hr></div>
-                    <button id = "alone">SOLITARIO</button>
-                </div>
-            </section>
-            <section id = "table">
-                <div class = "deck">
-                    {% for card in ita_deck %}
-                        <img id = "{{card}}" class = "ita card" src = "../static/assets/backs/ita.jpg" alt = "card">
-                    {% endfor %}
-                </div>
-                <div class = "deck">
-                    {% for card in fr1_deck %}
-                        <img id = "{{card}}" class = "fr1 card" src = "../static/assets/backs/fr1.jpg" alt = "card">
-                    {% endfor %}
-                </div>
-                <div class = "deck">
-                    {% for card in fr2_deck %}
-                        <img id = "{{card}}" class = "fr2 card" src = "../static/assets/backs/fr2.jpg" alt = "card">
-                    {% endfor %}
-                </div>
-                <img id = "fiche1" class = "fiche clonable" src = "../static/assets/fiches/fiche1.png" alt = "fiche">
-                <img id = "fiche2" class = "fiche clonable" src = "../static/assets/fiches/fiche2.png" alt = "fiche">
-                <img id = "fiche3" class = "fiche clonable" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
-                <img id = "fiche4" class = "fiche clonable" src = "../static/assets/fiches/fiche4.png" alt = "fiche">
-                <img id = "dealer" class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "fiche">
-            </section>
-        {% else %}
-            <section id = "table"></section>
-        {% endif %}
-        <section id = "hand"><h3>MANO</h3><div></div></section>
-        <section id = "chat">
-            <textarea id = "chatview" placeholder = "Chat di gruppo" readonly></textarea>
-            <form>
-                <input id = "name" name = "name" type = "text" placeholder = "Nome">
-                <input id = "message" name = "message" type = "text" placeholder = "Messaggio..." required>
-                <button id = "send" type = "submit"><img src = "../static/assets/other/send.png" alt = "send"></button>
-            </form>
+    <body oncontextmenu = "return false">
+        <section id = "table">
+            <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?data=TuttoCarte.it/{{room}}&amp;size=55x55&amp;color=f5f5f5&amp;bgcolor=007649" alt = "qrcode">
+            <div>
+                {% for card in ita_deck %}
+                    <img id = "{{card}}" class = "ita card" src = "../static/assets/backs/ita.jpg" alt = "card">
+                {% endfor %}
+            </div>
+            <div>
+                {% for card in fr1_deck %}
+                    <img id = "{{card}}" class = "fr1 card" src = "../static/assets/backs/fr1.jpg" alt = "card">
+                {% endfor %}
+            </div>
+            <div>
+                {% for card in fr2_deck %}
+                    <img id = "{{card}}" class = "fr2 card" src = "../static/assets/backs/fr2.jpg" alt = "card">
+                {% endfor %}
+            </div>
+            <img id = "fiche1" class = "fiche clonable" src = "../static/assets/fiches/fiche1.png" alt = "fiche">
+            <img id = "fiche2" class = "fiche clonable" src = "../static/assets/fiches/fiche2.png" alt = "fiche">
+            <img id = "fiche3" class = "fiche clonable" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
+            <img id = "fiche4" class = "fiche clonable" src = "../static/assets/fiches/fiche4.png" alt = "fiche">
+            <img id = "dealer" class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "fiche">
         </section>
+        <section id = "hand"><h5>MANO</h5><div></div></section>
         <script type = "text/javascript" charset = "UTF-8">
+
             $(function () {
 
-                const room = "{{room}}";
+                var pz = new PinchZoom.default($("#table"));
+
                 const socketio = io({ transport: ["websocket"] });
                 socketio.on("connect", function () {
-                    socketio.emit("join", {room});
-                });
-                socketio.on("chat", function (data) {
-                    $("#chatview").val($("#chatview").val() === "" ? data.message : $("#chatview").val() + "\n" + data.message).scrollTop($("#chatview")[0].scrollHeight);
-                });
-                $("#name, #message").on("keypress", function (event) {
-                    if (event.which === 13) {
-                        event.preventDefault();
-                        $("#chat form").submit();
-                    }
-                });
-                $("#chat form").on("submit", function(event) {
-                    event.preventDefault();
-                    socketio.emit("chat", { room, nick: $("#name").val(), message: $("#message").val()});
-                    $("#message").val("");
-                });
-                $(window).on("orientationchange", function () {
-                    $("#menu > div").css("transform", window.orientation === 0 || window.orientation === 180 ? "" : "scale(0.55)");
-                });
-                $("#qrcode").on("click", function () {
-                    navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
-                    $("#copy").text("COPIATO");
-                    setTimeout(function () {
-                        $("#copy").text("O CLICCALO PER COPIARE IL LINK");
-                    }, 2000);
+                    socketio.emit("join");
                 });
 
-
-
-
-
-
-                socketio.on("play", function (data) {
-                    $("#table").html(data.table);
-                });
-
-                socketio.on("turn", function (data) {
-                    console.log($("#" + data.card));
-                    // $("#" + data.card).attr("src", $("#" + data.card).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$("#" + data.card)[0].classList[0]}/${data.value}` : `static/assets/backs/${$("#" + data.card)[0].classList[0]}.jpg`);
-                });
-
-                $("#group").on("click", function () {
-                    $("#menu").remove();
-                    socketio.emit("play", { room, table: $("#table").html() });
-                });
-
-                $("#alone").on("click", function () {
-                    $("#menu, #chat").remove();
-                });
-
-                $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
-                    $(this).draggable({
-                        start: function () {
-                            $(this).css("cursor", "move");
-                            if ($(this).hasClass("clonable")) {
-                                $(this).clone().appendTo("#table");
-                                $(this).removeClass("clonable");
-                            }
-                        },
-                        stop: function () {
-                            $(this).css("cursor", "pointer");
-                            socketio.emit("play", { room, table: $("#table").html() });
-                        }
-                    });
-                });
-
-                $("#table").on({
-                    vclick: function () {
-                    },
-                    taphold: function () {
-                    }
-                },".card, .fiche");
-
-                $("#table").on("mousedown", ".card, .fiche", function (event) {
-                    switch (event.which) {
-                        case 1:
-                            alert("C");
-                        case 3:
-                            alert("D");
-                    }
-                });
             });
         </script>
     </body>

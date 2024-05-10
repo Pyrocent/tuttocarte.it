@@ -16,36 +16,25 @@ socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 
 @app.get("/")
-@app.get("/<int(fixed_digits=10):room>")
-def index(room = None):
-    if room is None:
-        return render_template(
-            "index.html",
-            room = int(time()),
-            host = True,
-            ita_deck = sample(encrypted_ita_deck, 40),
-            fr1_deck = sample(encrypted_fr1_deck, 54),
-            fr2_deck = sample(encrypted_fr2_deck, 54)
-        )
-    else:
-        return render_template("index.html", room = room)
+def index():
+    return render_template(
+        "index.html",
+        ita_deck = sample(encrypted_ita_deck, 40),
+        fr1_deck = sample(encrypted_fr1_deck, 54),
+        fr2_deck = sample(encrypted_fr2_deck, 54)
+    )
 
 @socketio.on("join")
-def handle_join(data):
-    join_room(data["room"])
+def handle_join():
+    join_room(request.path)
 
 @socketio.on("play")
 def handle_play(data):
-    emit("play", {"table": data["table"]}, to = data["room"])
-    emit("chat", {"message": f"BOT: {data['name'] if data['name'] != '' else 'un partecipante'} ha mosso/pescato"}, to = data["room"])
+    emit("play", {"table": data["table"]}, to = request.path)
 
 @socketio.on("turn")
 def handle_turn(data):
-    emit("turn", {"value": fernet_obj.decrypt(data["card"]).decode(), "card": data["card"]}, to = data["room"])
-
-@socketio.on("chat")
-def handle_chat(data):
-    emit("chat", {"message": f"{data['name'] if data['name'] != '' else 'partecipante'}: {data['message']}"}, to = data["room"])
+    emit("turn", {"value": fernet_obj.decrypt(data["card"]).decode(), "card": data["card"]}, to = request.path)
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")
