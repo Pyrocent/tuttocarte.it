@@ -60,18 +60,57 @@
                 var tavolo = $('#table');
                 var carte = $('.zoomable');
                 var lastDistance = 0;
+                var lastCenterX = 0;
+                var lastCenterY = 0;
+                var lastTouchX = 0;
+                var lastTouchY = 0;
+                var isPanning = false;
+
+                tavolo.on('touchstart', function(event) {
+                    if (event.originalEvent.touches.length === 1) {
+                        var touch = event.originalEvent.touches[0];
+                        lastTouchX = touch.clientX;
+                        lastTouchY = touch.clientY;
+                        isPanning = true;
+                    } else if (event.originalEvent.touches.length === 2) {
+                        var touch1 = event.originalEvent.touches[0];
+                        var touch2 = event.originalEvent.touches[1];
+                        lastDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                        lastCenterX = (touch1.clientX + touch2.clientX) / 2;
+                        lastCenterY = (touch1.clientY + touch2.clientY) / 2;
+                    }
+                });
 
                 tavolo.on('touchmove', function(event) {
-                    event.preventDefault();
-                    var touch1 = event.originalEvent.touches[0];
-                    var touch2 = event.originalEvent.touches[1];
+                    if (event.originalEvent.touches.length === 1 && isPanning) {
+                        event.preventDefault();
+                        var touch = event.originalEvent.touches[0];
+                        var deltaX = touch.clientX - lastTouchX;
+                        var deltaY = touch.clientY - lastTouchY;
 
-                    if (touch1 && touch2) {
+                        carte.each(function() {
+                            var carta = $(this);
+                            var currentLeft = parseFloat(carta.css('left'));
+                            var currentTop = parseFloat(carta.css('top'));
+                            carta.css({
+                                left: (currentLeft + deltaX) + 'px',
+                                top: (currentTop + deltaY) + 'px'
+                            });
+                        });
+
+                        lastTouchX = touch.clientX;
+                        lastTouchY = touch.clientY;
+                    } else if (event.originalEvent.touches.length === 2) {
+                        var touch1 = event.originalEvent.touches[0];
+                        var touch2 = event.originalEvent.touches[1];
                         var distance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
                         if (lastDistance !== 0) {
                             var scaleFactor = distance / lastDistance;
                             var centerX = (touch1.clientX + touch2.clientX) / 2;
                             var centerY = (touch1.clientY + touch2.clientY) / 2;
+
+                            var deltaX = centerX - lastCenterX;
+                            var deltaY = centerY - lastCenterY;
 
                             carte.each(function() {
                                 var carta = $(this);
@@ -80,22 +119,23 @@
                                 var currentLeft = parseFloat(carta.css('left'));
                                 var currentTop = parseFloat(carta.css('top'));
 
-                                var deltaX = currentLeft + currentWidth / 2 - centerX;
-                                var deltaY = currentTop + currentHeight / 2 - centerY;
-
                                 carta.css({
                                     width: (currentWidth * scaleFactor) + 'px',
                                     height: (currentHeight * scaleFactor) + 'px',
-                                    left: (centerX + deltaX * scaleFactor - currentWidth / 2) + 'px',
-                                    top: (centerY + deltaY * scaleFactor - currentHeight / 2) + 'px'
+                                    left: (currentLeft + deltaX) + 'px',
+                                    top: (currentTop + deltaY) + 'px'
                                 });
                             });
+
+                            lastCenterX = centerX;
+                            lastCenterY = centerY;
                         }
                         lastDistance = distance;
                     }
                 });
 
                 tavolo.on('touchend', function() {
+                    isPanning = false;
                     lastDistance = 0;
                 });
 
