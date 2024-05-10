@@ -23,7 +23,7 @@
             }
         </script>
     </head>
-    <body oncontextmenu = "return false">
+    <body> <!-- oncontextmenu = "return false"> -->
         <section id = "table">
             <img id = "qrcode" class = "zoomable" src = "https://api.qrserver.com/v1/create-qr-code/?data=TuttoCarte.it/{{room}}&amp;size=55x55&amp;color=f5f5f5&amp;bgcolor=007649" alt = "qrcode">
             <div>
@@ -57,11 +57,11 @@
                     socketio.emit("join");
                 });
 
-                var table = $("#table");
-                var zoomable = $(".zoomable");
+                var tavolo = $('#table');
+                var carte = $('.zoomable');
                 var lastDistance = 0;
 
-                table.on("touchmove", function(event) {
+                tavolo.on('touchmove', function(event) {
                     event.preventDefault();
                     var touch1 = event.originalEvent.touches[0];
                     var touch2 = event.originalEvent.touches[1];
@@ -70,13 +70,24 @@
                         var distance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
                         if (lastDistance !== 0) {
                             var scaleFactor = distance / lastDistance;
-                            zoomable.each(function() {
-                                var zoomed = $(this);
-                                var currentWidth = parseFloat(zoomed.css("width"));
-                                var currentHeight = parseFloat(zoomed.css("height"));
-                                zoomed.css({
-                                    width: (currentWidth * scaleFactor) + "px",
-                                    height: (currentHeight * scaleFactor) + "px"
+                            var centerX = (touch1.clientX + touch2.clientX) / 2;
+                            var centerY = (touch1.clientY + touch2.clientY) / 2;
+
+                            carte.each(function() {
+                                var carta = $(this);
+                                var currentWidth = parseFloat(carta.css('width'));
+                                var currentHeight = parseFloat(carta.css('height'));
+                                var currentLeft = parseFloat(carta.css('left'));
+                                var currentTop = parseFloat(carta.css('top'));
+
+                                var deltaX = currentLeft + currentWidth / 2 - centerX;
+                                var deltaY = currentTop + currentHeight / 2 - centerY;
+
+                                carta.css({
+                                    width: (currentWidth * scaleFactor) + 'px',
+                                    height: (currentHeight * scaleFactor) + 'px',
+                                    left: (centerX + deltaX * scaleFactor - currentWidth / 2) + 'px',
+                                    top: (centerY + deltaY * scaleFactor - currentHeight / 2) + 'px'
                                 });
                             });
                         }
@@ -84,8 +95,54 @@
                     }
                 });
 
-                table.on("touchend", function() {
+                tavolo.on('touchend', function() {
                     lastDistance = 0;
+                });
+
+
+
+
+
+
+                socketio.on("play", function (data) {
+                    $("#table").html(data.table);
+                });
+
+                socketio.on("turn", function (data) {
+                    console.log($("#" + data.card));
+                    // $("#" + data.card).attr("src", $("#" + data.card).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$("#" + data.card)[0].classList[0]}/${data.value}` : `static/assets/backs/${$("#" + data.card)[0].classList[0]}.jpg`);
+                });
+
+                $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
+                    $(this).draggable({
+                        start: function () {
+                            $(this).css("cursor", "move");
+                            if ($(this).hasClass("clonable")) {
+                                $(this).clone().appendTo("#table");
+                                $(this).removeClass("clonable");
+                            }
+                        },
+                        stop: function () {
+                            $(this).css("cursor", "pointer");
+                            socketio.emit("play", { room, table: $("#table").html() });
+                        }
+                    });
+                });
+
+                $("#table").on({
+                    vclick: function () {
+                    },
+                    taphold: function () {
+                    }
+                },".card, .fiche");
+
+                $("#table").on("mousedown", ".card, .fiche", function (event) {
+                    switch (event.which) {
+                        case 1:
+                            alert("C");
+                        case 3:
+                            alert("D");
+                    }
                 });
 
             });
