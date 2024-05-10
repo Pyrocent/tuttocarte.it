@@ -5,8 +5,8 @@
         <title>TuttoCarte.it</title>
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "manifest" href = "/manifest.json">
-        <link rel = "stylesheet" href = "../static/css/index.css">
         <link rel = "icon" href = "../static/assets/other/favicon.ico">
+        <link rel = "stylesheet" href = "../static/css/min/index.min.css">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <meta name = "description" content = "Gioca con i tuoi amici a qualsiasi gioco di carte senza la necessità di avere un mazzo a portata di mano!">
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
             }
         </script>
     </head>
-    <body oncontextmenu = "return false">
+    <body> <!-- oncontextmenu = "return false"> -->
         {% if host == True %}
             <section id = "menu">
                 <div>
@@ -65,7 +65,7 @@
         <section id = "chat">
             <textarea id = "chatview" placeholder = "Chat di gruppo" readonly></textarea>
             <form>
-                <input id = "nick" name = "nick" type = "text" placeholder = "Nick">
+                <input id = "name" name = "name" type = "text" placeholder = "Nome">
                 <input id = "message" name = "message" type = "text" placeholder = "Messaggio..." required>
                 <button id = "send" type = "submit"><img src = "../static/assets/other/send.png" alt = "send"></button>
             </form>
@@ -75,10 +75,38 @@
 
                 const room = "{{room}}";
                 const socketio = io({ transport: ["websocket"] });
-
                 socketio.on("connect", function () {
                     socketio.emit("join", {room});
                 });
+                socketio.on("chat", function (data) {
+                    $("#chatview").val($("#chatview").val() === "" ? data.message : $("#chatview").val() + "\n" + data.message).scrollTop($("#chatview")[0].scrollHeight);
+                });
+                $("#name, #message").on("keypress", function (event) {
+                    if (event.which === 13) {
+                        event.preventDefault();
+                        $("#chat form").submit();
+                    }
+                });
+                $("#chat form").on("submit", function(event) {
+                    event.preventDefault();
+                    socketio.emit("chat", { room, nick: $("#name").val(), message: $("#message").val()});
+                    $("#message").val("");
+                });
+                $(window).on("orientationchange", function () {
+                    $("#menu > div").css("transform", window.orientation === 0 || window.orientation === 180 ? "" : "scale(0.55)");
+                });
+                $("#qrcode").on("click", function () {
+                    navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
+                    $("#copy").text("COPIATO");
+                    setTimeout(function () {
+                        $("#copy").text("O CLICCALO PER COPIARE IL LINK");
+                    }, 2000);
+                });
+
+
+
+
+
 
                 socketio.on("play", function (data) {
                     $("#table").html(data.table);
@@ -89,22 +117,11 @@
                     // $("#" + data.card).attr("src", $("#" + data.card).attr("src").startsWith("static/assets/backs/") ? `static/assets/decks/${$("#" + data.card)[0].classList[0]}/${data.value}` : `static/assets/backs/${$("#" + data.card)[0].classList[0]}.jpg`);
                 });
 
-                socketio.on("chat", function (data) {
-                    $("#chatview").val($("#chatview").val() === "" ? data.message : $("#chatview").val() + "\n" + data.message).scrollTop($("#chatview")[0].scrollHeight);
-                });
-
-                $("#qrcode").on("click", function () {
-                    navigator.clipboard.writeText(`TuttoCarte.it/${room}`);
-                    $("#copy").text("COPIATO");
-                    setTimeout(function () {
-                        $("#copy").text("O CLICCALO PER COPIARE IL LINK");
-                    }, 2000);
-                });
-
                 $("#group").on("click", function () {
                     $("#menu").remove();
                     socketio.emit("play", { room, table: $("#table").html() });
                 });
+
                 $("#alone").on("click", function () {
                     $("#menu, #chat").remove();
                 });
@@ -139,22 +156,6 @@
                         case 3:
                             alert("D");
                     }
-                });
-
-                $("#nick, #message").on("keypress", function (event) {
-                    if (event.which === 13) {
-                        event.preventDefault();
-                        $("#chat form").submit();
-                    }
-                });
-                $("#chat form").on("submit", function(event) {
-                    event.preventDefault();
-                    socketio.emit("chat", { room, nick: $("#nick").val(), message: $("#message").val()});
-                    $("#message").val("");
-                });
-
-                $(window).on("orientationchange", function () {
-                    $("#menu > div").css("transform", window.orientation === 0 || window.orientation === 180 ? "" : "scale(0.55)");
                 });
             });
         </script>
