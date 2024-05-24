@@ -21,7 +21,7 @@
             if ("serviceWorker" in navigator) { navigator.serviceWorker.register("/service-worker.js"); }
         </script>
     </head>
-    <body>
+    <body oncontextmenu = "return false">
         <section id = "table">
             <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=55x55&data=TuttoCarte.it/{{room}}" alt = "qrcode">
             <div>
