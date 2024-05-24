@@ -15,8 +15,10 @@ $(() => {
     });
 
     socketio.on("hand", function (data) {
-        $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" width = "50px" height = "50px" style = "position: absolute; top: ${data.hand.top}; left: ${data.hand.left};" alt="hand-icon">`);
-        $("#hand-icon").fadeOut(1500);
+        $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "position: absolute; top: ${data.hand.top}; left: ${data.hand.left};" alt="hand-icon">`);
+        $("#hand-icon").fadeOut(2000, function () {
+            $(this).remove();
+        });
     })
 
     socketio.on("turn", function (data) {

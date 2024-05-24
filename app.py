@@ -54,4 +54,4 @@ def serve_file(): return send_file(f"./{request.path}")
 @app.errorhandler(405)
 def error(_): return redirect("/")
 
-if __name__ == "__main__": socketio.run(app, debug = True)
+if __name__ == "__main__": socketio.run(app)
