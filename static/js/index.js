@@ -1,5 +1,5 @@
 $(() => {
-    var hand = {}, timer = null, clicks = 0;
+    var hand, timer, clicks = 0;
     const room = window.location.pathname.slice(1), socketio = io({ transport: ["websocket"] });
 
     socketio.on("connect", function () {
@@ -7,19 +7,12 @@ $(() => {
     });
 
     socketio.on("join", function (data) {
-        socketio.emit("play", { room, user: data.user, html: $("#table").html() });
+        socketio.emit("play", { user: data.user, html: $("#table").html() });
     });
 
     socketio.on("play", function (data) {
         $("#table").html(data.html);
     });
-
-    socketio.on("hand", function (data) {
-        $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "position: absolute; top: ${data.hand.top}; left: ${data.hand.left};" alt="hand-icon">`);
-        $("#hand-icon").fadeOut(2000, function () {
-            $(this).remove();
-        });
-    })
 
     socketio.on("turn", function (data) {
         $(`#${data.id}`).attr(
@@ -30,7 +23,14 @@ $(() => {
         );
     });
 
-    $("#table, #hand").on("click", ".card", function () {
+    socketio.on("hand", function (data) {
+        $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "z-index: 3; position: absolute; top: ${data.hand.top}; left: ${data.hand.left};" alt = "hand-icon">`);
+        $("#hand-icon").fadeOut(1500, function () {
+            $(this).remove();
+        });
+    })
+
+    $("#table").on("click", ".card", function () {
         clicks++;
         that = $(this);
 
@@ -48,20 +48,23 @@ $(() => {
         }
     });
 
-    $("#table").on("touchstart mouseenter", ".card, .fiche", function () {
+    $("#hand").on("click", ".card", function () {
+        socketio.emit("turn", { id: that.attr("id") });
+    });
+
+    $("#table").on("touchstart mouseenter", ".card, .fiche, #board, .chess, .dama", function () {
         $(this).draggable({
             start: function () {
                 $(this).css({ "cursor": "grabbing", "z-index": 2 });
                 if ($(this).hasClass("clonable")) {
-                    $(this).clone().appendTo("#table");
+                    $(this).clone();
                     $(this).removeClass("clonable");
                 }
             },
             drag: function () {
-                socketio.emit("play", { room, user: null, html: $("#table").html() });
+                socketio.emit("play", { room, html: $("#table").html() });
             },
             stop: function () {
-                $("#table").append($(this));
                 $(this).css({ "cursor": "pointer", "z-index": 1 });
             }
         });

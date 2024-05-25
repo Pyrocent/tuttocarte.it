@@ -18,7 +18,7 @@ app.secret_key = token_hex(16)
 @app.get("/")
 @app.get("/<int(fixed_digits=10):room>")
 def start(room = False):
-    if room == False: return redirect(f"/{int(time())}")
+    if not room: return redirect(f"/{int(time())}")
     return render_template(
         "index.html",
         room = room,
@@ -33,15 +33,13 @@ def handle_join(data):
     emit("join", {"user": request.sid}, to = data["room"], include_self = False)
 
 @socketio.on("play")
-def handle_play(data):
-    if data["user"]: emit("play", {"html": data["html"]}, to = data["user"])
-    emit("play", {"html": data["html"]}, to = data["room"], include_self = False)
+def handle_play(data): emit("play", {"html": data["html"]}, to = data["room"] if data["room"] else data["user"], include_self = False)
+
+@socketio.on("turn")
+def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data["room"] if data["room"] else request.sid)
     
 @socketio.on("hand")
 def handle_hand(data): emit("hand", {"html": data["html"], "hand": {"top": data["hand"]["top"], "left": data["hand"]["left"]}}, to = data["room"], include_self = False)
-
-@socketio.on("turn")
-def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data["room"])
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")

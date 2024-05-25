@@ -1,3 +1,20 @@
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(241, 241, 241);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(136, 136, 136);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(85, 85, 85);
+}
+
 html,
 body {
     height: 100%;
@@ -30,11 +47,19 @@ body {
 }
 
 .card,
-.fiche {
-    top: 5px;
+.fiche,
+#board,
+.chess,
+.dama {
     z-index: 1;
     cursor: pointer;
     position: absolute;
+}
+
+.card,
+.fiche,
+#board {
+    top: 5px;
     border: 1px solid rgb(0, 0, 0);
 }
 
@@ -93,6 +118,56 @@ body {
 
 #dealer {
     left: 337px;
+}
+
+#board {
+    left: 377px;
+    width: 275px;
+    height: 275px;
+}
+
+.chess-black {
+    left: 657px;
+}
+
+.chess-white {
+    left: 697px;
+}
+
+.king {
+    top: 2px;
+}
+
+.queen {
+    top: 39px;
+}
+
+.bishop {
+    top: 76px;
+}
+
+.knight {
+    top: 113px;
+}
+
+.rook {
+    top: 150px;
+}
+
+.pawn {
+    top: 187px;
+}
+
+.dama {
+    left: 737px;
+}
+
+.dama-black {
+    top: 2px;
+}
+
+.dama-white {
+    top: 43px;
 }
 
 #hand {

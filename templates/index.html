@@ -44,8 +44,63 @@
             <img id = "fiche3" class = "fiche clonable" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
             <img id = "fiche4" class = "fiche clonable" src = "../static/assets/fiches/fiche4.png" alt = "fiche">
             <img id = "dealer" class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "fiche">
+            <img id = "board" src = "../static/assets/other/board.png" alt = "board">
+            <img class = "chess chess-black king" src = "../static/assets/chess/black/king.png" alt = "chess">
+            <img class = "chess chess-black queen" src = "../static/assets/chess/black/queen.png" alt = "chess">
+            <div>
+                {% for _ in range(2) %}
+                    <img class = "chess chess-black bishop" src = "../static/assets/chess/black/bishop.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(2) %}
+                    <img  class = "chess chess-black knight" src = "../static/assets/chess/black/knight.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(2) %}
+                    <img class = "chess chess-black rook" src = "../static/assets/chess/black/rook.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(8) %}
+                    <img class = "chess chess-black pawn" src = "../static/assets/chess/black/pawn.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <img class = "chess chess-white king" src = "../static/assets/chess/white/king.png" alt = "chess">
+            <img class = "chess chess-white queen" src = "../static/assets/chess/white/queen.png" alt = "chess">
+            <div>
+                {% for _ in range(2) %}
+                    <img class = "chess chess-white bishop" src = "../static/assets/chess/white/bishop.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(2) %}
+                    <img  class = "chess chess-white knight" src = "../static/assets/chess/white/knight.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(2) %}
+                    <img class = "chess chess-white rook" src = "../static/assets/chess/white/rook.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(8) %}
+                    <img class = "chess chess-white pawn" src = "../static/assets/chess/white/pawn.png" alt = "chess">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(12) %}
+                    <img class = "dama dama-black" src = "../static/assets/dama/black.png" alt = "dama">
+                {% endfor %}
+            </div>
+            <div>
+                {% for _ in range(12) %}
+                    <img class = "dama dama-white" src = "../static/assets/dama/white.png" alt = "dama">
+                {% endfor %}
+            </div>
         </section>
-        <section id = "hand"><h5>MANO</h5><div></div></section>
+        <section id = "hand"><h5>HAND</h5><div></div></section>
         <script src = "../static/js/min/index.min.js" charset = "UTF-8"></script>
     </body>
 </html>
