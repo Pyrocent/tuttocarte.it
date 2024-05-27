@@ -12,18 +12,16 @@
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Outfit&display=swap">
+        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-mobile@1.5.0-alpha.1/js/core.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
-        <script>
-            if ("serviceWorker" in navigator) { navigator.serviceWorker.register("/service-worker.js"); }
-        </script>
+        <script> "serviceWorker" in navigator ? navigator.serviceWorker.register("/service-worker.js") : null </script>
     </head>
     <body oncontextmenu = "return false">
         <section id = "table">
-            <img id = "qrcode" src = "https://api.qrserver.com/v1/create-qr-code/?size=55x55&data=PlayOnTable.com/{{room}}" alt = "qrcode">
+            <img id = "share" src = "https://api.qrserver.com/v1/create-qr-code/?size=55x55&data=PlayOnTable.com/{{room}}" alt = "share">
             {% for card in ita_deck %}
                 <img id = "{{card}}" class = "ita card" src = "../static/assets/backs/ita.jpg" alt = "card">
             {% endfor %}

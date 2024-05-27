@@ -1,6 +1,6 @@
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 7.5px;
+    height: 7.5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -36,36 +36,37 @@ body {
 #table {
     flex: 1;
     margin: 5px;
-    display: flex;
     overflow: auto;
     position: relative;
     border-radius: 5px;
-    justify-content: center;
     border: 10px ridge #ef9e57;
     background-color: rgb(0, 118, 73);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
+#table * {
+    position: absolute;
+}
+
+#table *:not(#share) {
+    cursor: pointer;
+}
+
+#table *:hover:not(#share, #board) {
+    transform: scale(1.075);
+}
+
+#share {
+    top: 2px;
+    left: 2px;
+}
+
 .card,
 .fiche,
 #board,
-.chess,
 .dama {
-    cursor: pointer;
-    position: absolute;
-}
-
-.card,
-.fiche,
-#board {
-    top: 5px;
-    border: 1px solid rgb(0, 0, 0);
-}
-
-#qrcode {
     top: 2px;
-    left: 2px;
-    position: absolute;
+    border: 1px solid rgb(0, 0, 0);
 }
 
 .card {
@@ -75,11 +76,6 @@ body {
 .fiche {
     width: 35px;
     border-radius: 90%;
-}
-
-.card:hover,
-.fiche:hover {
-    transform: scale(1.075);
 }
 
 .ita {
@@ -154,6 +150,7 @@ body {
 
 .dama {
     left: 737px;
+    border-radius: 90%;
 }
 
 .dama-black {
@@ -187,16 +184,8 @@ body {
     gap: 10px;
     display: flex;
     padding: 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
     align-items: center;
+    overflow: auto hidden;
     border-radius: 0 5px 5px 0;
     border: 5px solid rgb(245, 245, 245);
-}
-
-#hand div>.card {
-    top: 0;
-    left: 0;
-    margin: 0;
-    position: relative;
 }

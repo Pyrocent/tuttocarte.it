@@ -19,13 +19,7 @@ app.secret_key = token_hex(16)
 @app.get("/<int(fixed_digits=10):room>")
 def start(room = False):
     if not room: return redirect(f"/{int(time())}")
-    return render_template(
-        "index.html",
-        room = room,
-        ita_deck = sample(encrypted_ita_deck, 40),
-        fr1_deck = sample(encrypted_fr1_deck, 54),
-        fr2_deck = sample(encrypted_fr2_deck, 54)
-    )
+    return render_template("index.html", room = room, ita_deck = sample(encrypted_ita_deck, 40), fr1_deck = sample(encrypted_fr1_deck, 54),fr2_deck = sample(encrypted_fr2_deck, 54))
 
 @socketio.on("join")
 def handle_join(data):
@@ -37,9 +31,9 @@ def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user"
 
 @socketio.on("turn")
 def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data.get("room", request.sid))
-    
+
 @socketio.on("hand")
-def handle_hand(data): emit("hand", {"html": data["html"], "hand": {"top": data["hand"]["top"], "left": data["hand"]["left"]}}, to = data["room"], include_self = False)
+def handle_hand(data): emit("hand", {"html": data["html"], "hand": {"x": data["hand"]["left"], "y": data["hand"]["top"], "z": data["hand"]["z"]}}, to = data["room"], include_self = False)
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")

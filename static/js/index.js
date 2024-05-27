@@ -1,19 +1,10 @@
 $(() => {
-    var hand, timer, clicks = 0, zIndex = 0, highestZIndex = 0;
+    var hand, timer, clicks = 0;
     const room = window.location.pathname.slice(1), socketio = io({ transport: ["websocket"] });
 
-    socketio.on("connect", function () {
-        socketio.emit("join", { room });
-    });
-
-    socketio.on("join", function (data) {
-        socketio.emit("play", { user: data.user, html: $("#table").html() });
-    });
-
-    socketio.on("play", function (data) {
-        $("#table").html(data.html);
-    });
-
+    socketio.on("connect", function () { socketio.emit("join", { room }); });
+    socketio.on("join", function (data) { socketio.emit("play", { user: data.user, html: $("#table").html() }); });
+    socketio.on("play", function (data) { $("#table").html(data.html); });
     socketio.on("turn", function (data) {
         $(`#${data.id}`).attr(
             "src",
@@ -22,9 +13,8 @@ $(() => {
                 : `static/assets/decks/${$(`#${data.id}`)[0].classList[0]}/${data.value}`
         );
     });
-
     socketio.on("hand", function (data) {
-        $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "z-index: 3; position: absolute; top: ${data.hand.top}; left: ${data.hand.left};" alt = "hand-icon">`);
+        $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "position: absolute; left: ${data.hand.x}; top: ${data.hand.y}; z-index: ${data.hand.z}" alt = "hand-icon">`);
         $("#hand-icon").fadeOut(1500, function () {
             $(this).remove();
         });
@@ -39,61 +29,28 @@ $(() => {
                 socketio.emit("turn", { room, id: that.attr("id") });
                 clicks = 0;
             }, 300);
-        } else {
+        } else if (clicks === 2) {
             clearTimeout(timer);
-            that.draggable("destroy");
-            hand = { top: that.css("top"), left: that.css("left") };
-            $("#hand div").prepend(that.css({ "top": "0", "left": "0" }));
+            hand = { x: that.css("left"), y: that.css("top"), z: that.css("z-index") };
+            $("#hand div").prepend(that);
             socketio.emit("hand", { room, html: $("#table").html(), hand: hand });
             clicks = 0;
         }
     });
 
-    $("#hand").on("click", ".card", function () {
-        socketio.emit("turn", { id: that.attr("id") });
-    });
+    $("#hand").on("click", ".card", function () { socketio.emit("turn", { id: $(this).attr("id") }); });
 
-    function getHighestZIndex($container) {
-        $container.children().each(function () {
-            zIndex = parseInt($(this).css("z-index"), 10);
-            zIndex > highestZIndex ? highestZIndex = zIndex : null;
-        });
-        return highestZIndex;
-    }
-
-    $("#table").on("touchstart mouseenter", ".card, .fiche, #board, .chess, .dama", function () {
-        $(this).draggable({
-            start: function () {
-                $(this).css({ "cursor": "grabbing", "z-index": getHighestZIndex($("#table")) + 1 });
-                if ($(this).hasClass("clonable")) {
-                    $(this).clone().appendTo("#table");
-                    $(this).removeClass("clonable");
-                }
-            },
-            drag: function () {
-                socketio.emit("play", { room, html: $("#table").html() });
-            },
-            stop: function () {
-                $(this).css({ "cursor": "pointer" });
+    $("#table *").draggable({
+        delay: 150,
+        cursor: "grabbing",
+        stack: "#table *",
+        containment: "#table",
+        start: function () {
+            if ($(this).hasClass("clonable")) {
+                $(this).removeClass("clonable");
+                $(this).clone().appendTo("#table");
             }
-        });
-    });
-
-    $("#hand").on("touchstart mouseenter", ".card", function () {
-        $(this).draggable({
-            containment: "#table",
-            start: function () {
-                $(this).css({ "z-index": 2, "cursor": "grabbing" });
-            },
-            stop: function () {
-                $(this).appendTo($("#table")).draggable("destroy").css({
-                    "z-index": 1,
-                    "cursor": "pointer",
-                    "left": (parseFloat($(this).css("left"), 10) + ($("h5").width() + 9.800)) + "px",
-                    "top": ($("#table").height() - (50 + (- parseFloat($(this).css("top"), 10) - 80.065))) + "px"
-                });
-                socketio.emit("play", { room, html: $("#table").html() });
-            }
-        });
+        },
+        drag: function () { socketio.emit("play", { room, html: $("#table").html() }); }
     });
 });
