@@ -3,12 +3,12 @@
     "dir": "auto",
     "start_url": "/",
     "orientation": "any",
-    "name": "TuttoCarte",
+    "name": "PlayOnTable",
     "display": "standalone",
     "theme_color": "#1f2324",
-    "short_name": "TuttoCarte",
+    "short_name": "PlayOnTable",
     "background_color": "#1f2324",
-    "description": "Gioca con i tuoi amici a qualsiasi gioco di carte senza la necessità di avere un mazzo a portata di mano!",
+    "description": "Gioca con i tuoi amici a qualsiasi gioco di carte e non solo!",
     "icons": [
         {
             "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
