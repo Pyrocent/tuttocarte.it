@@ -33,10 +33,10 @@ def handle_join(data):
     emit("join", {"user": request.sid}, to = data["room"], include_self = False)
 
 @socketio.on("play")
-def handle_play(data): emit("play", {"html": data["html"]}, to = data["room"] if data["room"] else data["user"], include_self = False)
+def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user", data["room"]), include_self = False)
 
 @socketio.on("turn")
-def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data["room"] if data["room"] else request.sid)
+def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data.get("room", request.sid))
     
 @socketio.on("hand")
 def handle_hand(data): emit("hand", {"html": data["html"], "hand": {"top": data["hand"]["top"], "left": data["hand"]["left"]}}, to = data["room"], include_self = False)

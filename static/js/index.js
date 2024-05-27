@@ -1,5 +1,5 @@
 $(() => {
-    var hand, timer, clicks = 0;
+    var hand, timer, clicks = 0, zIndex = 0, highestZIndex = 0;
     const room = window.location.pathname.slice(1), socketio = io({ transport: ["websocket"] });
 
     socketio.on("connect", function () {
@@ -41,8 +41,9 @@ $(() => {
             }, 300);
         } else {
             clearTimeout(timer);
+            that.draggable("destroy");
             hand = { top: that.css("top"), left: that.css("left") };
-            $("#hand div").prepend(that.css({ "top": "", "left": "" }));
+            $("#hand div").prepend(that.css({ "top": "0", "left": "0" }));
             socketio.emit("hand", { room, html: $("#table").html(), hand: hand });
             clicks = 0;
         }
@@ -52,12 +53,20 @@ $(() => {
         socketio.emit("turn", { id: that.attr("id") });
     });
 
+    function getHighestZIndex($container) {
+        $container.children().each(function () {
+            zIndex = parseInt($(this).css("z-index"), 10);
+            zIndex > highestZIndex ? highestZIndex = zIndex : null;
+        });
+        return highestZIndex;
+    }
+
     $("#table").on("touchstart mouseenter", ".card, .fiche, #board, .chess, .dama", function () {
         $(this).draggable({
             start: function () {
-                $(this).css({ "cursor": "grabbing", "z-index": 2 });
+                $(this).css({ "cursor": "grabbing", "z-index": getHighestZIndex($("#table")) + 1 });
                 if ($(this).hasClass("clonable")) {
-                    $(this).clone();
+                    $(this).clone().appendTo("#table");
                     $(this).removeClass("clonable");
                 }
             },
@@ -65,19 +74,25 @@ $(() => {
                 socketio.emit("play", { room, html: $("#table").html() });
             },
             stop: function () {
-                $(this).css({ "cursor": "pointer", "z-index": 1 });
+                $(this).css({ "cursor": "pointer" });
             }
         });
     });
 
     $("#hand").on("touchstart mouseenter", ".card", function () {
         $(this).draggable({
-            axis: "x",
+            containment: "#table",
             start: function () {
-                $(this).css({ "cursor": "grabbing", "z-index": 2 });
+                $(this).css({ "z-index": 2, "cursor": "grabbing" });
             },
             stop: function () {
-                $(this).css({ "cursor": "pointer", "z-index": 1 });
+                $(this).appendTo($("#table")).draggable("destroy").css({
+                    "z-index": 1,
+                    "cursor": "pointer",
+                    "left": (parseFloat($(this).css("left"), 10) + ($("h5").width() + 9.800)) + "px",
+                    "top": ($("#table").height() - (50 + (- parseFloat($(this).css("top"), 10) - 80.065))) + "px"
+                });
+                socketio.emit("play", { room, html: $("#table").html() });
             }
         });
     });

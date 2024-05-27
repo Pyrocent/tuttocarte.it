@@ -51,7 +51,6 @@ body {
 #board,
 .chess,
 .dama {
-    z-index: 1;
     cursor: pointer;
     position: absolute;
 }
@@ -66,16 +65,11 @@ body {
 #qrcode {
     top: 2px;
     left: 2px;
-    z-index: 0;
     position: absolute;
 }
 
 .card {
     border-radius: 5px;
-}
-
-.card+.card {
-    top: 2px;
 }
 
 .fiche {
