@@ -66,6 +66,7 @@ $(() => {
     // });
 
     $("#table *:not(#share)").draggable({
+        delay: 300,
         stack: "#table *",
         cursor: "grabbing",
         containment: "#table",
@@ -86,7 +87,6 @@ $(() => {
         position = { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") };
         $("#hand").prepend(
             $(this).draggable({
-                delay: 300,
                 stack: "#table *",
                 cursor: "grabbing",
                 containment: "#table",
