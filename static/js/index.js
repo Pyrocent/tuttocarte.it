@@ -34,7 +34,7 @@ $(() => {
             position = { x: that.css("left"), y: that.css("top"), z: that.css("z-index") };
             $("#hand").prepend(
                 $(this).draggable({
-                    delay: 150,
+                    delay: 300,
                     stack: "#table *",
                     cursor: "grabbing",
                     containment: "#table",
@@ -52,7 +52,7 @@ $(() => {
     $("#hand").on("click", ".card", function () { socketio.emit("turn", { id: $(this).attr("id") }); });
 
     $("#table *:not(#share)").draggable({
-        delay: 150,
+        delay: 300,
         stack: "#table *",
         cursor: "grabbing",
         containment: "#table",
