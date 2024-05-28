@@ -1,5 +1,5 @@
 flask
-uvicorn
+eventlet
 gunicorn
 cryptography
 flask-socketio
