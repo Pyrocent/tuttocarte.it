@@ -33,7 +33,7 @@ def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user"
 def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data.get("room", request.sid))
 
 @socketio.on("hand")
-def handle_hand(data): emit("hand", {"html": data["html"], "hand": {"x": data["hand"]["left"], "y": data["hand"]["top"], "z": data["hand"]["z"]}}, to = data["room"], include_self = False)
+def handle_hand(data): emit("hand", {"html": data["html"], "position": {"x": data["position"]["x"], "y": data["position"]["y"], "z": data["position"]["z"]}}, to = data["room"], include_self = False)
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")

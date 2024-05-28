@@ -1,6 +1,6 @@
 ::-webkit-scrollbar {
-    width: 7.5px;
-    height: 7.5px;
+    width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,11 +23,10 @@ body {
 body {
     margin: 0;
     display: flex;
-    cursor: default;
     user-select: none;
     -ms-user-select: none;
-    flex-direction: column;
     -moz-user-select: none;
+    justify-content: center;
     -webkit-user-select: none;
     overscroll-behavior: none;
     background-color: rgb(31, 35, 36);
@@ -70,11 +69,12 @@ body {
 }
 
 .card {
+    height: 50px;
     border-radius: 5px;
 }
 
 .fiche {
-    width: 35px;
+    height: 35px;
     border-radius: 90%;
 }
 
@@ -150,6 +150,7 @@ body {
 
 .dama {
     left: 737px;
+    height: 30px;
     border-radius: 90%;
 }
 
@@ -162,30 +163,25 @@ body {
 }
 
 #hand {
-    height: 74px;
-    padding: 5px;
+    width: 100%;
+    bottom: -25px;
     display: flex;
-}
-
-#hand h5 {
-    margin: 0;
-    padding-left: 5px;
-    text-align: center;
-    text-orientation: mixed;
-    color: rgb(31, 35, 36);
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    font-family: "Outfit", sans-serif;
-    background-color: rgb(245, 245, 245);
-}
-
-#hand div {
-    flex: 1;
-    gap: 10px;
-    display: flex;
-    padding: 10px;
-    align-items: center;
+    position: fixed;
+    padding-top: 50px;
     overflow: auto hidden;
-    border-radius: 0 5px 5px 0;
-    border: 5px solid rgb(245, 245, 245);
+    justify-content: center;
+}
+
+#hand .card {
+    z-index: 1;
+    margin: -10px;
+    height: 115px;
+    border-radius: 5px;
+    border: 2px solid rgb(0, 0, 0);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+#hand .card:hover {
+    z-index: 2;
+    transform: translateY(-10px);
 }
