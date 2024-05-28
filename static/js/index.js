@@ -1,5 +1,4 @@
 $(() => {
-    var timer, clicks = 0, position;
     const room = window.location.pathname.slice(1), socketio = io({ transport: ["websocket"] });
 
     socketio.on("connect", function () { socketio.emit("join", { room }); });
@@ -20,51 +19,6 @@ $(() => {
         });
     })
 
-    // $("#table").on("click", ".card", function () {
-    //     clicks++;
-    //     that = $(this);
-
-    //     if (clicks === 1) {
-    //         timer = setTimeout(function () {
-    //             socketio.emit("turn", { room, id: that.attr("id") });
-    //             clicks = 0;
-    //         }, 300);
-    //     } else if (clicks === 2) {
-    //         clearTimeout(timer);
-    //         position = { x: that.css("left"), y: that.css("top"), z: that.css("z-index") };
-    //         $("#hand").prepend(
-    //             $(this).draggable({
-    //                 delay: 300,
-    //                 stack: "#table *",
-    //                 cursor: "grabbing",
-    //                 containment: "#table",
-    //                 stop: function () {
-    //                     $(this).appendTo("#table");
-    //                     socketio.emit("play", { room, html: $("#table").html() });
-    //                 }
-    //             })
-    //         );
-    //         socketio.emit("hand", { room, html: $("#table").html(), position: position });
-    //         clicks = 0;
-    //     }
-    // });
-
-    // $("#hand").on("click", ".card", function () { socketio.emit("turn", { id: $(this).attr("id") }); });
-
-    // $("#table *:not(#share)").draggable({
-    //     delay: 300,
-    //     stack: "#table *",
-    //     cursor: "grabbing",
-    //     containment: "#table",
-    //     start: function () {
-    //         if ($(this).hasClass("clonable")) {
-    //             $(this).removeClass("clonable");
-    //             $(this).clone().appendTo("#table");
-    //         }
-    //     },
-    //     drag: function () { socketio.emit("play", { room, html: $("#table").html() }); }
-    // });
-
     $("#table *:not(#share)").draggable({
         delay: 300,
         stack: "#table *",
@@ -84,7 +38,7 @@ $(() => {
     });
 
     $("#table").on("dblclick taphold", ".card", function () {
-        position = { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") };
+        var position = { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") };
         $("#hand").prepend(
             $(this).draggable({
                 stack: "#table *",
