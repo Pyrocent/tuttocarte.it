@@ -9,7 +9,7 @@ $(() => {
         $(`#${data.id}`).attr(
             "src",
             $(`#${data.id}`).attr("src").startsWith("static/assets/decks/")
-                ? `static/assets/backs/${$(`#${data.id}`)[0].classList[0]}.jpg`
+                ? `static/assets/backs/${$(`#${data.id}`)[0].classList[0]}.png`
                 : `static/assets/decks/${$(`#${data.id}`)[0].classList[0]}/${data.value}`
         );
     });
