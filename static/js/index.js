@@ -33,11 +33,11 @@ $(() => {
         drag: function () { socketio.emit("play", { room, html: $("#table").html() }); }
     });
 
-    $("#table").on("click tap", ".card", function () {
+    $(".card").on("click tap", function () {
         socketio.emit("turn", { room, id: $(this).attr("id") });
     });
 
-    $("#table").on("dblclick taphold", ".card", function () {
+    $(".card").on("dblclick taphold", function () {
         var position = { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") };
         $("#hand").prepend(
             $(this).draggable({
