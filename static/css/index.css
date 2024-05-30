@@ -4,11 +4,11 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: rgb(241, 241, 241);
+    background: rgb(240, 240, 240);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(136, 136, 136);
+    background: rgb(135, 135, 135);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -37,8 +37,8 @@ main {
     overflow: auto;
     position: relative;
     border-radius: 5px;
-    border: 10px ridge #ef9e57;
     background-color: rgb(0, 118, 73);
+    border: 10px ridge rgb(239, 158, 87);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
