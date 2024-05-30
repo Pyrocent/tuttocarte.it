@@ -1,4 +1,3 @@
-from time import time
 from os import listdir
 from random import sample
 from secrets import token_hex
@@ -16,24 +15,22 @@ socketio = SocketIO(app)
 app.secret_key = token_hex(16)
 
 @app.get("/")
-@app.get("/<int(fixed_digits=10):room>")
-def start(room = False):
-    if not room: return redirect(f"/{int(time())}")
-    return render_template("index.html", room = room, ita_deck = sample(encrypted_ita_deck, 40), fr1_deck = sample(encrypted_fr1_deck, 54),fr2_deck = sample(encrypted_fr2_deck, 54))
+def start():
+    return render_template("index.html", ita_deck = sample(encrypted_ita_deck, 40), fr1_deck = sample(encrypted_fr1_deck, 54),fr2_deck = sample(encrypted_fr2_deck, 54))
 
 @socketio.on("join")
-def handle_join(data):
-    join_room(data["room"])
-    emit("join", {"user": request.sid}, to = data["room"], include_self = False)
+def handle_join(_):
+    join_room(request.remote_addr)
+    emit("join", {"user": request.sid}, to = request.remote_addr, include_self = False)
 
 @socketio.on("play")
-def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user", data["room"]), include_self = False)
+def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user", request.remote_addr), include_self = False)
 
 @socketio.on("turn")
-def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = data.get("room", request.sid))
+def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = request.remote_addr)
 
 @socketio.on("hand")
-def handle_hand(data): emit("hand", {"html": data["html"], "position": {"x": data["position"]["x"], "y": data["position"]["y"], "z": data["position"]["z"]}}, to = data["room"], include_self = False)
+def handle_hand(data): emit("hand", {"html": data["html"], "position": {"x": data["position"]["x"], "y": data["position"]["y"], "z": data["position"]["z"]}}, to = request.remote_addr, include_self = False)
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")

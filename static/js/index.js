@@ -1,7 +1,7 @@
 $(() => {
-    const room = window.location.pathname.slice(1), socketio = io({ transport: ["websocket"] });
+    const socketio = io({ transport: ["websocket"] });
 
-    socketio.on("connect", function () { socketio.emit("join", { room }); });
+    socketio.on("connect", function () { socketio.emit("join", {}); });
     socketio.on("join", function (data) { socketio.emit("play", { user: data.user, html: $("#table").html() }); });
     socketio.on("play", function (data) { $("#table").html(data.html); });
     socketio.on("turn", function (data) {
@@ -17,39 +17,52 @@ $(() => {
         $("#hand-icon").fadeOut(1500, function () {
             $(this).remove();
         });
-    })
+    });
 
     $("#table *:not(#share)").draggable({
-        delay: 300,
         stack: "#table *",
         cursor: "grabbing",
-        containment: "#table",
+        containment: [20, 20, $("#table").width(), $("#table").height()],
         start: function () {
-            if ($(this).hasClass("clonable")) {
-                $(this).removeClass("clonable");
-                $(this).clone().appendTo("#table");
+            if ($(this).hasClass("clone")) {
+                $(this).removeClass("clone");
+                $(this).clone().appendTo("#table")
             }
         },
-        drag: function () { socketio.emit("play", { room, html: $("#table").html() }); }
+        drag: function () {
+            console.log("drag");
+            socketio.emit("play", { html: $("#table").html() });
+        }
     });
 
     $(".card").on("click tap", function () {
         $(this).closest("#table") ? socketio.emit("turn", { room, id: $(this).attr("id") }) : socketio.emit("turn", { id: $(this).attr("id") });
     });
-
-    $(".card").on("dblclick taphold", function () {
-        var position = { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") };
-        $("#hand").prepend(
-            $(this).draggable({
-                stack: "#table *",
-                cursor: "grabbing",
-                containment: "#table",
-                stop: function () {
-                    $(this).appendTo("#table");
-                    socketio.emit("play", { room, html: $("#table").html() });
-                }
-            })
-        );
-        socketio.emit("hand", { room, html: $("#table").html(), position: position });
-    });
 });
+// $("#table").on("dblclick", ".card", function () {
+//     $("#hand").prepend($(this).draggable());
+//     socketio.emit("hand", { room, html: $("#table").html(), position: { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") } });
+// });
+
+
+
+// $("#table").on("mousedown touchstart", ".card", function () {
+//     var card = $(this);
+//     timeout = setTimeout(function () {
+//         var position = { x: card.css("left"), y: card.css("top"), z: card.css("z-index") };
+//         $("#hand").prepend(
+//             card.draggable({
+//                 stack: "#table *",
+//                 cursor: "grabbing",
+//                 containment: "#table",
+//                 stop: function () {
+//                     $(this).appendTo("#table");
+//                     socketio.emit("play", { room, html: $("#table").html() });
+//                 }
+//             })
+//         );
+//         socketio.emit("hand", { room, html: $("#table").html(), position: position });
+//     }, 301);
+// }).on("mouseup mouseleave", function () {
+//     clearTimeout(timeout);
+// });
