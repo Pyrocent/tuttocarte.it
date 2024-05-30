@@ -30,7 +30,6 @@ $(() => {
             }
         },
         drag: function () {
-            console.log("drag");
             socketio.emit("play", { html: $("#table").html() });
         }
     });
@@ -39,12 +38,11 @@ $(() => {
         socketio.emit("turn", { id: $(this).attr("id") });
     });
 });
+
 // $("#table").on("dblclick", ".card", function () {
 //     $("#hand").prepend($(this).draggable());
 //     socketio.emit("hand", { room, html: $("#table").html(), position: { x: $(this).css("left"), y: $(this).css("top"), z: $(this).css("z-index") } });
 // });
-
-
 
 // $("#table").on("mousedown touchstart", ".card", function () {
 //     var card = $(this);
