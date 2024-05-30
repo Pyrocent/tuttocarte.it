@@ -16,6 +16,7 @@ app.secret_key = token_hex(16)
 
 @app.get("/")
 def start():
+    print(request.remote_addr)
     return render_template("index.html", ita_deck = sample(encrypted_ita_deck, 40), fr1_deck = sample(encrypted_fr1_deck, 54),fr2_deck = sample(encrypted_fr2_deck, 54))
 
 @socketio.on("join")
