@@ -45,6 +45,7 @@ main {
     cursor: pointer;
     user-select: none;
     position: absolute;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #table *:hover:not(#board) {
