@@ -49,20 +49,12 @@ main {
 }
 
 #table * {
+    cursor: pointer;
     position: absolute;
 }
 
-#table *:not(#share) {
-    cursor: pointer;
-}
-
-#table *:hover:not(#share, #board) {
+#table *:hover:not(#board) {
     transform: scale(1.075);
-}
-
-#share {
-    top: 2px;
-    left: 2px;
 }
 
 .card,
