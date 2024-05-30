@@ -1,5 +1,6 @@
 from os import listdir
 from random import sample
+from flask_cors import CORS
 from secrets import token_hex
 from cryptography.fernet import Fernet
 from flask_socketio import emit, SocketIO, join_room
@@ -13,6 +14,7 @@ encrypted_fr2_deck = [fernet_obj.encrypt(card.encode()).decode().replace("==", "
 app = Flask(__name__)
 socketio = SocketIO(app)
 app.secret_key = token_hex(16)
+CORS(app, {r"/*": {"origins": "https://www.playontable.com"}})
 
 @app.get("/")
 def start():
