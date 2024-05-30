@@ -20,7 +20,6 @@ body,
 main {
     margin: 0;
     height: 100%;
-    user-select: none;
     overscroll-behavior: none;
 }
 
@@ -44,6 +43,7 @@ main {
 
 #table * {
     cursor: pointer;
+    user-select: none;
     position: absolute;
 }
 

@@ -14,7 +14,7 @@ encrypted_fr2_deck = [fernet_obj.encrypt(card.encode()).decode().replace("==", "
 app = Flask(__name__)
 socketio = SocketIO(app)
 app.secret_key = token_hex(16)
-CORS(app, {r"/*": {"origins": "https://www.playontable.com"}})
+CORS(app, resources = {r"/*": {"origins": "https://playontable.com"}})
 
 @app.get("/")
 def start():
