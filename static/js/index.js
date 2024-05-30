@@ -36,7 +36,7 @@ $(() => {
     });
 
     $(".card").on("click tap", function () {
-        $(this).closest("#table") ? socketio.emit("turn", { room, id: $(this).attr("id") }) : socketio.emit("turn", { id: $(this).attr("id") });
+        socketio.emit("turn", { id: $(this).attr("id") });
     });
 });
 // $("#table").on("dblclick", ".card", function () {

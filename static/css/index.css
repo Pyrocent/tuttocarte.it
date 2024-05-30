@@ -84,49 +84,49 @@ main {
 }
 
 .ita {
-    left: 62px;
+    left: 2px;
 }
 
 .fr1 {
-    left: 97px;
+    left: 37px;
 }
 
 .fr2 {
-    left: 137px;
+    left: 77px;
 }
 
 #fiche1 {
-    left: 177px;
+    left: 117px;
 }
 
 #fiche2 {
-    left: 217px;
+    left: 157px;
 }
 
 #fiche3 {
-    left: 257px;
+    left: 197px;
 }
 
 #fiche4 {
-    left: 297px;
+    left: 237px;
 }
 
 #dealer {
-    left: 337px;
+    left: 277px;
 }
 
 #board {
-    left: 377px;
+    left: 317px;
     width: 275px;
     height: 275px;
 }
 
 .chess-black {
-    left: 657px;
+    left: 597px;
 }
 
 .chess-white {
-    left: 697px;
+    left: 637px;
 }
 
 .king {
@@ -154,7 +154,7 @@ main {
 }
 
 .dama {
-    left: 737px;
+    left: 677px;
     height: 30px;
     border-radius: 90%;
 }
