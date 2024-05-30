@@ -16,23 +16,21 @@ app.secret_key = token_hex(16)
 
 @app.get("/")
 def start():
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    print(request.environ.get("HTTP_X_REAL_IP", request.remote_addr))
     return render_template("index.html", ita_deck = sample(encrypted_ita_deck, 40), fr1_deck = sample(encrypted_fr1_deck, 54),fr2_deck = sample(encrypted_fr2_deck, 54))
 
 @socketio.on("join")
 def handle_join(_):
-    join_room(request.environ.get("HTTP_X_REAL_IP", request.remote_addr))
-    emit("join", {"user": request.sid}, to = request.environ.get("HTTP_X_REAL_IP", request.remote_addr), include_self = False)
+    join_room(request.remote_addr)
+    emit("join", {"user": request.sid}, to = request.remote_addr, include_self = False)
 
 @socketio.on("play")
-def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user", request.environ.get("HTTP_X_REAL_IP", request.remote_addr)), include_self = False)
+def handle_play(data): emit("play", {"html": data["html"]}, to = data.get("user", request.remote_addr), include_self = False)
 
 @socketio.on("turn")
-def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = request.environ.get("HTTP_X_REAL_IP", request.remote_addr))
+def handle_turn(data): emit("turn", {"id": data["id"], "value": fernet_obj.decrypt(data["id"] + "==").decode()}, to = request.remote_addr)
 
 @socketio.on("hand")
-def handle_hand(data): emit("hand", {"html": data["html"], "position": {"x": data["position"]["x"], "y": data["position"]["y"], "z": data["position"]["z"]}}, to = request.environ.get("HTTP_X_REAL_IP", request.remote_addr), include_self = False)
+def handle_hand(data): emit("hand", {"html": data["html"], "position": {"x": data["position"]["x"], "y": data["position"]["y"], "z": data["position"]["z"]}}, to = request.remote_addr, include_self = False)
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")
