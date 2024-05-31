@@ -12,10 +12,8 @@
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Outfit&display=swap">
-        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.3/dist/jquery-ui.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-mobile@1.5.0-alpha.1/js/core.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.5/client-dist/socket.io.min.js"></script>
         <script> "serviceWorker" in navigator ? navigator.serviceWorker.register("/service-worker.js") : null </script>
     </head>
     <body oncontextmenu = "return false">
@@ -47,6 +45,6 @@
             </section>
             <section id = "hand"></section>
         </main>
-        <script src = "../static/js/min/index.min.js" charset = "UTF-8"></script>
+        <script src = "../static/js/min/index.min.js" charset = "UTF-8" type = "module"></script>
     </body>
 </html>
