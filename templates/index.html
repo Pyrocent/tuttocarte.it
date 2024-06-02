@@ -12,8 +12,14 @@
         <link rel = "preconnect" href = "https://fonts.googleapis.com">
         <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Outfit&display=swap">
-        <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Draggable.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/interactjs@1.10.27/dist/interact.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.5/client-dist/socket.io.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-mobile@1.5.0-alpha.1/js/core.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script> "serviceWorker" in navigator ? navigator.serviceWorker.register("/service-worker.js") : null </script>
     </head>
     <body oncontextmenu = "return false">
@@ -31,13 +37,13 @@
                 <img class = "chess-black king" src = "../static/assets/chess/black/king.png" alt = "chess">
                 <img class = "chess-black queen" src = "../static/assets/chess/black/queen.png" alt = "chess">
                 {% for _ in range(2) %}<img class = "chess-black bishop" src = "../static/assets/chess/black/bishop.png" alt = "chess">{% endfor %}
-                {% for _ in range(2) %}<img  class = "chess-black knight" src = "../static/assets/chess/black/knight.png" alt = "chess">{% endfor %}
+                {% for _ in range(2) %}<img class = "chess-black knight" src = "../static/assets/chess/black/knight.png" alt = "chess">{% endfor %}
                 {% for _ in range(2) %}<img class = "chess-black rook" src = "../static/assets/chess/black/rook.png" alt = "chess">{% endfor %}
                 {% for _ in range(8) %}<img class = "chess-black pawn" src = "../static/assets/chess/black/pawn.png" alt = "chess">{% endfor %}
                 <img class = "chess-white king" src = "../static/assets/chess/white/king.png" alt = "chess">
                 <img class = "chess-white queen" src = "../static/assets/chess/white/queen.png" alt = "chess">
                 {% for _ in range(2) %}<img class = "chess-white bishop" src = "../static/assets/chess/white/bishop.png" alt = "chess">{% endfor %}
-                {% for _ in range(2) %}<img  class = "chess-white knight" src = "../static/assets/chess/white/knight.png" alt = "chess">{% endfor %}
+                {% for _ in range(2) %}<img class = "chess-white knight" src = "../static/assets/chess/white/knight.png" alt = "chess">{% endfor %}
                 {% for _ in range(2) %}<img class = "chess-white rook" src = "../static/assets/chess/white/rook.png" alt = "chess">{% endfor %}
                 {% for _ in range(8) %}<img class = "chess-white pawn" src = "../static/assets/chess/white/pawn.png" alt = "chess">{% endfor %}
                 {% for _ in range(12) %}<img class = "dama dama-black" src = "../static/assets/dama/black.png" alt = "dama">{% endfor %}
@@ -45,6 +51,6 @@
             </section>
             <section id = "hand"></section>
         </main>
-        <script src = "../static/js/min/index.min.js" charset = "UTF-8" type = "module"></script>
+        <script src = "../static/js/min/index.min.js" charset = "UTF-8"></script>
     </body>
 </html>

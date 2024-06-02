@@ -24,10 +24,100 @@ $(() => {
                     });
                 });
             });
+
+            interact("#table .card")
+                .on("tap", (event) => {
+                    socketio.emit("turn", { room, id: $(event.target).attr("id") });
+                })
+                .on("hold", (event) => {
+                    $("#hand").prepend(event.target);
+                    socketio.emit("hand", { room, html: $("#table").html(), position: { x: $(event.target).css("left"), y: $(event.target).css("top"), z: $(event.target).css("z-index") } });
+                });
+
+
+            $("#table").on("touchstart mouseenter", "#table *", function () {
+                $(this).draggable({
+                    stack: "#table *",
+                    cursor: "grabbing",
+                    start: function () {
+                        if ($(this).hasClass("clone")) {
+                            $(this).clone().appendTo("#table");
+                            $(this).removeClass("clone");
+                        }
+                    },
+                    drag: function () {
+                        socketio.emit("play", { room, html: $("#table").html() });
+                    }
+                });
+            });
+
+            $("#hand").on("touchstart mouseenter", ".card", function () {
+                $(this).draggable({
+                    stack: "#table *",
+                    cursor: "grabbing",
+                    containment: "#table",
+                    stop: function () {
+                        $(this).appendTo($("#table")).draggable("destroy").css({
+                            "left": (parseFloat($(this).css("left"), 10) + ($("h5").width() + 9.800)) + "px",
+                            "top": ($("#table").height() - (50 + (- parseFloat($(this).css("top"), 10) - 80.065))) + "px"
+                        });
+                        socketio.emit("play", { room, html: $("#table").html() });
+                    }
+                });
+            });
         });
 });
 
-// import Draggable from "https://cdn.jsdelivr.net/npm/@shopify/draggable/build/esm/Draggable/Draggable.mjs";
+//     interact("#table .card")
+//         .on("tap", (event) => {
+//             socketio.emit("turn", { room, id: $(event.target).attr("id") });
+//         })
+//         .on("hold", (event) => {
+//             $(event.target).appendTo("#hand");
+//             socketio.emit("hand", { room, html: $("#table").html(), position: { x: $(event.target).css("left"), y: $(event.target).css("top"), z: $(event.target).css("z-index") } });
+//         });
+
+//     Draggable.create("#table *", {
+//         bounds: "#table",
+//         activeCursor: "grabbing",
+//         onDragStart: function () {
+//             if ($(this.target).hasClass("clone")) {
+//                 $(this.target).clone().appendTo("#table");
+//             }
+//         },
+//         onDrag: function () {
+//             socketio.emit("play", { room, html: $("#table").html() });
+//         }
+//     });
+
+//     Draggable.create("#hand .card", {
+//         bounds: "#table",
+//         activeCursor: "grabbing",
+//         onDrag: function () {
+//             socketio.emit("play", { room, html: $("#table").html() });
+//         }
+//     });
+
+//     $("#hand").on("touchstart mouseenter", ".card", function () {
+//         $(this).draggable({
+//             containment: "#table",
+//             start: function () {
+//                 $(this).css({ "z-index": 2, "cursor": "grabbing" });
+//             },
+//             stop: function () {
+//                 $(this).appendTo($("#table")).draggable("destroy").css({
+//                     "z-index": 1,
+//                     "cursor": "pointer",
+//                     "left": (parseFloat($(this).css("left"), 10) + ($("h5").width() + 9.800)) + "px",
+//                     "top": ($("#table").height() - (50 + (- parseFloat($(this).css("top"), 10) - 80.065))) + "px"
+//                 });
+//                 socketio.emit("play", { room, html: $("#table").html() });
+//             }
+//         });
+//     });
+// });
+
+
 
 // Draggable.create("#table *", {
 //     bounds: "#table",
