@@ -20,6 +20,7 @@ body,
 main {
     margin: 0;
     height: 100%;
+    user-select: none;
     overscroll-behavior: none;
 }
 
@@ -42,8 +43,7 @@ main {
 }
 
 #table * {
-    cursor: pointer;
-    user-select: none;
+    margin: 0;
     position: absolute;
     -webkit-tap-highlight-color: transparent;
 }
@@ -157,6 +157,8 @@ main {
 #hand {
     flex: 0.1;
     display: flex;
+    margin: 0 20px;
+    padding-top: 10px;
     position: relative;
     overflow: auto hidden;
     justify-content: center;
@@ -166,12 +168,13 @@ main {
     height: 100%;
     cursor: pointer;
     border-radius: 5px;
-    margin: 10px -10px 0 0;
+    position: relative;
+    margin-right: -10px;
     border: 2px solid rgb(0, 0, 0);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 #hand .card:hover {
-    z-index: 2;
-    transform: translateY(-10px);
+    z-index: 1;
+    transform: scale(1.25);
 }
