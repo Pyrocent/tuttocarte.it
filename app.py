@@ -4,8 +4,7 @@ from secrets import token_hex
 from flask_socketio import emit, SocketIO, join_room
 from flask import Flask, request, redirect, send_file, render_template
 
-app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app := Flask(__name__))
 app.secret_key = token_hex(16)
 
 @app.get("/")
