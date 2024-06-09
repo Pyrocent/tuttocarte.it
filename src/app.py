@@ -8,7 +8,7 @@ socketio = SocketIO(app := Flask(__name__))
 app.secret_key = token_hex(16)
 
 @app.get("/")
-def index(): return render_template("index.html", ita_deck = sample(listdir(f"static/assets/decks/ita"), 40), fr1_deck = sample(listdir(f"static/assets/decks/fra"), 54), fr2_deck = sample(listdir(f"static/assets/decks/fra"), 54))
+def index(): return render_template("index.html", ita_deck = sample(listdir("./src/static/assets/decks/ita"), 40), fr1_deck = sample(listdir(f"./src/static/assets/decks/fra"), 54), fr2_deck = sample(listdir(f"./src/static/assets/decks/fra"), 54))
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")
@@ -29,5 +29,3 @@ def handle_play(data): emit("play", {"html": data["html"]}, to = data["user"] if
 
 @socketio.on("hand")
 def handle_hand(data): emit("hand", {"html": data["html"], "position": {"x": data["position"]["x"], "y": data["position"]["y"], "z": data["position"]["z"]}}, to = data["room"], include_self = False)
-
-socketio.run(app, debug = True)

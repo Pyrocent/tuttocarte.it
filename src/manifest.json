@@ -1,14 +1,14 @@
 {
-    "lang": "it",
+    "lang": "en",
     "dir": "auto",
     "start_url": "/",
     "orientation": "any",
-    "name": "PlayOnTable",
     "display": "standalone",
     "theme_color": "#1f2324",
-    "short_name": "PlayOnTable",
+    "name": "PlayOnTable.com",
+    "short_name": "PlayOnTable.com",
     "background_color": "#1f2324",
-    "description": "Gioca con i tuoi amici a qualsiasi gioco di carte e non solo!",
+    "description": "Play any card game with your friends and more!",
     "icons": [
         {
             "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
