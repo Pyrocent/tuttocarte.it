@@ -2,7 +2,7 @@
 <html lang = "en">
     <head>
         <meta charset = "UTF-8">
-        <title>PlayOnTable cards and more</title>
+        <title>PlayOnTable | Cards & More</title>
         <meta name = "theme-color" content = "#1f2324">
         <link rel = "manifest" href = "/manifest.json">
         <meta name = "author" content = "Alessandro Panzieri">
@@ -12,8 +12,10 @@
         <meta name = "description" content = "Play any card game with your friends and more!">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1, user-scalable = 0">
         <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.3/dist/jquery-ui.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/interactjs@1.10.27/dist/interact.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.5/client-dist/socket.io.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script> "serviceWorker" in navigator ? navigator.serviceWorker.register("/service-worker.js") : null </script>
         <script>
             !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
@@ -23,9 +25,9 @@
     <body oncontextmenu = "return false">
         <main>
             <section id = "table">
-                {% for card in ita_deck %}<img id = "{{card}}" class = "ita naples card" src = "../static/assets/decks/backs/ita/naples.png" alt = "card">{% endfor %}
-                {% for card in fr1_deck %}<img id = "{{card}}" class = "fra blue card" src = "../static/assets/decks/backs/fra/blue.png" alt = "card">{% endfor %}
-                {% for card in fr2_deck %}<img id = "{{card}}" class = "fra red card" src = "../static/assets/decks/backs/fra/red.png" alt = "card">{% endfor %}
+                {% for _ in range(40) %}<img class = "it card" src = "../static/assets/decks/backs/it.png" alt = "card">{% endfor %}
+                {% for _ in range(52) %}<img class = "fr1 card" src = "../static/assets/decks/backs/fr1.png" alt = "card">{% endfor %}
+                {% for _ in range(52) %}<img class = "fr2 card" src = "../static/assets/decks/backs/fr2.png" alt = "card">{% endfor %}
                 <img id = "fiche1" class = "fiche clone" src = "../static/assets/fiches/fiche1.png" alt = "fiche">
                 <img id = "fiche2" class = "fiche clone" src = "../static/assets/fiches/fiche2.png" alt = "fiche">
                 <img id = "fiche3" class = "fiche clone" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
