@@ -11,19 +11,26 @@ $(() => {
                 socketio.on("play", function (data) { $("#table").html(data.html); });
                 socketio.on("show", function (data) { exit[data.card] = data.exit; $(`#table img:nth-child(${data.card + 1})`).attr("src", `../static/assets/decks/${data.deck}/${data.exit}`); });
                 socketio.on("hide", function (data) { $(`#table img:nth-child(${data.card + 1})`).attr("src", `../static/assets/decks/backs/${data.deck}.png`); });
-                socketio.on("hand", function (data) {
-                    $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "position: absolute; left: ${data.x}; top: ${data.y}; z-index: ${data.z}" alt = "hand-icon">`);
-                    $("#hand-icon").fadeOut(1500, function () { $(this).remove(); });
-                });
+                socketio.on("hand", function (data) { $("#table").html(data.html + `<img id = "hand-icon" src = "static/assets/other/hand.png" height = "50px" style = "position: absolute; left: ${data.x}; top: ${data.y}; z-index: ${data.z}" alt = "hand-icon">`); $("#hand-icon").fadeOut(1500, function () { $(this).remove(); }); });
+                socketio.on("drag", function (data) { });
             });
 
-            $("#table .card").draggable({});
+            $("#table *").draggable({
+                distance: 15,
+                stack: "#table *",
+                cursor: "grabbing",
+                containment: [20, 20],
+                drag: function (event, ui) {
+                    socketio.emit("drag", { room, })
+                }
+            });
 
             interact("#table .card")
                 .on("tap", (event) => {
-                    card = $(event.target).index();
-                    deck = event.target.classList[0];
-                    $(event.target).attr("src").startsWith("../static/assets/decks/backs/")
+                    item = event.target
+                    card = $(item).index();
+                    deck = item.classList[0];
+                    $(item).attr("src").startsWith("../static/assets/decks/backs/")
                         ? socketio.emit("show", { room, card: card, deck: deck.replace(/\d+/g, ""), exit: exit[card] ?? Object.values(exit) })
                         : socketio.emit("hide", { room, card: card, deck: deck })
                 })

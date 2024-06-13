@@ -68,15 +68,15 @@ main {
 }
 
 .fr1 {
-    left: 39px;
+    left: 42px;
 }
 
 .fr2 {
-    left: 77px;
+    left: 82px;
 }
 
 .fiche {
-    left: 117px;
+    left: 122px;
     height: 35px;
     border-radius: 90%;
 }
@@ -98,7 +98,7 @@ main {
 }
 
 #board {
-    left: 157px;
+    left: 163px;
     width: 275px;
     height: 275px;
 }
@@ -108,11 +108,11 @@ main {
 }
 
 .chess.black {
-    left: 437px;
+    left: 442px;
 }
 
 .chess.white {
-    left: 477px;
+    left: 482px;
 }
 
 .queen {
@@ -136,7 +136,7 @@ main {
 }
 
 .dama {
-    left: 517px;
+    left: 522px;
     height: 30px;
     border-radius: 90%;
 }
