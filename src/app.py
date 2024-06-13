@@ -5,8 +5,8 @@ from flask_socketio import emit, SocketIO, join_room
 from flask import Flask, request, redirect, send_file, render_template
 
 decks = {
-    "it": listdir("./src/static/assets/decks/it"),
-    "fr": listdir("./src/static/assets/decks/fr")
+    "it": listdir("static/assets/decks/it"),
+    "fr": listdir("static/assets/decks/fr")
 }
 
 socketio = SocketIO(app := Flask(__name__))
