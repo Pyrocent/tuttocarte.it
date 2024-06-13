@@ -40,5 +40,3 @@ def handle_hide(data): emit("hide", {"card": data["card"], "deck": data["deck"]}
 
 @socketio.on("hand")
 def handle_hand(data): emit("hand", {"html": data["html"], "x": data["x"], "y": data["y"], "z": data["z"]}, to = data["room"], include_self = False)
-
-socketio.run(app, debug = True)
