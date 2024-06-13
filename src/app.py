@@ -5,8 +5,8 @@ from flask_socketio import emit, SocketIO, join_room
 from flask import Flask, request, redirect, send_file, render_template
 
 decks = {
-    "it": listdir("static/assets/decks/it"),
-    "fr": listdir("static/assets/decks/fr")
+    "it": listdir("./src/static/assets/decks/it"),
+    "fr": listdir("./src/static/assets/decks/fr")
 }
 
 socketio = SocketIO(app := Flask(__name__))
@@ -40,3 +40,5 @@ def handle_hide(data): emit("hide", {"card": data["card"], "deck": data["deck"]}
 
 @socketio.on("hand")
 def handle_hand(data): emit("hand", {"html": data["html"], "x": data["x"], "y": data["y"], "z": data["z"]}, to = data["room"], include_self = False)
+
+socketio.run(app, debug = True)
