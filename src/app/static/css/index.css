@@ -6,6 +6,7 @@
 }
 
 ::-webkit-scrollbar-track {
+    cursor: pointer;
     background: rgb(240, 240, 240);
 }
 
@@ -14,6 +15,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
+    cursor: grabbing;
     background: rgb(85, 85, 85);
 }
 
