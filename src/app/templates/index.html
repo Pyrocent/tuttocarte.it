@@ -4,19 +4,15 @@
         <meta charset = "UTF-8">
         <title>PlayOnTable | Cards & More</title>
         <meta name = "theme-color" content = "#1f2324">
-        <link rel = "manifest" href = "/manifest.json">
+        <link rel = "manifest" href = "../manifest.json">
         <meta name = "author" content = "Alessandro Panzieri">
         <link rel = "canonical" href = "https://playontable.com/">
         <link rel = "icon" href = "../static/assets/other/favicon.ico">
         <link rel = "stylesheet" href = "../static/css/min/index.min.css">
-        <meta name = "description" content = "Play any card game with your friends and more!">
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1, user-scalable = 0">
-        <script src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.3/dist/jquery-ui.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/interactjs@1.10.27/dist/interact.min.js"></script>
-        <script src = "https://cdn.jsdelivr.net/npm/socket.io@4.7.5/client-dist/socket.io.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
-        <script> "serviceWorker" in navigator ? navigator.serviceWorker.register("/service-worker.js") : null </script>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+        <meta name = "description" content = "Play card games with your friends and more!">
+
+        <script> "serviceWorker" in navigator ? navigator.serviceWorker.register("../service-worker.js") : null </script>
         <script>
             !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
             posthog.init("phc_5IARbzSOMhvReAyLG9agHuekQ7fbZodCHWnywBhRtiB", { api_host: "https://eu.i.posthog.com", person_profiles: "always" })
@@ -25,31 +21,39 @@
     <body oncontextmenu = "return false">
         <main>
             <section id = "table">
-                {% for _ in range(40) %}<img class = "it card" src = "../static/assets/decks/backs/it.png" alt = "card">{% endfor %}
-                {% for _ in range(52) %}<img class = "fr1 card" src = "../static/assets/decks/backs/fr1.png" alt = "card">{% endfor %}
-                {% for _ in range(52) %}<img class = "fr2 card" src = "../static/assets/decks/backs/fr2.png" alt = "card">{% endfor %}
-                <img id = "fiche1" class = "fiche clone" src = "../static/assets/fiches/fiche1.png" alt = "fiche">
-                <img id = "fiche2" class = "fiche clone" src = "../static/assets/fiches/fiche2.png" alt = "fiche">
-                <img id = "fiche3" class = "fiche clone" src = "../static/assets/fiches/fiche3.png" alt = "fiche">
-                <img id = "fiche4" class = "fiche clone" src = "../static/assets/fiches/fiche4.png" alt = "fiche">
-                <img id = "dealer" class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "fiche">
+                <div class = "deck">
+                    {% for card in ita_deck %}<img id = {{card}} class = "ita card" src = "../static/assets/decks/backs/ita.png" alt = "ita card">{% endfor %}
+                </div>
+                <div class = "deck">
+                    {% for card in blue_fra_deck %}<img id = {{card}} class = "blue fra card" src = "../static/assets/decks/backs/fra/blue.png" alt = "blue fra card">{% endfor %}
+                </div>
+                <div class = "deck">
+                    {% for card in red_fra_deck %}<img id = {{card}} class = "red fra card" src = "../static/assets/decks/backs/fra/red.png" alt = "red fra card">{% endfor %}
+                </div>
+                <img id = "gold_fiche" class = "fiche clone" src = "../static/assets/fiches/gold_fiche.png" alt = "gold fiche">
+                <img id = "blue_fiche" class = "fiche clone" src = "../static/assets/fiches/blue_fiche.png" alt = "blue fiche">
+                <img id = "red_fiche" class = "fiche clone" src = "../static/assets/fiches/red_fiche.png" alt = "red fiche">
+                <img id = "green_fiche" class = "fiche clone" src = "../static/assets/fiches/green_fiche.png" alt = "green fiche">
+                <img id = "dealer" class = "fiche" src = "../static/assets/fiches/dealer.png" alt = "dealer fiche">
                 <img id = "board" src = "../static/assets/chess/board.png" alt = "board">
-                <img class = "chess black king" src = "../static/assets/chess/black/king.png" alt = "chess">
-                <img class = "chess black queen" src = "../static/assets/chess/black/queen.png" alt = "chess">
-                {% for _ in range(2) %}<img class = "chess black bishop" src = "../static/assets/chess/black/bishop.png" alt = "chess">{% endfor %}
-                {% for _ in range(2) %}<img class = "chess black knight" src = "../static/assets/chess/black/knight.png" alt = "chess">{% endfor %}
-                {% for _ in range(2) %}<img class = "chess black rook" src = "../static/assets/chess/black/rook.png" alt = "chess">{% endfor %}
-                {% for _ in range(8) %}<img class = "chess black pawn" src = "../static/assets/chess/black/pawn.png" alt = "chess">{% endfor %}
-                <img class = "chess white king" src = "../static/assets/chess/white/king.png" alt = "chess">
-                <img class = "chess white queen" src = "../static/assets/chess/white/queen.png" alt = "chess">
-                {% for _ in range(2) %}<img class = "chess white bishop" src = "../static/assets/chess/white/bishop.png" alt = "chess">{% endfor %}
-                {% for _ in range(2) %}<img class = "chess white knight" src = "../static/assets/chess/white/knight.png" alt = "chess">{% endfor %}
-                {% for _ in range(2) %}<img class = "chess white rook" src = "../static/assets/chess/white/rook.png" alt = "chess">{% endfor %}
-                {% for _ in range(8) %}<img class = "chess white pawn" src = "../static/assets/chess/white/pawn.png" alt = "chess">{% endfor %}
-                {% for _ in range(12) %}<img class = "dama black" src = "../static/assets/dama/black.png" alt = "dama">{% endfor %}
-                {% for _ in range(12) %}<img class = "dama white" src = "../static/assets/dama/white.png" alt = "dama">{% endfor %}
+
+                <img class = "black chess king" src = "../static/assets/chess/black/king.png" alt = "black chess king">
+                <img class = "black chess queen" src = "../static/assets/chess/black/queen.png" alt = "black chess queen">
+                {% for _ in range(2) %}<img class = "black chess bishop" src = "../static/assets/chess/black/bishop.png" alt = "black chess bishop">{% endfor %}
+                {% for _ in range(2) %}<img class = "black chess knight" src = "../static/assets/chess/black/knight.png" alt = "black chess knight">{% endfor %}
+                {% for _ in range(2) %}<img class = "black chess rook" src = "../static/assets/chess/black/rook.png" alt = "black chess rook">{% endfor %}
+                {% for _ in range(8) %}<img class = "black chess pawn" src = "../static/assets/chess/black/pawn.png" alt = "black chess pawn">{% endfor %}
+
+                <img class = "white chess king" src = "../static/assets/chess/white/king.png" alt = "white chess king">
+                <img class = "white chess queen" src = "../static/assets/chess/white/queen.png" alt = "white chess queen">
+                {% for _ in range(2) %}<img class = "white chess bishop" src = "../static/assets/chess/white/bishop.png" alt = "white chess bishop">{% endfor %}
+                {% for _ in range(2) %}<img class = "white chess knight" src = "../static/assets/chess/white/knight.png" alt = "white chess knight">{% endfor %}
+                {% for _ in range(2) %}<img class = "white chess rook" src = "../static/assets/chess/white/rook.png" alt = "white chess rook">{% endfor %}
+                {% for _ in range(8) %}<img class = "white chess pawn" src = "../static/assets/chess/white/pawn.png" alt = "white chess pawn">{% endfor %}
+
+                {% for _ in range(12) %}<img class = "black dama" src = "../static/assets/dama/black.png" alt = "black dama">{% endfor %}
+                {% for _ in range(12) %}<img class = "white dama" src = "../static/assets/dama/white.png" alt = "white dama">{% endfor %}
             </section>
-            <section id = "hand"><h1>HAND</h1><div></div></section>
         </main>
         <script src = "../static/js/min/index.min.js" charset = "UTF-8"></script>
     </body>

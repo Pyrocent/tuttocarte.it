@@ -20,28 +20,32 @@
 }
 
 html,
-body,
-main {
-    margin: 0;
+body
+{
     height: 100%;
     user-select: none;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+body {
+    margin: 0;
     background-color: rgb(31, 35, 36);
 }
 
+main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 #table {
-    flex: 0.9;
-    margin: 10px;
+    gap: 10px;
+    display: flex;
+    height: 100%;
     padding: 5px;
+    margin: 10px;
     overflow: auto;
-    position: relative;
     border-radius: 5px;
     background-color: rgb(0, 118, 73);
     border: 10px ridge rgb(239, 158, 87);
@@ -50,10 +54,12 @@ main {
 
 #table * {
     cursor: pointer;
-    position: absolute;
 }
 
-#table *:hover:not(#board) {
+.card:hover,
+.fiche:hover,
+.chess:hover,
+.dama:hover {
     transform: scale(1.075);
 }
 
@@ -64,57 +70,32 @@ main {
     border: 1px solid rgb(0, 0, 0);
 }
 
+.deck {
+    display: flex;
+}
+
+.deck > * {
+    top: -50px;
+}
+
 .card {
     height: 50px;
+    position: inherit;
     border-radius: 2.5px;
 }
 
-.fr1 {
-    left: 42px;
-}
-
-.fr2 {
-    left: 82px;
-}
-
 .fiche {
-    left: 122px;
     height: 35px;
     border-radius: 90%;
 }
 
-#fiche2 {
-    top: 42px;
-}
-
-#fiche3 {
-    top: 82px;
-}
-
-#fiche4 {
-    top: 122px;
-}
-
-#dealer {
-    top: 162px;
-}
-
 #board {
-    left: 163px;
     width: 275px;
     height: 275px;
 }
 
 .chess {
     height: 35px;
-}
-
-.chess.black {
-    left: 442px;
-}
-
-.chess.white {
-    left: 482px;
 }
 
 .queen {
@@ -138,7 +119,6 @@ main {
 }
 
 .dama {
-    left: 522px;
     height: 30px;
     border-radius: 90%;
 }
@@ -146,28 +126,3 @@ main {
 .dama.white {
     top: 43px;
 }
-
-#hand {
-    flex: 0.1;
-    /* display: flex;
-    margin: 0 20px;
-    padding-top: 10px;
-    position: relative;
-    overflow: auto hidden;
-    justify-content: center; */
-}
-
-/* #hand .card {
-    height: 100%;
-    cursor: pointer;
-    border-radius: 5px;
-    position: relative;
-    margin-right: -10px;
-    border: 2px solid rgb(0, 0, 0);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
-
-#hand .card:hover {
-    z-index: 1;
-    transform: scale(1.25);
-} */

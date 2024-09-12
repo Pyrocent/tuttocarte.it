@@ -1,42 +1,35 @@
 from os import listdir
-from random import choice
+from random import sample
 from secrets import token_hex
-from flask_socketio import emit, SocketIO, join_room
 from flask import Flask, request, redirect, send_file, render_template
 
-socketio = SocketIO(app := Flask(__name__, template_folder = "app/templates", static_folder = "app/static"))
+app = Flask(__name__, template_folder = "app/templates", static_folder = "app/static")
 app.secret_key = token_hex(16)
 
+@app.before_request
+def redirect_www():
+    if request.host.startswith("www"): return redirect(request.url.replace("www.", "")), 301
+
 @app.get("/")
-def index(): return render_template("index.html")
+def index():
+    return render_template(
+        "min/index.min.html",
+        ita_deck = sample(listdir("./src/app/static/assets/decks/ita"), 40),
+        blue_fra_deck = sample(listdir("./src/app/static/assets/decks/fra/"), 52),
+        red_fra_deck = sample(listdir("./src/app/static/assets/decks/fra/"), 52)
+    ), 200
 
 @app.get("/robots.txt")
 @app.get("/sitemap.xml")
 @app.get("/manifest.json")
 @app.get("/service-worker.js")
 @app.get("/.well-known/assetlinks.json")
-def serve_file(): return send_file(f"app/{request.path}")
+def serve_file(): return send_file(f"app/{request.path}"), 200
 
 @app.errorhandler(404)
+def page_not_found(_): return render_template("/errors/min/404.min.html"), 404
+
 @app.errorhandler(405)
-def error(_): return redirect("/")
+def method_not_allowed(_): return render_template("/errors/min/405.min.html"), 405
 
-@socketio.on("join")
-def handle_join(data): join_room(data["room"]), emit("join", {"user": request.sid}, to = data["room"], include_self = False)
-
-@socketio.on("play")
-def handle_play(data): emit("play", {"html": data["html"]}, to = data["user"])
-
-@socketio.on("show")
-def handle_show(data): emit("show", {"card": data["card"], "deck": data["deck"], "exit": data["exit"] if not isinstance(data["exit"], list) else choice([card for card in listdir(f"./src/static/assets/decks/{data['deck']}") if card not in data["exit"]])}, to = data["room"])
-
-@socketio.on("hide")
-def handle_hide(data): emit("hide", {"card": data["card"], "deck": data["deck"]}, to = data["room"])
-
-@socketio.on("hand")
-def handle_hand(data): emit("hand", {"html": data["html"], "x": data["x"], "y": data["y"], "z": data["z"]}, to = data["room"], include_self = False)
-
-@socketio.on("drag")
-def handle_drag(data): emit("drag", {}, to = data["room"], include_self = False)
-                            
-if __name__ == "__main__": socketio.run(app, debug = True)
+if __name__ == "__main__": app.run(debug = True)
