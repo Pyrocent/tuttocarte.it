@@ -32,4 +32,4 @@ def page_not_found(_): return render_template("/errors/min/404.min.html"), 404
 @app.errorhandler(405)
 def method_not_allowed(_): return render_template("/errors/min/405.min.html"), 405
 
-if __name__ == "__main__": app.run(debug = True)
+if __name__ == "__main__": app.run()
