@@ -13,10 +13,10 @@ def redirect_www():
 @app.get("/")
 def index():
     return render_template(
-        "min/index.min.html",
-        ita_deck = sample(listdir("/src/app/static/assets/decks/ita/"), 40),
-        blue_fra_deck = sample(listdir("/src/app/static/assets/decks/fra/"), 52),
-        red_fra_deck = sample(listdir("/src/app/static/assets/decks/fra/"), 52)
+        "/min/index.min.html",
+        ita_deck = sample(listdir("./src/app/static/assets/decks/ita/"), 40),
+        blue_fra_deck = sample(listdir("./src/app/static/assets/decks/fra/"), 52),
+        red_fra_deck = sample(listdir("./src/app/static/assets/decks/fra/"), 52)
     ), 200
 
 @app.get("/robots.txt")
