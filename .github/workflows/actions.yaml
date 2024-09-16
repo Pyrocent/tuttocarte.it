@@ -1,0 +1,9 @@
+on: [push]
+
+jobs:
+  print_message:
+    runs-on: self-hosted
+
+    steps:
+    - name: print a message
+      run: echo "Hello, GitHub Actions!"
