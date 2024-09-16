@@ -14,9 +14,9 @@ def redirect_www():
 def index():
     return render_template(
         "/min/index.min.html",
-        ita_deck = sample(listdir("./src/app/static/assets/decks/ita/"), 40),
-        blue_fra_deck = sample(listdir("./src/app/static/assets/decks/fra/"), 52),
-        red_fra_deck = sample(listdir("./src/app/static/assets/decks/fra/"), 52)
+        ita_deck = sample(listdir("./src/app/static/assets/decks/front/ita/"), 40),
+        blue_fra_deck = sample(listdir("./src/app/static/assets/decks/front/fra/"), 52),
+        red_fra_deck = sample(listdir("./src/app/static/assets/decks/front/fra/"), 52)
     ), 200
 
 @app.get("/robots.txt")
@@ -32,4 +32,4 @@ def page_not_found(_): return render_template("/errors/min/404.min.html"), 404
 @app.errorhandler(405)
 def method_not_allowed(_): return render_template("/errors/min/405.min.html"), 405
 
-if __name__ == "__main__": app.run()
+if __name__ == "__main__": app.run(debug = True)
